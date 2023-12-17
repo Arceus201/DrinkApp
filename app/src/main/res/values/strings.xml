@@ -1,0 +1,146 @@
+<resources>
+    <string name="app_name">DrinkApp</string>
+    <string name="title_activity_test_main">TestMainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+<!--    MESSAGE-->
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="KEY_MISSING_INFORMATION">bạn cần nhập đầy đủ các trường thông tin</string>
+    <string name="total_price_default">0</string>
+    <string name="confirm_delete">Xác nhận xóa</string>
+    <string name="how_to_confirm_delete">Bạn có chắc muốn xóa?</string>
+    <string name="gia"> Giá </string>
+    <string name="vnd">VNĐ</string>
+    <string name="USD">$</string>
+    <string name="tien_mat">Tiền mặt</string>
+    <string name="thanh_toan_paypal">Thanh Toán Paypal</string>
+<!--    button-->
+    <string name="button_save">SAVE</string>
+    <string name="button_update">UPDATE</string>
+    <string name="button_cancel">CANCEL</string>
+
+<!--    xml-->
+    <string name="address_order">Địa chỉ giao hàng</string>
+    <string name="address_admin">Địa chỉ quán</string>
+  <string name="name_page_add_address">Địa chỉ</string>
+    <string name="name_user_add_address">tên người nhận</string>
+    <string name="phone_user_add_address">số điện thoại người nhận</string>
+    <string name="address_use_address">nhập địa chỉ người nhận</string>
+    <string name="address_user_add_address">nhập địa chỉ cụ thể</string>
+
+    <string name="chose_add_address">thêm mới địa chỉ</string>
+
+    <string name="confirm_otp_60s">mã OTP có hiệu lực trong vòng 60s</string>
+    <string name="confirm_otp_input">nhập mã OTP</string>
+    <string name="confirm_otp_button">xác nhận mã otp</string>
+
+    <string name="sign_up">Đăng Ký</string>
+    <string name="name">tên</string>
+    <string name="username">tên đăng nhập</string>
+    <string name="phone">số điện thoại</string>
+    <string name="page_reset_password">Thay đổi mật khẩu</string>
+    <string name="current_password">mật khẩu hiện tại</string>
+    <string name="new_password">mật khẩu mới</string>
+    <string name="password">mật khẩu</string>
+    <string name="confirm_password">mật khẩu xác nhận</string>
+    <string name="password_confirm">xác nhận mật khẩu</string>
+    <string name="format_password">Mật khẩu ít nhất 8, phải chứa 1 chữ thường, \n1 số, 1 chữ hoa và 1 ký tự đặc biệt.</string>
+    <string name="format_password_reset">Mật khẩu ít nhất 8, phải chứa chữ thường, 1 số,\n 1 chữ hoa và 1 ký tự đặc biệt.</string>
+    <string name="have_account">Bạn có tài khoản khác?</string>
+    <string name="login_button">Đăng Nhập</string>
+
+<!--    status-->
+    <string name="cho_xac_nhan">chờ xác nhận</string>
+    <string name="cho_giao_hang">chờ giao hàng</string>
+    <string name="dang_giao">đang giao</string>
+    <string name="text_order_list">Danh sách đơn hàng</string>
+    <string name="text_drink_orders">Các lần đồ uống được gọi</string>
+    <string name="text_drink_orders_list">danh sách các lần gọi</string>
+    <string name="from">từ</string>
+    <string name="to">đến</string>
+
+    <string name="product">Đồ uống</string>
+    <string name="product_button_add">Thêm mới đồ uống</string>
+    <string name="product_button_update">Cập nhật đồ uống</string>
+    <string name="product_choose_image">chọn ảnh</string>
+    <string name="product_name">Tên đồ uống</string>
+    <string name="product_category">Loại đồ uống</string>
+    <string name="product_quantity">Số lượng</string>
+    <string name="status">Trạng thái</string>
+    <string name="text_status">trạng thái</string>
+    <string name="text_status_2">trạng thái: </string>
+
+    <string name="add">Thêm</string>
+    <string name="update">Cập nhật</string>
+    <string name="text_price_size">Giá đồ uống theo size</string>
+    <string name="size">Size</string>
+    <string name="page_revenue">Thống kê doanh thu theo thời gian</string>
+    <string name="text_revenue_list">Danh sách thống kê</string>
+    <string name="text_revenue_total_price">Tổng tiền</string>
+    
+    <string name="page_user_manager">Danh sách khách hàng</string>
+    <string name="page_product_manager">Quản lý sản phẩm</string>
+    <string name="page_cart">Giỏ hàng</string>
+    <string name="text_order">ĐẶT HÀNG + </string>
+    <string name="text_delete_all">xóa tất cả</string>
+    
+    <string name="page_confirm_order">Xác nhận đơn hàng</string>
+    <string name="text_order_confirm">Danh sách sản phẩm</string>
+    <string name="greater_than_200">đơn hàng có giá trị > 200.000đ bạn cần \n
+        thanh toán khi đặt hàng</string>
+
+    <string name="text_cash">Tiền mặt</string>
+    <string name="text_transfer">Thanh toán Paypal</string>
+    <string name="payment_type">phương thức thanh toán</string>
+
+    <string name="next_password">Tiếp tục</string>
+    <string name="back">quay lại</string>
+    <string name="page_drink_detail">Thông tin đồ uống</string>
+    <string name="quantity_default">1</string>
+    <string name="text_chose_size"> CHỌN SIZE</string>
+    <string name="text_note_hint">ghi chú cho quán</string>
+    <string name="text_note"> CHÚ THÍCH</string>
+    <string name="text_note_2">ghi chú: </string>
+    <string name="text_add_to_cart">Thêm vào giỏ hàng +</string>
+    <string name="order_detail">Chi tiết đơn hàng</string>
+    <string name="text_id">mã: </string>
+    <string name="time_order">thời gian đặt: </string>
+    <string name="don_gia">Đơn giá</string>
+    <string name="thanh_tien">Thành tiền</string>
+    <string name="page_order_success">Đặt hàng thành công</string>
+    <string name="mess_order_success">chúng tôi sẽ xác nhận đơn hàng trong thời gian sớm nhất!</string>
+    <string name="back_home">Tiếp tục mua hàng</string>
+    <string name="to_order_detail">xem chi tiết đơn hàng</string>
+
+    <string name="search_result">Kết quả tìm kiếm</string>
+    <string name="page_history">Đơn hàng đã mua</string>
+    <string name="page_order">Đơn hàng chờ</string>
+    <string name="text_hot">Hot</string>
+    
+    <string name="person_profile">Hồ sơ</string>
+    <string name="person_resetpassword">Đổi mật khẩu</string>
+    <string name="person_address">Địa chỉ</string>
+    <string name="person_logout">Đăng xuất</string>
+    <string name="quantity_sold">đã bán</string>
+    <string name="nhan_don">nhận đơn</string>
+    <string name="don_nhan">đơn hàng đang nhận</string>
+    <string name="don_cho">danh sách đơn chờ</string>
+    <string name="da_giao">Đã giao</string>
+    <string name="dob">ngày sinh của bạn</string>
+    <string name="profile">Cập nhật tài khoản</string>
+
+
+
+
+
+
+
+</resources>

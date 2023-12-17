@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageButton
+        android:backgroundTint="@color/white"
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_back" />
+    <TextView
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_button_add"
+        android:gravity="center"
+        android:textSize="@dimen/sp_25"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="@dimen/dp_98"
+            android:layout_height="@dimen/dp_117"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dp_150"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+        <ImageButton
+            android:id="@+id/chooseImageButton"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/product_choose_image" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/dp_18"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/product_name"
+            />
+        <EditText
+            android:background="@drawable/custom_item"
+            android:textSize="18dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:id="@+id/text_name"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_50"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="18dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/gia"
+            />
+        <EditText
+            android:background="@drawable/custom_item"
+            android:inputType="phone"
+            android:digits="0123456789"
+            android:textSize="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:id="@+id/text_price"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_50"/>
+        <TextView
+            android:textSize="@dimen/sp_18"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="đ"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="18dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/product_category"
+            />
+        <Spinner
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/dp_20"
+            android:id="@+id/spinner_categories"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_20"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/status"
+            />
+        <Spinner
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/dp_20"
+            android:id="@+id/spinner_status"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_20"/>
+    </LinearLayout>
+
+    <Button
+        android:backgroundTint="@color/red"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_gravity="center"
+        android:id="@+id/button_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button_choose"
+        android:textColor="@color/white"
+        android:text="@string/add" />
+
+
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/custom_item"
+    android:layout_weight="4"
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_height="@dimen/dp_60">
+    <TextView
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_id"
+        android:textSize="@dimen/sp_16"
+        />
+    <TextView
+        android:id="@+id/text_ma"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        />
+    <TextView
+        android:id="@+id/text_payment_status"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"/>
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"/>
+    <Button
+        android:id="@+id/button_nhan_don"
+        android:background = "@drawable/custom_button"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nhan_don"
+        android:textSize="@dimen/sp_10"/>
+
+
+</LinearLayout>

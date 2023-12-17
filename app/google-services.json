@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "104096216719",
+    "project_id": "uploadimage-a91a9",
+    "storage_bucket": "uploadimage-a91a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104096216719:android:ec7a04fc30943467ce62fa",
+        "android_client_info": {
+          "package_name": "com.example.drinkapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdjvSJ0VggPkTTI5sgfI4aZmSNrskAJJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104096216719:android:f28b8f3c19145cc1ce62fa",
+        "android_client_info": {
+          "package_name": "com.example.firebasestorage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdjvSJ0VggPkTTI5sgfI4aZmSNrskAJJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

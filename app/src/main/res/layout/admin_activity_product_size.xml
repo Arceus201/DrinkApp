@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/button_back"
+        android:backgroundTint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"/>
+    <TextView
+        android:text="Giá Đồ Uống theo Size"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_25"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="@dimen/dp_20"
+            android:text="@string/size"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinner_sizes"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_10" />
+
+        <EditText
+            android:inputType="phone"
+            android:digits="0123456789"
+            android:id="@+id/text_price"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="@dimen/dp_150"
+            android:textSize="@dimen/sp_20"
+            android:background="@drawable/custom_item"
+            android:layout_height="@dimen/dp_50"
+            android:hint="Nhập giá"
+            android:textColorHint="@color/gray"/>
+        <TextView
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="@string/vnd"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <Button
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/buutton_add_update"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_choose"
+        android:text="@string/add"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPS"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_drink_size"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

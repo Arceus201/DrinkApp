@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_shipper_order"
+        android:title="Đơn hàng"
+        android:icon="@drawable/ic_order"/>
+    <item
+        android:id="@+id/menu_person"
+        android:title="Cá nhân"
+        android:icon="@drawable/ic_person"/>
+</menu>
