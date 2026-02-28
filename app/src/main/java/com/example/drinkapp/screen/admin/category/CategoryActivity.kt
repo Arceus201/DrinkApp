@@ -22,6 +22,13 @@ class CategoryActivity :
 
     override fun initView() {
         binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = PAGE_NAME
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
             recyclerview.adapter = adapter
             textNamePage.text = PAGE_NAME
             textName.setMaxLength(25)
@@ -53,10 +60,6 @@ class CategoryActivity :
                 binding.buttonSave.text = TEXT_SAVE
                 binding.buttonCancel.visibility = GONE
                 binding.textName.setText("")
-            }
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
             }
         }
     }

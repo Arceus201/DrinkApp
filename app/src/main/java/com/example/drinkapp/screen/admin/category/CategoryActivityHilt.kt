@@ -35,6 +35,13 @@ class CategoryActivityHilt :
 
     override fun initView() {
         binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = PAGE_NAME
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
             recyclerview.adapter = adapter
             textNamePage.text = PAGE_NAME
             textName.setMaxLength(25)
@@ -48,11 +55,6 @@ class CategoryActivityHilt :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             buttonSave.setOnClickListener {
                 buttonSave.isEnabled = false
                 if (!binding.textName.text.isNullOrEmpty()) {

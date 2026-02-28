@@ -42,12 +42,22 @@ class ProductUpdateActivity :
 
 
     override fun initView() {
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(com.example.drinkapp.R.string.product_button_update)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            textName.setMaxLength(255)
+            textPrice.setMaxLength(19)
+        }
+        
         val status = listOf(KEY_HIDE, KEY_SHOW)
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, status)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.apply {
-            textName.setMaxLength(255)
-            textPrice.setMaxLength(19)
             spinnerStatus.adapter = adapter
         }
 
@@ -76,11 +86,6 @@ class ProductUpdateActivity :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,

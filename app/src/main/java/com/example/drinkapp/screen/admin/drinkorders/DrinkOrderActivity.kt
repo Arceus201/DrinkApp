@@ -2,6 +2,7 @@ package com.example.drinkapp.screen.admin.drinkorders
 
 import android.content.Intent
 import android.widget.Toast
+import com.example.drinkapp.R
 import com.example.drinkapp.data.model.DrinkOrders
 import com.example.drinkapp.data.resource.call.CallApiRevenue
 import com.example.drinkapp.databinding.AdminActivityDrinkOrdersBinding
@@ -17,7 +18,16 @@ OnItemDrinkOrderClickListener{
     private val adapter =  RecyclerViewDrinkOrderAdapter(this)
     private lateinit var presenter: DrinkOrderPresenter
     override fun initView() {
-        binding.recyclerView.adapter = adapter
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.text_drink_orders)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            recyclerView.adapter = adapter
+        }
     }
 
     override fun initData() {
@@ -38,11 +48,7 @@ OnItemDrinkOrderClickListener{
     }
 
     override fun handleEvent() {
-        binding.apply {
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-        }
+        // No additional event handling needed - back button handled by CommonHeaderView
     }
 
     override fun onGetDrinkOrdersSuccess(list: List<DrinkOrders>) {

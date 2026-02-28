@@ -21,6 +21,13 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
     private lateinit var presenter: OrderDetailPresenter
     private val adapter: RecyclerViewOrderDetailAdapter = RecyclerViewOrderDetailAdapter()
     override fun initView() {
+        // Configure CommonHeaderView
+        binding.commonHeader.configure {
+            title = getString(R.string.order_detail)
+            showBackButton = true
+            onBackClick = { finish() }
+        }
+        
         binding.recyclerView.adapter = adapter
     }
 
@@ -38,11 +45,6 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             buttonAddressStore.setOnClickListener {
                 val intent = Intent(applicationContext, GgMapActivity::class.java)
                 intent.putExtra(Constant.KEY_CONSTANT_KEY_ADDRESS_NAME, textAddressAdmin.text.toString().trim())
@@ -57,6 +59,9 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
     }
 
     override fun onGetOrderSuccess(order: Order) {
+        // Update header title with order ID
+        binding.commonHeader.setTitle(getString(R.string.order_detail) + " #${order.id}")
+        
         val list = order.listOrderItem
         adapter.setData(list)
         binding.apply {

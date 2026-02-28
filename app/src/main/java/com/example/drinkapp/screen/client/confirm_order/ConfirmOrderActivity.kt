@@ -41,7 +41,20 @@ class ConfirmOrderActivity :
     private var addressGet: Address? = null
     private var payment_type: Long = -1
     override fun initView() {
-        binding.recyclerView.adapter = adapter
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.page_confirm_order)
+                showBackButton = true
+                onBackClick = {
+                    val intent = Intent(applicationContext, CartActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+            
+            recyclerView.adapter = adapter
+        }
         totalPrice = intent.getSerializableExtra(Constant.TOTAL_PRICE) as String
         binding.textTotalPrice.setText(totalPrice)
 
@@ -76,13 +89,6 @@ class ConfirmOrderActivity :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                val intent = Intent(applicationContext, CartActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            
             buttonEditAddress.setOnClickListener {
                 val intent = Intent(applicationContext, AddressActivity::class.java)
                 intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))

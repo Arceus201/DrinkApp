@@ -24,11 +24,12 @@ class ResetPasswordActivity :
     private var checkPassword = false
     override fun initView() {
         binding.apply {
-            // Setup toolbar
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            toolbar.setNavigationOnClickListener { finish() }
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.page_reset_password)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
             
             textRecentPassword.setMaxLength(25)
             textNewPassword.setMaxLength(25)

@@ -15,7 +15,14 @@ class ConfirmPasswordActivity : BaseActivity<ClientActivityConfirmPasswordBindin
 ConfirmPasswordContract.View{
     private lateinit var presenter: ConfirmPasswordPresenter
     override fun initView() {
-
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.password_confirm)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+        }
     }
 
     override fun initData() {

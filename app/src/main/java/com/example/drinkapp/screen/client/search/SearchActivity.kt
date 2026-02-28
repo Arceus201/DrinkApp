@@ -3,6 +3,7 @@ package com.example.drinkapp.screen.client.search
 import android.content.Intent
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
+import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Product
 import com.example.drinkapp.data.resource.call.CallApiDrink
 import com.example.drinkapp.databinding.ClientActivitySearchBinding
@@ -20,7 +21,16 @@ SearchContract.View, OnItemDrinkClientClickListener {
     private val adapter = RecyclerViewDrinkClientAdapter(this)
     private lateinit var listP : List<Product>
     override fun initView() {
-        binding.recyclerView.adapter = adapter
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.search_result)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            recyclerView.adapter = adapter
+        }
     }
 
     override fun initData() {
@@ -49,10 +59,6 @@ SearchContract.View, OnItemDrinkClientClickListener {
                    return true
                }
            })
-           buttonBack.setOnClickListener {
-//               NextBackPage(applicationContext).startActivity(HomeFragment::class.java)
-               finish()
-           }
        }
     }
 

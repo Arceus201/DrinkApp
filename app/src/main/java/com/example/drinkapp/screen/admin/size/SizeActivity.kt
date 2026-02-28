@@ -23,6 +23,13 @@ class SizeActivity :
 
     override fun initView() {
         binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = PAGE_NAME
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
             recyclerview.adapter = adapter
             textNamePage.setText(PAGE_NAME)
             textName.setMaxLength(25)
@@ -55,10 +62,6 @@ class SizeActivity :
                 binding.buttonCancel.visibility = View.GONE
                 binding.textName.setText("")
             }
-            // TODO: Update to toolbar navigation when layout is modernized
-            // binding.buttonBack.setOnClickListener {
-            //     finish()
-            // }
         }
     }
 

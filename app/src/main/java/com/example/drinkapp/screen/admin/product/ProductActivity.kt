@@ -30,7 +30,16 @@ class ProductActivity :
     private lateinit var listP: MutableList<Product>
 
     override fun initView() {
-        binding.recyclerview.adapter = adapter
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.page_product_manager)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            recyclerview.adapter = adapter
+        }
     }
 
     override fun initData() {
@@ -61,9 +70,6 @@ class ProductActivity :
                     return true
                 }
             })
-            buttonBack.setOnClickListener {
-               finish()
-            }
         }
     }
     private fun filterProductList(query: String?): List<Product> {

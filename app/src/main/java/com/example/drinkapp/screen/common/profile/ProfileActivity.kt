@@ -18,8 +18,13 @@ ProfileContract.View{
     override fun initView() {
         binding.apply {
             textUserName.setMaxLength(25)
+            
+            commonHeader.configure {
+                title = getString(com.example.drinkapp.R.string.profile)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
         }
-
     }
 
     override fun initData() {
@@ -32,11 +37,6 @@ ProfileContract.View{
     override fun handleEvent() {
         val user = UserManager.getUserInfo(this)
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             textDob.setOnClickListener{
                 showDatePickerDialog()
             }

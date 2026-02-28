@@ -32,19 +32,19 @@ class AddressActivity :
             totalPrice = intent.getStringExtra(Constant.TOTAL_PRICE).toString()
         }
         var status = -1
-        if(totalPrice.equals("null")){
-            binding.textNamePage.text = TEXT_NAME_PAGE
+        val titleText = if(totalPrice.equals("null")){
+            status = -1
+            TEXT_NAME_PAGE
         }else{
             status = 1
-            binding.textNamePage.text = TEXT_CHOSE_ADDRESS
+            TEXT_CHOSE_ADDRESS
         }
         
-        // Setup toolbar
-        binding.apply {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            toolbar.setNavigationOnClickListener {
+        // Setup CommonHeaderView
+        binding.commonHeader.configure {
+            title = titleText
+            showBackButton = true
+            onBackClick = {
                 if(listChose.isEmpty() or totalPrice.equals("-1")){
                     finish()
                 }else{
