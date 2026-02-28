@@ -3,6 +3,7 @@ package com.example.drinkapp.screen.admin.custom_manager_order
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Order
 import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.AdminActivityCustomManagerOrderBinding
@@ -21,6 +22,11 @@ class CustomManagerOrderActivity :
     private lateinit var presenter: CustomManagerOrderPresenter
     private val adapter: RecyclerViewOrderAdapter = RecyclerViewOrderAdapter(this)
     override fun initView() {
+        binding.commonHeader.configure {
+            title = getString(R.string.text_order_list)
+            showBackButton = true
+            onBackClick = { finish() }
+        }
         binding.recyclerView.adapter = adapter
     }
 
@@ -32,11 +38,7 @@ class CustomManagerOrderActivity :
     }
 
     override fun handleEvent() {
-        binding.apply {
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-        }
+        // No additional event handling needed - back button handled by CommonHeaderView
     }
 
     override fun onItemOrderClientClick(id: Long) {

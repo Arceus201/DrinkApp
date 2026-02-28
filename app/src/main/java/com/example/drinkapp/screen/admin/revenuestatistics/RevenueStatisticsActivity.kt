@@ -26,7 +26,16 @@ class RevenueStatisticsActivity :
     private var selectedStartTime: Date = Calendar.getInstance().time
     private var selectedEndTime: Date = Calendar.getInstance().time
     override fun initView() {
-        binding.recyclerViewRevenue.adapter = adapter
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.page_revenue)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            recyclerViewRevenue.adapter = adapter
+        }
         val curentTime = Date()
         binding.apply {
             buttonStartTime.setText(curentTime.formatTimeStatistic())
@@ -48,11 +57,6 @@ class RevenueStatisticsActivity :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             buttonStartTime.setOnClickListener {
                 showDatePickerDialog(0L)
             }

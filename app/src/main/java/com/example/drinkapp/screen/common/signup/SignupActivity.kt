@@ -42,8 +42,8 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
                 val phone = binding.textPhone.text.toString().trim()
                 val password = binding.textPassword.text.toString().trim()
                 val passwordConfirm = binding.textConfirmPassword.text.toString().trim()
-                if (!username.isNullOrEmpty() && !phone.isNullOrEmpty()
-                    && !passwordConfirm.isNullOrEmpty() && checkPassword
+                if (username.isNotEmpty() && phone.isNotEmpty()
+                    && passwordConfirm.isNotEmpty() && checkPassword
                 ) {
                     if (password.equals(passwordConfirm)) {
                         onClickPhoneNumber(binding.textPhone.text.toString().trim())
@@ -82,6 +82,7 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
 
                 override fun onVerificationFailed(e: FirebaseException) {
                     onFail(KEY_VERIFICATION_FAILED)
+                    Log.e("Tag check log", e.toString())
                 }
 
                 override fun onCodeSent(

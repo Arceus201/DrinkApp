@@ -33,6 +33,13 @@ class ProductSizeActivity :
 
     override fun initView() {
         binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(com.example.drinkapp.R.string.text_price_size)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
             recyclerViewPS.adapter = adapterPS
             textPrice.setMaxLength(19)
         }
@@ -81,10 +88,6 @@ class ProductSizeActivity :
                         binding.textPrice.text.toString().toDouble()
                     )
                 }
-            }
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
             }
         }
     }

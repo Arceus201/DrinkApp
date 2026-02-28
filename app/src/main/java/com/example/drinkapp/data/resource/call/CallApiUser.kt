@@ -1,5 +1,6 @@
 package com.example.drinkapp.data.resource.call
 
+import android.util.Log
 import com.example.drinkapp.data.model.User
 import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.dto.user.*
@@ -19,6 +20,8 @@ class CallApiUser {
 
     fun login(phone: String, password: String, listen: OnResultListener<User>) {
         val userDto = UserLoginDTO(phone, password)
+        Log.d("CallApiUser", "Login request - Phone: $phone, Password length: ${password.length}")
+        Log.d("CallApiUser", "Login DTO: $userDto")
         val call = userApiService.login(userDto)
         callApi(call, listen)
     }
@@ -76,6 +79,10 @@ class CallApiUser {
                 call: Call<UserResponse>,
                 response: Response<UserResponse>
             ) {
+                Log.e("CallApiUser", "Response: $response")
+                Log.e("CallApiUser", "Response Code: ${response.code()}")
+                Log.e("CallApiUser", "Response Message: ${response.message()}")
+                
                 if (response.isSuccessful) {
                     val result = response.body()
                     if (result != null) {
@@ -84,12 +91,16 @@ class CallApiUser {
                         listen.onFail(Constant.MESS_CALL_API_NOT_FOUND)
                     }
                 } else {
+                    // Log error body for debugging
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("CallApiUser", "Error Body: $errorBody")
                     listen.onFail(Constant.MESS_CALL_API_FAIL)
                 }
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 val errorResponse = t.message ?: "Network error"
+                Log.e("CallApiUser", "Failure: $errorResponse", t)
                 listen.onFail(errorResponse)
             }
         })

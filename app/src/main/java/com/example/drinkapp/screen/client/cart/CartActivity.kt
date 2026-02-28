@@ -27,27 +27,17 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
     private val checkList = mutableListOf<Pair<Long, Boolean>>()
 
     override fun initView() {
-        binding.recyclerView.adapter = adapter
-    }
-
-    override fun initData() {
-        val userData = UserManager.getUserInfo(this)
-        presenter = CartPresenter(null, CallApiCartItem.getInstance())
-        presenter.attachView(this)
-        userData.id?.let { presenter.getAllCartItemByUserID(it) }
-    }
-
-    override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
-            // Setup toolbar menu (delete all action)
-            toolbar.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_delete_all -> {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(R.string.page_cart)
+                showBackButton = true
+                onBackClick = { finish() }
+                
+                action {
+                    iconRes = R.drawable.ic_bin
+                    contentDescription = getString(R.string.delete_all)
+                    onClick = {
                         val alertDialog = AlertDialog.Builder(this@CartActivity)
                         alertDialog.setTitle(R.string.confirm_delete)
                         alertDialog.setMessage(R.string.how_to_confirm_delete)
@@ -59,12 +49,23 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
                             dialog.dismiss()
                         }
                         alertDialog.show()
-                        true
                     }
-                    else -> false
                 }
             }
             
+            recyclerView.adapter = adapter
+        }
+    }
+
+    override fun initData() {
+        val userData = UserManager.getUserInfo(this)
+        presenter = CartPresenter(null, CallApiCartItem.getInstance())
+        presenter.attachView(this)
+        userData.id?.let { presenter.getAllCartItemByUserID(it) }
+    }
+
+    override fun handleEvent() {
+        binding.apply {
             buttonAddToCart.setOnClickListener {
                 if(listChoseCartItem.size != 0){
                     val intent = Intent(application, ConfirmOrderActivity::class.java)

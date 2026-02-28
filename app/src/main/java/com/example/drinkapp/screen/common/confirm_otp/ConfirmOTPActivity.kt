@@ -29,6 +29,18 @@ class ConfirmOTPActivity :
 
 
     override fun initView() {
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = ""
+                showBackButton = true
+                onBackClick = {
+                    countDownTimer.cancel()
+                    finish()
+                }
+            }
+        }
+        
         countDownTimer = object : CountDownTimer(totalTimeInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
@@ -51,10 +63,6 @@ class ConfirmOTPActivity :
 
     override fun handleEvent() {
         binding.apply {
-            toolbar.setNavigationOnClickListener {
-                countDownTimer.cancel()
-                finish()
-            }
             buttonConfirmOtp.setOnClickListener {
                 onConfirmOTPCode(textOtpCode.text.toString().trim())
             }

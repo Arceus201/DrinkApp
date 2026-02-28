@@ -173,5 +173,8 @@
     <string name="delivery_info">Thông tin giao hàng</string>
     <string name="order_info">Thông tin đơn hàng</string>
     <string name="order_items">Sản phẩm đã đặt</string>
+    
+    <!-- Common Header -->
+    <string name="navigate_back">Quay lại</string>
 
 </resources>

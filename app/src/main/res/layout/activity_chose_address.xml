@@ -5,28 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- AppBar with Toolbar -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <!-- Common Header -->
+    <com.example.drinkapp.widget.CommonHeaderView
+        android:id="@+id/commonHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_back">
-
-            <TextView
-                android:id="@+id/text_name_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                tools:text="Chọn địa chỉ" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content" />
 
     <!-- Main Content -->
     <LinearLayout

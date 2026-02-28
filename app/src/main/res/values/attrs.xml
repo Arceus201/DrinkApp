@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CommonHeaderView custom attributes -->
+    <declare-styleable name="CommonHeaderView">
+        <attr name="headerBackgroundColor" format="color" />
+        <attr name="headerTitleColor" format="color" />
+        <attr name="headerIconTint" format="color" />
+        <attr name="headerElevation" format="dimension" />
+    </declare-styleable>
+</resources>

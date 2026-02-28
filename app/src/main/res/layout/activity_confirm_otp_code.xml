@@ -6,12 +6,10 @@
     android:orientation="vertical"
     android:padding="@dimen/margin_normal">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <com.example.drinkapp.widget.CommonHeaderView
+        android:id="@+id/commonHeader"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"

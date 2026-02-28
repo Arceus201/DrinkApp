@@ -45,14 +45,22 @@ class ProductAddActivity :
     private var statusCode: Long = 1
 
     override fun initView() {
+        binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(com.example.drinkapp.R.string.product_button_add)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
+            textName.setMaxLength(255)
+            textPrice.setMaxLength(19)
+        }
+        
         val status = listOf(KEY_SHOW,KEY_HIDE)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, status)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.apply {
-            textName.setMaxLength(255)
-            textPrice.setMaxLength(19)
-            spinnerStatus.adapter = adapter
-        }
+        binding.spinnerStatus.adapter = adapter
     }
 
     override fun initData() {
@@ -69,11 +77,6 @@ class ProductAddActivity :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-
             chooseImageButton.setOnClickListener {
                 selectImage()
             }

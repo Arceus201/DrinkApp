@@ -29,6 +29,13 @@ class DrinkDetailActivity :
     private lateinit var data: List<Long>
     override fun initView() {
         binding.apply {
+            // Configure CommonHeaderView
+            commonHeader.configure {
+                title = getString(com.example.drinkapp.R.string.page_drink_detail)
+                showBackButton = true
+                onBackClick = { finish() }
+            }
+            
             textNote.setMaxLength(255)
         }
     }
@@ -51,11 +58,6 @@ class DrinkDetailActivity :
 
     override fun handleEvent() {
         binding.apply {
-            // Setup toolbar navigation
-            toolbar.setNavigationOnClickListener {
-                finish()
-            }
-            
             buttonSub.setOnClickListener {
                 presenter.changeQuantity(textQuantity.text.toString().toLong(), -1L)
             }
