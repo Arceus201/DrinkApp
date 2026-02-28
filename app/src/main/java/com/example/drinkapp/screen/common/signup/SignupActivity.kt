@@ -23,8 +23,6 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
     SignupContract.View {
     private lateinit var presenter: SignupPresenter
     private lateinit var mAuth: FirebaseAuth
-    private var isPasswordVisible1 = false
-    private var isPasswordVisible2 = false
     private var checkPassword = false
 
     override fun initView() {
@@ -68,30 +66,6 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
                 val intent = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            buttonShowHide1.setOnClickListener {
-                isPasswordVisible1 = !isPasswordVisible1
-                if (isPasswordVisible1) {
-                    textPassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textPassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_hide)
-                }
-            }
-            buttonShowHide2.setOnClickListener {
-                isPasswordVisible2 = !isPasswordVisible2
-                if (isPasswordVisible2) {
-                    textConfirmPassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide2.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textConfirmPassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide2.setImageResource(R.drawable.ic_current_hide)
-                }
             }
         }
     }
