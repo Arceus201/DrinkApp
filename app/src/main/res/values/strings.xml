@@ -62,6 +62,7 @@
     <string name="format_password_reset">Mật khẩu ít nhất 8, phải chứa chữ thường, 1 số,\n 1 chữ hoa và 1 ký tự đặc biệt.</string>
     <string name="have_account">Bạn có tài khoản khác?</string>
     <string name="login_button">Đăng Nhập</string>
+    <string name="search_hint">Tìm kiếm đồ uống...</string>
 
 <!--    status-->
     <string name="cho_xac_nhan">chờ xác nhận</string>
