@@ -27,7 +27,8 @@ class WattingDeliveryActivity :
     }
 
     override fun initData() {
-        presenter = WattingDeliveryPresenter(this, CallApiOrder.getInstance())
+        presenter = WattingDeliveryPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         presenter.getListOrder(2L)
 
     }
@@ -106,6 +107,11 @@ class WattingDeliveryActivity :
     override fun onGetListOrderFail() {
         listOrder.clear()
         adapter.clearData()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object {

@@ -27,10 +27,11 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
     override fun initData() {
         val order_information = intent.getSerializableExtra(Constant.KEY_ORDER) as Long
         presenter = OrderDetailPresenter(
-            this,
+            null,
             CallApiOrder.getInstance(),
             CallApiAddress.getInstance()
         )
+        presenter.attachView(this)
         presenter.getOrder(order_information)
         presenter.getAddressStore()
     }
@@ -91,5 +92,10 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
 
     override fun onFail(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 }

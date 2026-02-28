@@ -5,17 +5,26 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.data.resource.dto.order.OrderStatusDTO
 
-class OrderManagerPresenter(private val view: OrderManagerContract.View,
+class OrderManagerPresenter(private var view: OrderManagerContract.View?,
 private val callApi: CallApiOrder): OrderManagerContract.Presenter {
+    
+    override fun attachView(view: OrderManagerContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getListOrder(order_status: Long) {
         callApi.getAllOrderByStatus(order_status,
         object : OnResultListener<List<Order>>{
             override fun onSuccess(list: List<Order>) {
-                view.onGetListOrderSuccess(list)
+                view?.onGetListOrderSuccess(list)
             }
 
             override fun onFail(message: String) {
-                view.onGetListOrderFail()
+                view?.onGetListOrderFail()
             }
 
         })
@@ -28,14 +37,21 @@ private val callApi: CallApiOrder): OrderManagerContract.Presenter {
             orderStatusDTO,
             object :OnResultListener<Order>{
                 override fun onSuccess(list: Order) {
-                    view.onUpadteStatusOrderSuccess()
+                    view?.onUpadteStatusOrderSuccess()
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS)
+                    view?.onFail(MESS)
                 }
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
     companion object{
         const val MESS = "xác nhận đơn hàng không thành công"

@@ -24,7 +24,8 @@ ProfileContract.View{
 
     override fun initData() {
         val user = UserManager.getUserInfo(this)
-        presenter = ProfilePresenter(this, CallApiUser.getInstance())
+        presenter = ProfilePresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
         user.id?.let { presenter.getUser(it) }
     }
 
@@ -96,6 +97,12 @@ ProfileContract.View{
     override fun onFail(msg: String) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
     }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
+
     companion object{
         const val MESS_UPDATE_ACCOUNT_SUCCESS = "cập nhật tài khoản thành công"
     }

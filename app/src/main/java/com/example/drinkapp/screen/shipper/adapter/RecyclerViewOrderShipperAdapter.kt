@@ -2,27 +2,23 @@ package com.example.drinkapp.screen.shipper.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drinkapp.data.model.Order
 import com.example.drinkapp.databinding.ItemOrderShipperBinding
 import com.example.drinkapp.utils.formatAsNumber
-//import com.example.drinkapp.utils.formatAsNumber
 import com.example.drinkapp.utils.listener.OnItemOrderShipperClickListener
 
-class RecyclerViewOrderShipperAdapter(private val itemClickListener: OnItemOrderShipperClickListener):
-RecyclerView.Adapter<RecyclerViewOrderShipperAdapter.ViewHolder?>(){
-    private val listOrder = mutableListOf<Order>()
+class RecyclerViewOrderShipperAdapter(private val itemClickListener: OnItemOrderShipperClickListener) :
+    ListAdapter<Order, RecyclerViewOrderShipperAdapter.ViewHolder>(OrderDiffCallback()) {
 
     fun setData(list: List<Order>) {
-        this.listOrder.apply {
-            clear()
-            addAll(list)
-        }
-        notifyDataSetChanged()
+        submitList(list)
     }
+
     fun clearData() {
-        listOrder.clear()
-        notifyDataSetChanged()
+        submitList(emptyList())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,18 +27,14 @@ RecyclerView.Adapter<RecyclerViewOrderShipperAdapter.ViewHolder?>(){
         return ViewHolder(viewBinding)
     }
 
-    override fun getItemCount(): Int {
-        return listOrder.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val order = listOrder.get(position)
-        holder.viewBinding.apply{
+        val order = getItem(position)
+        holder.viewBinding.apply {
             textMa.text = order.id.toString()
             val payment_status = order.payment.payment_status
-            if(payment_status == 0L){
+            if (payment_status == 0L) {
                 textPaymentStatus.text = "Chưa thanh toán"
-            }else{
+            } else {
                 textPaymentStatus.text = "Đã thanh toán"
             }
             textPrice.text = order.total_price.formatAsNumber()
@@ -54,8 +46,17 @@ RecyclerView.Adapter<RecyclerViewOrderShipperAdapter.ViewHolder?>(){
             }
         }
     }
-    inner class ViewHolder(var viewBinding: ItemOrderShipperBinding):
-        RecyclerView.ViewHolder(viewBinding.root){
 
+    inner class ViewHolder(var viewBinding: ItemOrderShipperBinding) :
+        RecyclerView.ViewHolder(viewBinding.root)
+
+    private class OrderDiffCallback : DiffUtil.ItemCallback<Order>() {
+        override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {
+            return oldItem == newItem
+        }
     }
 }

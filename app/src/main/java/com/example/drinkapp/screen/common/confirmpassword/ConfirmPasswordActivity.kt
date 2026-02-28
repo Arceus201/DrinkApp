@@ -19,7 +19,8 @@ ConfirmPasswordContract.View{
     }
 
     override fun initData() {
-        presenter = ConfirmPasswordPresenter(this, CallApiUser.getInstance())
+        presenter = ConfirmPasswordPresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -56,5 +57,10 @@ ConfirmPasswordContract.View{
 
     override fun onFail(msg: String) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 }

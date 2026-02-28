@@ -6,13 +6,22 @@ import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.utils.base.BaseActivity
 
 
-class SignupPresenter(private val view: SignupContract.View): SignupContract.Presenter{
+class SignupPresenter(private var view: SignupContract.View?): SignupContract.Presenter{
+    
+    override fun attachView(view: SignupContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun checkValidPassword(password: String) {
         if(password.length >= 8 && containsLowerCase(password) && containsUpperCase(password)
             && containsSpecialCharacter(password) && containsNumber(password)){
-            view.isValidPasswordPass()
+            view?.isValidPasswordPass()
         }else{
-            view.isValidPassworFail()
+            view?.isValidPassworFail()
         }
     }
     private fun containsNumber(s: String): Boolean {
@@ -32,10 +41,9 @@ class SignupPresenter(private val view: SignupContract.View): SignupContract.Pre
     }
 
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-       // TODO("Not yet implemented")
+        detachView()
     }
 }

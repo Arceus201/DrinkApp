@@ -5,19 +5,28 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.data.resource.dto.user.UserUpdatePasswordDTO
 
-class ResetPasswordPresenter(private val view: ResetPasswordContract.View,
+class ResetPasswordPresenter(private var view: ResetPasswordContract.View?,
 private val callApi: CallApiUser): ResetPasswordContract.Presenter{
+    
+    override fun attachView(view: ResetPasswordContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun updatePassword(user_id: Long, current_password: String, new_password: String) {
         val userUpdatePasswordDTO = UserUpdatePasswordDTO(user_id,current_password,new_password)
         callApi.updatePassword(
             userUpdatePasswordDTO,
             object : OnResultListener<User>{
                 override fun onSuccess(list: User) {
-                    view.onUpdatePasswordSuccess()
+                    view?.onUpdatePasswordSuccess()
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(KEY_UPDATE_PASSWORD_FAIL)
+                    view?.onFail(KEY_UPDATE_PASSWORD_FAIL)
                 }
 
             }
@@ -26,9 +35,9 @@ private val callApi: CallApiUser): ResetPasswordContract.Presenter{
     override fun checkValidPassword(password: String) {
         if(password.length >= 8 && containsLowerCase(password) && containsUpperCase(password)
             && containsSpecialCharacter(password) && containsNumber(password)){
-            view.isValidPasswordPass()
+            view?.isValidPasswordPass()
         }else{
-            view.isValidPassworFail()
+            view?.isValidPassworFail()
         }
     }
     private fun containsNumber(s: String): Boolean {
@@ -45,6 +54,13 @@ private val callApi: CallApiUser): ResetPasswordContract.Presenter{
 
     private fun containsSpecialCharacter(s: String): Boolean {
         return s.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\",.<>?].*".toRegex())
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
 
     companion object{

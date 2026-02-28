@@ -32,7 +32,8 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
 
     override fun initData() {
         val userData = UserManager.getUserInfo(this)
-        presenter = CartPresenter(this, CallApiCartItem.getInstance())
+        presenter = CartPresenter(null, CallApiCartItem.getInstance())
+        presenter.attachView(this)
         userData.id?.let { presenter.getAllCartItemByUserID(it) }
     }
 
@@ -155,6 +156,11 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
 
     override fun onDisplayAllCartFail() {
         adapter.clearData()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
 companion object{

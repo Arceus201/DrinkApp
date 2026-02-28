@@ -31,20 +31,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/text_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutName"
+        style="@style/Widget.DrinkApp.TextInputLayout"
         android:layout_width="@dimen/dp_200"
-        android:layout_height="@dimen/dp_45"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_64"
         android:layout_marginTop="@dimen/dp_28"
-        android:background="@drawable/custom_item"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textColorHint="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name_page" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name_page">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_item"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:textSize="@dimen/sp_12"
         android:background="@drawable/custom_button"
         android:textColor="@color/white"
@@ -55,10 +62,10 @@
         android:text="@string/button_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.677"
-        app:layout_constraintStart_toEndOf="@+id/text_name"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayoutName"
         app:layout_constraintTop_toBottomOf="@+id/text_name_page" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:visibility="invisible"
         android:textSize="@dimen/sp_12"
         android:id="@+id/button_cancel"

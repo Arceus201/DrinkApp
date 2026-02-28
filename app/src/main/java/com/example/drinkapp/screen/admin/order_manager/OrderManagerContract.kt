@@ -1,6 +1,7 @@
 package com.example.drinkapp.screen.admin.order_manager
 
 import com.example.drinkapp.data.model.Order
+import com.example.drinkapp.utils.base.BasePresenter
 
 interface OrderManagerContract {
     interface View{
@@ -9,7 +10,7 @@ interface OrderManagerContract {
         fun onFail(msg: String)
         fun onGetListOrderFail()
     }
-    interface Presenter{
+    interface Presenter : BasePresenter<View> {
         fun getListOrder(order_status: Long)
         fun updateStatusOrder(id: Long,order_status: Long)
     }

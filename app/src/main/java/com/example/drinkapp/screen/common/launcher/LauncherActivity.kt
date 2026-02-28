@@ -43,13 +43,15 @@ LauncherContract.View{
     }
 
     override fun initData() {
-       presenter = LauncherPresenter(this, CallApiUser.getInstance())
+       presenter = LauncherPresenter(null, CallApiUser.getInstance())
+       presenter.attachView(this)
     }
 
     override fun handleEvent() {
     }
 
     override fun onDestroy() {
+        presenter.onStop()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
     }

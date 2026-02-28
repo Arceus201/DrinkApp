@@ -7,18 +7,27 @@ import com.example.drinkapp.data.resource.dto.order.OrderStatusDTO
 
 
 class WattingDeliveryPresenter (
-    private val view: WattingDeliveryContract.View,
+    private var view: WattingDeliveryContract.View?,
     private val callApi: CallApiOrder
 ) : WattingDeliveryContract.Presenter {
+    
+    override fun attachView(view: WattingDeliveryContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getListOrder(order_status: Long) {
         callApi.getAllOrderByStatus(order_status,
             object : OnResultListener<List<Order>> {
                 override fun onSuccess(list: List<Order>) {
-                    view.onGetListOrderSuccess(list)
+                    view?.onGetListOrderSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetListOrderFail()
+                    view?.onGetListOrderFail()
                 }
 
             })
@@ -31,15 +40,22 @@ class WattingDeliveryPresenter (
             orderStatusDTO,
             object : OnResultListener<Order> {
                 override fun onSuccess(list: Order) {
-                    view.onUpadteStatusOrderSuccess()
+                    view?.onUpadteStatusOrderSuccess()
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_CONFIRM_FAIL)
+                    view?.onFail(MESSAGE_CONFIRM_FAIL)
                 }
 
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
     companion object{
         const val MESSAGE_CONFIRM_FAIL = "xác nhận không thành công"

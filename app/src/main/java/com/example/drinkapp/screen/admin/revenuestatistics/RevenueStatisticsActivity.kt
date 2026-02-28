@@ -36,7 +36,8 @@ class RevenueStatisticsActivity :
     }
 
     override fun initData() {
-        presenter = RevenueStatisticsPresenter(this, CallApiRevenue.getInstance())
+        presenter = RevenueStatisticsPresenter(null, CallApiRevenue.getInstance())
+        presenter.attachView(this)
         val curentTime = Date()
 
         presenter.getRevenueStatistics(
@@ -132,5 +133,9 @@ class RevenueStatisticsActivity :
         startActivity(intent)
     }
 
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
 
 }

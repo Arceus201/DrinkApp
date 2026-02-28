@@ -1,32 +1,25 @@
 package com.example.drinkapp.screen.admin.adapter
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Product
 import com.example.drinkapp.databinding.ItemDrinkBinding
 import com.example.drinkapp.utils.formatAsNumber
 import com.example.drinkapp.utils.listener.OnItemEditDrinkClickListener
 
-
-class RecyclerViewDrinkAdapter(private val itemClickListener: OnItemEditDrinkClickListener)
-    : RecyclerView.Adapter<RecyclerViewDrinkAdapter.ViewHolder?>() {
-    private val listProduct = mutableListOf<Product>()
+class RecyclerViewDrinkAdapter(private val itemClickListener: OnItemEditDrinkClickListener) :
+    ListAdapter<Product, RecyclerViewDrinkAdapter.ViewHolder>(ProductDiffCallback()) {
 
     fun setData(list: List<Product>) {
-        this.listProduct.apply {
-            clear()
-            addAll(list)
-        }
-        notifyDataSetChanged()
+        submitList(list)
     }
 
-    fun clear(){
-        listProduct.clear()
-        notifyDataSetChanged()
+    fun clear() {
+        submitList(emptyList())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,12 +28,8 @@ class RecyclerViewDrinkAdapter(private val itemClickListener: OnItemEditDrinkCli
         return ViewHolder(viewBinding)
     }
 
-    override fun getItemCount(): Int {
-        return listProduct.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val product = listProduct.get(position)
+        val product = getItem(position)
         holder.viewBinding.apply {
             textName.text = product.name
             textSold.text = product.quantitysold.toString()
@@ -62,7 +51,15 @@ class RecyclerViewDrinkAdapter(private val itemClickListener: OnItemEditDrinkCli
     }
 
     inner class ViewHolder(var viewBinding: ItemDrinkBinding) :
-        RecyclerView.ViewHolder(viewBinding.root) {
+        RecyclerView.ViewHolder(viewBinding.root)
 
+    private class ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem == newItem
+        }
     }
 }

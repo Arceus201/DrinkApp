@@ -22,7 +22,7 @@
             android:textSize="@dimen/sp_30"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/dp_20"
-            android:textColor="#0339fc"
+            android:textColor="@color/blue_link"
             android:layout_gravity="center"/>
         <LinearLayout
             android:layout_gravity="center"
@@ -35,16 +35,23 @@
                 android:src="@drawable/ic_user_sign_up"
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"/>
-            <EditText
-                android:id="@+id/text_username"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutUsername"
+                style="@style/Widget.DrinkApp.TextInputLayout"
                 android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:gravity="center"
-                android:hint="@string/name_user_add_address"
-                android:background="@drawable/custom_item"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray" />
+                android:hint="@string/name_user_add_address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/custom_item"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_gravity="center"
@@ -58,17 +65,24 @@
                 android:src="@drawable/ic_phone_sign_up"
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"/>
-            <EditText
-                android:digits="0123456789"
-                android:id="@+id/text_phone"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPhone"
+                style="@style/Widget.DrinkApp.TextInputLayout"
                 android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:gravity="center"
-                android:hint="@string/phone_user_add_address"
-                android:background="@drawable/custom_item"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray"  />
+                android:hint="@string/phone_user_add_address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:digits="0123456789"
+                    android:id="@+id/text_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/custom_item"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"  />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -132,19 +146,26 @@
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"/>
 
-            <EditText
-                android:id="@+id/text_address"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutAddress"
+                style="@style/Widget.DrinkApp.TextInputLayout"
                 android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/custom_item"
-                android:gravity="center"
-                android:hint="@string/address_user_add_address"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray" />
+                android:hint="@string/address_user_add_address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_item"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_save"
             android:layout_width="@dimen/dp_150"
             android:layout_height="@dimen/dp_50"

@@ -26,7 +26,8 @@ class CustomManagerFragement :
     }
 
     override fun initData() {
-        presenter = CustomManagerPresenter(this, CallApiUser.getInstance())
+        presenter = CustomManagerPresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
         presenter.getAllClient()
     }
 
@@ -97,6 +98,11 @@ class CustomManagerFragement :
             dialog.dismiss()
         }
         alertDialog.show()
+    }
+
+    override fun onDestroyView() {
+        presenter.onStop()
+        super.onDestroyView()
     }
 
     companion object{

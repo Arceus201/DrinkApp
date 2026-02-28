@@ -19,7 +19,7 @@ import com.example.drinkapp.utils.setMaxLength
 class LoginActivity :
     BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate),
     LoginContract.View {
-    private lateinit var presenter: LoginPersenter
+    private lateinit var presenter: LoginPresenter
     private var isPasswordVisible1 = false
 
     override fun initView() {
@@ -30,7 +30,8 @@ class LoginActivity :
     }
 
     override fun initData() {
-        presenter = LoginPersenter(this, CallApiUser.getInstance())
+        presenter = LoginPresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -84,6 +85,11 @@ class LoginActivity :
 
     override fun onLoginFail(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object {

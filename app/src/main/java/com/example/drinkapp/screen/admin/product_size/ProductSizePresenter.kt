@@ -7,11 +7,20 @@ import com.example.drinkapp.data.resource.call.CallApiPriceSize
 import com.example.drinkapp.data.resource.call.CallApiSize
 
 class ProductSizePresenter(
-    private val view: ProductSizeContract.View,
+    private var view: ProductSizeContract.View?,
     private val callApiSize: CallApiSize,
     private val callApi : CallApiPriceSize
 ) :
     ProductSizeContract.Presenter {
+    
+    override fun attachView(view: ProductSizeContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getALLSize() {
         callApiSize.getAllSize(
             object : OnResultListener<List<Size>> {
@@ -20,7 +29,7 @@ class ProductSizePresenter(
                         val data: List<Pair<Long, String>> = list
                             .filter { it.id != null && it.name != null }
                             .map { it.id!! to it.name!! }
-                        view.onGetAllSizeSuccess(data)
+                        view?.onGetAllSizeSuccess(data)
                     }
                 }
 
@@ -36,11 +45,11 @@ class ProductSizePresenter(
             idProduct,
             object : OnResultListener<List<PriceSize>>{
                 override fun onSuccess(list: List<PriceSize>) {
-                    view.onGetAllPriceSizeSucess(list)
+                    view?.onGetAllPriceSizeSucess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetAllPriceSizeFail()
+                    view?.onGetAllPriceSizeFail()
                 }
 
             }
@@ -52,11 +61,11 @@ class ProductSizePresenter(
             idProduct,idSize,price,
             object : OnResultListener<List<PriceSize>>{
                 override fun onSuccess(list: List<PriceSize>) {
-                    view.onUpdateAndAddSuccess(list)
+                    view?.onUpdateAndAddSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_ADD_PRICESIZE_FAIL)
+                    view?.onFail(MESSAGE_ADD_PRICESIZE_FAIL)
                 }
 
             }
@@ -68,26 +77,25 @@ class ProductSizePresenter(
             id,idProduct,idSize,price,status,
             object : OnResultListener<List<PriceSize>>{
                 override fun onSuccess(list: List<PriceSize>) {
-                    view.onUpdateAndAddSuccess(list)
+                    view?.onUpdateAndAddSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_UPADTE_PRICESIZE_FAIL)
+                    view?.onFail(MESSAGE_UPDATE_PRICESIZE_FAIL)
                 }
             }
         )
     }
 
     override fun onStart() {
-        // TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        //TODO("Not yet implemented")
+        detachView()
     }
     companion object{
         const val MESSAGE_ADD_PRICESIZE_FAIL = "thêm giá theo size không thành công"
-        const val MESSAGE_UPADTE_PRICESIZE_FAIL = "cập nhật giá theo size không thành công"
+        const val MESSAGE_UPDATE_PRICESIZE_FAIL = "cập nhật giá theo size không thành công"
     }
 
 }

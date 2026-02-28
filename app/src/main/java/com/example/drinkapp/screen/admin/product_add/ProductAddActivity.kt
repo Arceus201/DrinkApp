@@ -58,10 +58,12 @@ class ProductAddActivity :
     override fun initData() {
         presenter =
             ProductAddPresenter(
-                this, CallApiDrink.getInstance(),
+                null,
+                CallApiDrink.getInstance(),
                 CallApiCategory.getInstance(),
                 CallApiPriceSize.getInstance()
             )
+        presenter.attachView(this)
         presenter.getAllCategory()
     }
 
@@ -228,9 +230,14 @@ class ProductAddActivity :
         finish()
     }
 
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
+
     companion object {
         private const val PERMISSION_REQUEST_CODE = 123
-        private const val  KEY_CANNOT_SELECT_IMAGE = "Permission denied. Cannot select an image."
+        private const val KEY_CANNOT_SELECT_IMAGE = "Permission denied. Cannot select an image."
         private const val KEY_SHOW = "hiện sản phẩm"
         private const val KEY_HIDE = "ẩn sản phẩm"
     }

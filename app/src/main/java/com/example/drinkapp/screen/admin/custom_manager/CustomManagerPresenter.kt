@@ -5,17 +5,26 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.data.resource.dto.user.UserManagerDTO
 
-class CustomManagerPresenter(private val view: CustomManagerContract.View,
+class CustomManagerPresenter(private var view: CustomManagerContract.View?,
 private val callApi: CallApiUser): CustomManagerContract.Presenter {
+    
+    override fun attachView(view: CustomManagerContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getAllClient() {
         callApi.getAllClient(
             object : OnResultListener<List<User>>{
                 override fun onSuccess(list: List<User>) {
-                    view.onGetAllClientSuccess(list)
+                    view?.onGetAllClientSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetAllClientFail()
+                    view?.onGetAllClientFail()
                 }
 
             }
@@ -28,15 +37,22 @@ private val callApi: CallApiUser): CustomManagerContract.Presenter {
             userManagerDTO,
             object : OnResultListener<List<User>>{
                 override fun onSuccess(list: List<User>) {
-                    view.onUpdateClientStatusSuccess(list)
+                    view?.onUpdateClientStatusSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(UPDATE_STATUS_FAIL)
+                    view?.onFail(UPDATE_STATUS_FAIL)
                 }
 
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
     companion object{
         const val UPDATE_STATUS_FAIL = "cập nhật trạng thái khách hàng không thành công"

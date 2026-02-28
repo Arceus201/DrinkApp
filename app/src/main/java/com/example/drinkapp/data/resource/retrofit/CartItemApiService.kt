@@ -6,6 +6,7 @@ import com.example.drinkapp.data.resource.response.cartitem.CartItemListReponse
 import com.example.drinkapp.data.resource.response.cartitem.CartItemReponse
 import com.example.drinkapp.utils.ApiConstant
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface CartItemApiService {
@@ -14,6 +15,7 @@ interface CartItemApiService {
 
     @PUT(ApiConstant.API_KEY_UPDTAE_CARTITEM_NUMBER)
     fun updateCartItemNumber(@Path("id") id: Long, @Path("number") number: Long): Call<CartItemReponse>
+    
     @PUT(ApiConstant.API_KEY_UPDATE_CARTITEM)
     fun updateCartItem(@Path("id") id: Long, @Body cartItemUpdateDTO: CartItemUpateDTO): Call<CartItemReponse>
 
@@ -23,11 +25,31 @@ interface CartItemApiService {
     @GET(ApiConstant.API_KEY_CHECK_CARTITEM)
     fun checkCartItem(@Path("user_id") user_id: Long, @Path("pricesize_id") pricesize_id: Long): Call<CartItemReponse>
 
-
     @DELETE(ApiConstant.API_KEY_DELETE_CARTITEM_BY_ID)
     fun deleteCartItemById(@Path("id") id: Long): Call<CartItemReponse>
 
     @DELETE(ApiConstant.API_KEY_DELETE_ALL_CARTITEM)
     fun deleteAll(@Path("user_id") user_id: Long): Call<CartItemReponse>
 
+    // Coroutine versions
+    @POST(ApiConstant.API_KEY_ADD_CARTITEM)
+    suspend fun addCartItemCoroutine(@Body cartItemDTO: CartItemDTO): Response<CartItemReponse>
+
+    @PUT(ApiConstant.API_KEY_UPDTAE_CARTITEM_NUMBER)
+    suspend fun updateCartItemNumberCoroutine(@Path("id") id: Long, @Path("number") number: Long): Response<CartItemReponse>
+    
+    @PUT(ApiConstant.API_KEY_UPDATE_CARTITEM)
+    suspend fun updateCartItemCoroutine(@Path("id") id: Long, @Body cartItemUpdateDTO: CartItemUpateDTO): Response<CartItemReponse>
+
+    @GET(ApiConstant.API_KEY_GET_ALL_CARTITEM_BY_USER_ID)
+    suspend fun getAllCartItemByUserIDCoroutine(@Path("id") id: Long): Response<CartItemListReponse>
+
+    @GET(ApiConstant.API_KEY_CHECK_CARTITEM)
+    suspend fun checkCartItemCoroutine(@Path("user_id") user_id: Long, @Path("pricesize_id") pricesize_id: Long): Response<CartItemReponse>
+
+    @DELETE(ApiConstant.API_KEY_DELETE_CARTITEM_BY_ID)
+    suspend fun deleteCartItemByIdCoroutine(@Path("id") id: Long): Response<CartItemReponse>
+
+    @DELETE(ApiConstant.API_KEY_DELETE_ALL_CARTITEM)
+    suspend fun deleteAllCoroutine(@Path("user_id") user_id: Long): Response<CartItemReponse>
 }

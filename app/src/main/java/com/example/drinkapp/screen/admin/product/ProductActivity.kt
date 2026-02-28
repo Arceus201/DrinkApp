@@ -34,7 +34,8 @@ class ProductActivity :
     }
 
     override fun initData() {
-        presenter = ProductPresenter(this,CallApiDrink.getInstance())
+        presenter = ProductPresenter(null,CallApiDrink.getInstance())
+        presenter.attachView(this)
         presenter?.getAllDrink()
     }
 
@@ -128,6 +129,11 @@ class ProductActivity :
         bundle.putSerializable(Constant.KEY_PRODUCT, product)
         intent.putExtras(bundle)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object{

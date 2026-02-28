@@ -23,7 +23,8 @@ class OrderFragment:BaseFragment<ClientFragmentOrderBinding>(ClientFragmentOrder
 
     override fun initData() {
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderPresenter(this, CallApiOrder.getInstance())
+        presenter = OrderPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if (user != null) {
             user.id?.let { presenter.getOrder(it) }
         }
@@ -55,9 +56,15 @@ class OrderFragment:BaseFragment<ClientFragmentOrderBinding>(ClientFragmentOrder
     override fun onResume() {
         super.onResume()
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderPresenter(this, CallApiOrder.getInstance())
+        presenter = OrderPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if (user != null) {
             user.id?.let { presenter.getOrder(it) }
         }
+    }
+
+    override fun onDestroyView() {
+        presenter.onStop()
+        super.onDestroyView()
     }
 }

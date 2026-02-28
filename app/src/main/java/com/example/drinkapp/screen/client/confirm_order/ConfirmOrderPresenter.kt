@@ -13,12 +13,19 @@ import com.example.drinkapp.data.resource.dto.payment.PaymentDTO
 import java.util.Date
 
 class ConfirmOrderPresenter(
-    private val view: ConfirmOrderContract.View,
+    private var view: ConfirmOrderContract.View?,
     private val callApiExchangeRate: ExchangeRateAPI,
     private val callApiOrder: CallApiOrder
 ) :
     ConfirmOrderContract.Presenter {
 
+    override fun attachView(view: ConfirmOrderContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
 
     override fun addOrder(
         list: List<CartItem>, address_id: Long, order_time: String, total_price: Double,
@@ -30,11 +37,11 @@ class ConfirmOrderPresenter(
             orderDTO,
             object : OnResultListener<Order> {
                 override fun onSuccess(list: Order) {
-                    view.onAddOrderSuccess(list.id)
+                    view?.onAddOrderSuccess(list.id)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ORDER_FAIL)
+                    view?.onFail(MESS_ORDER_FAIL)
                 }
 
             }
@@ -45,13 +52,20 @@ class ConfirmOrderPresenter(
         callApiExchangeRate.getExchangeRates(
             object : OnResultListener<Double> {
                 override fun onSuccess(list: Double) {
-                    view.onGetExChangeRateSuccess(list)
+                    view?.onGetExChangeRateSuccess(list)
                 }
 
                 override fun onFail(message: String) {
                 }
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
     companion object{
         const val MESS_ORDER_FAIL = "đặt hàng không thành công"

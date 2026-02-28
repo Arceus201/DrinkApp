@@ -46,7 +46,8 @@ class AddressActivity :
 
 
         var userData = UserManager.getUserInfo(this)
-        presenter = AddressPresenter(this, CallApiAddress.getInstance())
+        presenter = AddressPresenter(null, CallApiAddress.getInstance())
+        presenter.attachView(this)
         userData.id?.let { presenter.getAllAddress(it) }
     }
 
@@ -96,6 +97,12 @@ class AddressActivity :
     override fun onFail() {
         adapter.clearData()
     }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
+
     companion object{
         const val TEXT_CHOSE_ADDRESS= "Chọn địa chỉ nhận hàng"
         const val TEXT_NAME_PAGE= "Quản lý địa chỉ"

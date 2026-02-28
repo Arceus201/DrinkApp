@@ -26,7 +26,8 @@ class HistoryFragment :
 
     override fun initData() {
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = HistoryPresenter(this, CallApiOrder.getInstance())
+        presenter = HistoryPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if (user != null) {
             user.id?.let { presenter.getHistoryOrder(it) }
         }
@@ -58,9 +59,15 @@ class HistoryFragment :
     override fun onResume() {
         super.onResume()
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = HistoryPresenter(this, CallApiOrder.getInstance())
+        presenter = HistoryPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if (user != null) {
             user.id?.let { presenter.getHistoryOrder(it) }
         }
+    }
+
+    override fun onDestroyView() {
+        presenter.onStop()
+        super.onDestroyView()
     }
 }

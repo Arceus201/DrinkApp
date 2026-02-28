@@ -5,6 +5,7 @@ import com.example.drinkapp.data.resource.response.address.AddressListReponse
 import com.example.drinkapp.data.resource.response.address.AddressReponse
 import com.example.drinkapp.utils.ApiConstant
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -21,4 +22,13 @@ interface AddressApiService {
     @GET(ApiConstant. API_KEY_GET_STORE)
     fun getAddressStore() :Call<AddressReponse>
 
+    // Coroutine versions
+    @POST(ApiConstant.API_KEY_ADD_ADDRESS)
+    suspend fun addAddressCoroutine(@Body addressDTO: AddressDTO): Response<AddressReponse>
+
+    @GET(ApiConstant.API_KEY_GET_ADDRESS)
+    suspend fun getAddressCoroutine(@Path("user_id")user_id: Long) :Response<AddressListReponse>
+
+    @GET(ApiConstant. API_KEY_GET_STORE)
+    suspend fun getAddressStoreCoroutine() :Response<AddressReponse>
 }

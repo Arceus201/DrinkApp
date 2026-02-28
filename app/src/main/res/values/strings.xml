@@ -19,6 +19,7 @@
     <string name="how_to_confirm_delete">Bạn có chắc muốn xóa?</string>
     <string name="gia"> Giá </string>
     <string name="vnd">VNĐ</string>
+    <string name="currency_symbol">đ</string>
     <string name="USD">$</string>
     <string name="tien_mat">Tiền mặt</string>
     <string name="thanh_toan_paypal">Thanh Toán Paypal</string>
@@ -136,11 +137,20 @@
     <string name="da_giao">Đã giao</string>
     <string name="dob">ngày sinh của bạn</string>
     <string name="profile">Cập nhật tài khoản</string>
+    <string name="fee_drink">Phí đồ uống:</string>
+    <string name="fee_paypal">Phí paypal   :</string>
+    <string name="button_view">Xem</string>
+    <string name="hint_enter_price">Nhập giá</string>
+    <string name="colon">:</string>
 
-
-
-
-
-
+    <!-- Empty/Error/Loading States -->
+    <string name="empty_state">Trống</string>
+    <string name="empty_state_title">Không có dữ liệu</string>
+    <string name="empty_state_message">Chưa có dữ liệu để hiển thị</string>
+    <string name="error_state">Lỗi</string>
+    <string name="error_state_title">Đã xảy ra lỗi</string>
+    <string name="error_state_message">Không thể tải dữ liệu. Vui lòng thử lại.</string>
+    <string name="retry">Thử lại</string>
+    <string name="loading">Đang tải…</string>
 
 </resources>

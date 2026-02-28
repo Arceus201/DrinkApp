@@ -33,7 +33,8 @@ class OrderManagerFragment :
     }
 
     override fun initData() {
-        presenter = OrderManagerPresenter(this, CallApiOrder.getInstance())
+        presenter = OrderManagerPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         presenter.getListOrder(1L)
         scheduleRefresh()
     }
@@ -120,6 +121,7 @@ class OrderManagerFragment :
     }
 
     override fun onDestroyView() {
+        presenter.onStop()
         super.onDestroyView()
         refreshHandler.removeCallbacksAndMessages(null)
     }
