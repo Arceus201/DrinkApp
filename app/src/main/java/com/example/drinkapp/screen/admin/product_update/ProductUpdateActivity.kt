@@ -52,11 +52,12 @@ class ProductUpdateActivity :
         }
 
         presenter = ProductUpdatePresenter(
-            this,
+            null,
             CallApiCategory.getInstance(),
             CallApiDrink.getInstance(),
             CallApiPriceSize.getInstance()
         )
+        presenter.attachView(this)
         presenter.getAllCategory()
     }
 
@@ -217,6 +218,11 @@ class ProductUpdateActivity :
     override fun onFail(msg: String) {
         binding.buttonUpdateProduct.isEnabled = false
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object {

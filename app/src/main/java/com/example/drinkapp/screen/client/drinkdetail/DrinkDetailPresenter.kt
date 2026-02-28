@@ -11,17 +11,26 @@ import com.example.drinkapp.data.resource.call.CallApiPriceSize
 import com.example.drinkapp.utils.formatAsNumber
 
 class DrinkDetailPresenter(
-    private val view: DrinkDetailContract.View,
+    private var view: DrinkDetailContract.View?,
     private val callApiDrink: CallApiDrink,
     private val callApiPriceSize: CallApiPriceSize,
     private val callApiCartItem: CallApiCartItem
 ) : DrinkDetailContract.Presenter {
+    
+    override fun attachView(view: DrinkDetailContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getProductById(id: Long) {
         callApiDrink.getProductById(
             id,
             object : OnResultListener<Product>{
                 override fun onSuccess(product: Product) {
-                    view.onGetProductSuccess(product)
+                    view?.onGetProductSuccess(product)
                 }
 
                 override fun onFail(message: String) {
@@ -33,8 +42,8 @@ class DrinkDetailPresenter(
     }
 
     override fun changeQuantity(index: Long, action: Long) {
-        if(index == 1L && action == -1L) return view.onFail(MESS_UPĐATE_CART_ITEM_NUMBER_ERRROR)
-        else return view.onChangeQuantitySuccess(index+action)
+        if(index == 1L && action == -1L) return view?.onFail(MESS_UPDATE_CART_ITEM_NUMBER_ERRROR) ?: Unit
+        else return view?.onChangeQuantitySuccess(index+action) ?: Unit
     }
 
     override fun getListPriceSize(idProduct: Long) {
@@ -45,7 +54,7 @@ class DrinkDetailPresenter(
                     val data: List<Pair<Long, String>> = list
                         .filter { it.id != null && it.size.name != null }
                         .map { it.id!! to  it.size.name + " Giá " + it.price.formatAsNumber() + " đ"}
-                    view.onGetListPriceSizeSuccess(data)
+                    view?.onGetListPriceSizeSuccess(data)
                 }
 
                 override fun onFail(message: String) {
@@ -61,11 +70,11 @@ class DrinkDetailPresenter(
             user_id, priseSizeId,
             object : OnResultListener<CartItem>{
                 override fun onSuccess(list: CartItem) {
-                    view.onCheckCartItemSuccess(list)
+                    view?.onCheckCartItemSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onCheckFail()
+                    view?.onCheckFail()
                 }
 
             }
@@ -77,11 +86,11 @@ class DrinkDetailPresenter(
             pricesize_id,user_id,number,note,
             object : OnResultListener<CartItem>{
                 override fun onSuccess(list: CartItem) {
-                    view.onAddToCartSuccess(list)
+                    view?.onAddToCartSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ADD_TO_CART_FAIL)
+                    view?.onFail(MESS_ADD_TO_CART_FAIL)
                 }
             }
         )
@@ -92,11 +101,11 @@ class DrinkDetailPresenter(
             id,number,
             object: OnResultListener<CartItem>{
                 override fun onSuccess(list: CartItem) {
-                    view.onAddToCartSuccess(list)
+                    view?.onAddToCartSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ADD_TO_CART_FAIL)
+                    view?.onFail(MESS_ADD_TO_CART_FAIL)
                 }
             }
         )
@@ -107,26 +116,25 @@ class DrinkDetailPresenter(
             id,number,note,
             object: OnResultListener<CartItem>{
                 override fun onSuccess(list: CartItem) {
-                    view.onAddToCartSuccess(list)
+                    view?.onAddToCartSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ADD_TO_CART_FAIL)
+                    view?.onFail(MESS_ADD_TO_CART_FAIL)
                 }
             }
         )
     }
 
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        // TODO("Not yet implemented")
+        detachView()
     }
 
     companion object{
-        const val MESS_UPĐATE_CART_ITEM_NUMBER_ERRROR = "số lượng sản phẩm không hợp lệ"
+        const val MESS_UPDATE_CART_ITEM_NUMBER_ERRROR = "số lượng sản phẩm không hợp lệ"
         const val MESS_ADD_TO_CART_FAIL = "thêm sản phẩm vào giỏ hàng lỗi"
     }
 

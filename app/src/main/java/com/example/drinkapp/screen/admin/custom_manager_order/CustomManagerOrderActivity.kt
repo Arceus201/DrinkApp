@@ -26,7 +26,8 @@ class CustomManagerOrderActivity :
 
     override fun initData() {
         var user_id = intent.getLongExtra(Constant.KEY_ORDER_MANAGER,-1L)
-        presenter = CustomManagerOrderPresenter(this, CallApiOrder.getInstance())
+        presenter = CustomManagerOrderPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if(user_id != -1L) presenter.getAllOrderByUserInUserManager(user_id)
     }
 
@@ -54,5 +55,10 @@ class CustomManagerOrderActivity :
 
     override fun onFail(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 }

@@ -9,11 +9,19 @@ import com.example.drinkapp.data.resource.call.CallApiAddressVN
 import com.example.drinkapp.data.resource.dto.address.AddressDTO
 
 class AddAddressPresenter(
-    private val view: AddAddressContract.View,
+    private var view: AddAddressContract.View?,
     private val callAPi: CallApiAddress,
     private val callApiAddressVn: CallApiAddressVN
 ) :
     AddAddressContract.Presenter {
+
+    override fun attachView(view: AddAddressContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
 
     override fun addAddress(user_id: Long, name: String, phone: String, address: String) {
         val addressDTO = AddressDTO(user_id, name, phone, address)
@@ -21,11 +29,11 @@ class AddAddressPresenter(
             addressDTO,
             object : OnResultListener<Address> {
                 override fun onSuccess(list: Address) {
-                    view.onAddSuccess(list)
+                    view?.onAddSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_ADD_ADDRESS_FAIL)
+                    view?.onFail(MESSAGE_ADD_ADDRESS_FAIL)
                 }
 
             }
@@ -36,15 +44,22 @@ class AddAddressPresenter(
         callApiAddressVn.getAddressVN(
             object : OnResultListener<List<City>>{
                 override fun onSuccess(list: List<City>) {
-                    view.onGetAllAddressVnSuccess(list)
+                    view?.onGetAllAddressVnSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetAllAddressVnFail()
+                    view?.onGetAllAddressVnFail()
                 }
 
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
     companion object{
         const val MESSAGE_ADD_ADDRESS_FAIL = "thêm địa chỉ không thành công"

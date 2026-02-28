@@ -7,15 +7,24 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiCategory
 import com.example.drinkapp.data.resource.call.CallApiDrink
 import com.example.drinkapp.data.resource.call.CallApiPriceSize
+import com.example.drinkapp.screen.admin.product_update.ProductUpdatePresenterCoroutine.Companion.MESS_UPDATE_PRODUCT_FAIL
 
 
 class ProductUpdatePresenter(
-    private val view: ProductUpdateContract.View,
+    private var view: ProductUpdateContract.View?,
     private val callApiCate: CallApiCategory,
     private val callApi: CallApiDrink,
     private val callApiPriceSize: CallApiPriceSize,
 ) :
     ProductUpdateContract.Presenter {
+
+    override fun attachView(view: ProductUpdateContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
 
     override fun getAllCategory() {
         callApiCate.getAllCategory(
@@ -25,7 +34,7 @@ class ProductUpdatePresenter(
                         val data: List<Pair<Long, String>> = list
                             .filter { it.id != null && it.name != null }
                             .map { it.id!! to it.name!! }
-                        view.displayAllCategory(data)
+                        view?.displayAllCategory(data)
                     }
                 }
 
@@ -46,11 +55,11 @@ class ProductUpdatePresenter(
         callApi.updateProduct(id, name, imageUri, price, statusCode, cateId,
             object : OnResultListener<Product> {
                 override fun onSuccess(list: Product) {
-                    view.onUpdateSuccess()
+                    view?.onUpdateSuccess()
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_UPADTE_PRODUCT_FAIL)
+                    view?.onFail(MESS_UPDATE_PRODUCT_FAIL)
                 }
             })
     }
@@ -60,11 +69,11 @@ class ProductUpdatePresenter(
             idProduct, idSize, price, status,
             object : OnResultListener<PriceSize> {
                 override fun onSuccess(list: PriceSize) {
-                    view.onUpdatePriiceSizeSuccess(MESS_UPDATE_PRODUCT_SUCSESS)
+                    view?.onUpdatePriiceSizeSuccess(MESS_UPDATE_PRODUCT_SUCSESS)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_UPADTE_PRODUCT_FAIL)
+                    view?.onFail(MESS_UPDATE_PRODUCT_FAIL)
                 }
 
             }
@@ -73,19 +82,18 @@ class ProductUpdatePresenter(
 
     override fun checkInputUpdate(name: String, imageUri: String, price: String) {
         if(name.isNullOrEmpty() or imageUri.isNullOrEmpty() or price.isNullOrEmpty()){
-            view.onFail(MESS_CHECK_INPUT_UPDATE_FAIL)
+            view?.onFail(MESS_CHECK_INPUT_UPDATE_FAIL)
         }else{
-            view.onCheckInputUpdateSuccess(imageUri)
+            view?.onCheckInputUpdateSuccess(imageUri)
         }
     }
 
 
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        //TODO("Not yet implemented")
+        detachView()
     }
     companion object{
         const val MESS_UPDATE_PRODUCT_SUCSESS = "cập nhật sản phẩm thành công"

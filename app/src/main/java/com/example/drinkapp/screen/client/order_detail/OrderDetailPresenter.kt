@@ -7,17 +7,26 @@ import com.example.drinkapp.data.resource.call.CallApiAddress
 import com.example.drinkapp.data.resource.call.CallApiOrder
 
 class OrderDetailPresenter(
-    private val view: OrderDetailContract.View,
+    private var view: OrderDetailContract.View?,
     private val callApi: CallApiOrder,
     private val callApiAddress: CallApiAddress
 ) :
     OrderDetailContract.Presenter {
+    
+    override fun attachView(view: OrderDetailContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getOrder(id: Long) {
         callApi.getOrder(
             id,
             object : OnResultListener<Order>{
                 override fun onSuccess(list: Order) {
-                    view.onGetOrderSuccess(list)
+                    view?.onGetOrderSuccess(list)
                 }
 
                 override fun onFail(message: String) {
@@ -33,14 +42,21 @@ class OrderDetailPresenter(
         callApiAddress.getAddressStore(
             object : OnResultListener<Address>{
                 override fun onSuccess(list: Address) {
-                   view.onGetAddressStoreSuccess(list)
+                   view?.onGetAddressStoreSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetAddressStoreFail()
+                    view?.onGetAddressStoreFail()
                 }
 
             }
         )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
 }

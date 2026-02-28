@@ -6,6 +6,7 @@ import com.example.drinkapp.data.resource.dto.category.CategoryDTO
 import com.example.drinkapp.data.resource.response.category.CategoryResponse
 import com.example.drinkapp.data.resource.retrofit.CategoryApiService
 import com.example.drinkapp.utils.Constant
+import com.example.drinkapp.utils.ErrorHandler
 import com.example.drinkapp.utils.RetrofitHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,27 +32,33 @@ class CallApiCategory {
         callApi(call,listen)
     }
 
-    fun callApi(call: Call<CategoryResponse>,listen: OnResultListener<List<Category>>){
+    private fun callApi(call: Call<CategoryResponse>, listen: OnResultListener<List<Category>>) {
         call.enqueue(object : Callback<CategoryResponse> {
             override fun onResponse(
-                call: Call<CategoryResponse>, response: Response<CategoryResponse>
+                call: Call<CategoryResponse>,
+                response: Response<CategoryResponse>
             ) {
                 if (response.isSuccessful) {
                     val categoriesResponse = response.body()
                     if (categoriesResponse != null) {
                         val categories = categoriesResponse.categories
-                        if (categories != null && categories.isNotEmpty()) listen.onSuccess(categories)
+                        if (categories != null && categories.isNotEmpty()) {
+                            listen.onSuccess(categories)
+                        } else {
+                            listen.onFail(Constant.MESS_CALL_API_NOT_FOUND)
+                        }
                     } else {
                         listen.onFail(Constant.MESS_CALL_API_NOT_FOUND)
                     }
                 } else {
-                    listen.onFail(Constant.MESS_CALL_API_FAIL)
+                    val errorMessage = ErrorHandler.getErrorMessage(response)
+                    listen.onFail(errorMessage)
                 }
             }
 
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
-                val errorResponse = t.message ?: "Network error"
-                listen.onFail(errorResponse)
+                val errorMessage = ErrorHandler.getNetworkErrorMessage(t)
+                listen.onFail(errorMessage)
             }
         })
     }

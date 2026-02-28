@@ -1,7 +1,10 @@
 package com.example.drinkapp.screen.admin.adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.PriceSize
@@ -10,19 +13,14 @@ import com.example.drinkapp.utils.formatAsNumber
 import com.example.drinkapp.utils.listener.OnItemPriceSizeClickListener
 
 class RecyclerViewPriceSizeAdapter(private val itemClickListener: OnItemPriceSizeClickListener) :
-    RecyclerView.Adapter<RecyclerViewPriceSizeAdapter.ViewHolder?>() {
+    ListAdapter<PriceSize, RecyclerViewPriceSizeAdapter.ViewHolder>(PriceSizeDiffCallback()) {
 
-    private val listPriceSize = mutableListOf<PriceSize>()
     fun setData(list: List<PriceSize>) {
-        this.listPriceSize.apply {
-            clear()
-            addAll(list)
-        }
-        notifyDataSetChanged()
+        submitList(list)
     }
+
     fun clearData() {
-        listPriceSize.clear()
-        notifyDataSetChanged()
+        submitList(emptyList())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,23 +29,23 @@ class RecyclerViewPriceSizeAdapter(private val itemClickListener: OnItemPriceSiz
         return ViewHolder(viewBinding)
     }
 
-    override fun getItemCount(): Int {
-        return listPriceSize.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val priceSize = listPriceSize.get(position)
+        val priceSize = getItem(position)
         holder.viewBinding.apply {
             textName.text = priceSize.size.name
             textPrice.text = priceSize.price.formatAsNumber()
-            if(priceSize.status == 1L) buttonShowHide.setImageResource(R.drawable.ic_current_show)
-            else buttonShowHide.setImageResource(R.drawable.ic_current_hide)
+            if (priceSize.status == 1L) {
+                buttonShowHide.setImageResource(R.drawable.ic_current_show)
+            } else {
+                buttonShowHide.setImageResource(R.drawable.ic_current_hide)
+            }
 
-            if(priceSize.size.name.equals("O")){
+            if (priceSize.size.name.equals("O")) {
                 buttonShowHide.visibility = View.INVISIBLE
-            }else{
-                buttonShowHide.setOnClickListener{
-                    priceSize.status = -1*(priceSize.status)
+            } else {
+                buttonShowHide.visibility = View.VISIBLE
+                buttonShowHide.setOnClickListener {
+                    priceSize.status = -1 * (priceSize.status)
                     itemClickListener.onItemHideShowPSClick(priceSize)
                 }
             }
@@ -55,7 +53,15 @@ class RecyclerViewPriceSizeAdapter(private val itemClickListener: OnItemPriceSiz
     }
 
     inner class ViewHolder(var viewBinding: ItemDrinkSizeBinding) :
-        RecyclerView.ViewHolder(viewBinding.root) {
+        RecyclerView.ViewHolder(viewBinding.root)
 
+    private class PriceSizeDiffCallback : DiffUtil.ItemCallback<PriceSize>() {
+        override fun areItemsTheSame(oldItem: PriceSize, newItem: PriceSize): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: PriceSize, newItem: PriceSize): Boolean {
+            return oldItem == newItem
+        }
     }
 }

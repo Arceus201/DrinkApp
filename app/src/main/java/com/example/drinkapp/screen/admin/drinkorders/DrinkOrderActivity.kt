@@ -21,7 +21,8 @@ OnItemDrinkOrderClickListener{
     }
 
     override fun initData() {
-        presenter = DrinkOrderPresenter(this, CallApiRevenue.getInstance())
+        presenter = DrinkOrderPresenter(null, CallApiRevenue.getInstance())
+        presenter.attachView(this)
         val intent = getIntent()
         val name = intent.getStringExtra(Constant.KEY_NAME)
         val startTime = intent.getStringExtra(Constant.KEY_START)
@@ -60,5 +61,10 @@ OnItemDrinkOrderClickListener{
         val intent = Intent(this, OrderDetailActivity::class.java)
         intent.putExtra(Constant.KEY_ORDER, id_order)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 }

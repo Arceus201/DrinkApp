@@ -67,10 +67,11 @@ class ConfirmOrderActivity :
         }
 
         presenter = ConfirmOrderPresenter(
-            this,
+            null,
             ExchangeRateAPI.getInstance(),
             CallApiOrder.getInstance()
         )
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -217,10 +218,15 @@ class ConfirmOrderActivity :
         super.onBackPressed()
         finish()
     }
-    companion object{
-        const val MESS_PAYMENT_CANCEL ="thanh toán bị hủy"
-        const val MESS_PAYMENT_ERROR ="thanh toán bị lỗi"
-        const val MESS_CHOSE_ADDRESS = "bạn cần chọn địa chỉ trước khi thanh toán"
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
+    companion object {
+        const val MESS_PAYMENT_CANCEL = "thanh toán bị hủy"
+        const val MESS_PAYMENT_ERROR = "thanh toán bị lỗi"
+        const val MESS_CHOSE_ADDRESS = "bạn cần chọn địa chỉ trước khi thanh toán"
+    }
 }

@@ -1,7 +1,8 @@
 package com.example.drinkapp.utils.base
 
-interface BasePresenter<T>{
+interface BasePresenter<T> {
+    fun attachView(view: T)
+    fun detachView()
     fun onStart()
     fun onStop()
-//    fun setView(view: T?)
 }

@@ -34,7 +34,8 @@ class ResetPasswordActivity :
     }
 
     override fun initData() {
-        presenter = ResetPasswordPresenter(this, CallApiUser.getInstance())
+        presenter = ResetPasswordPresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -135,6 +136,12 @@ class ResetPasswordActivity :
     override fun onFail(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
+
     companion object{
         const val KEY_CONFIRMPASSWORD_ERROR = "mật khẩu xác nhận không chính xác"
         private const val KEY_UPDATE_PASSWORD_SUCCESS = "cập nhật mật khẩu thành công"

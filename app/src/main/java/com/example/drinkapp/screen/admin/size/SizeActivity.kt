@@ -30,7 +30,8 @@ class SizeActivity :
     }
 
     override fun initData() {
-        presenter = SizePresenter(this,CallApiSize.getInstance())
+        presenter = SizePresenter(null,CallApiSize.getInstance())
+        presenter.attachView(this)
         presenter?.getAllSize()
     }
 
@@ -83,6 +84,11 @@ class SizeActivity :
         binding.buttonSave.text = TEXT_UPDTAE
         binding.buttonCancel.visibility = View.VISIBLE
 
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object{

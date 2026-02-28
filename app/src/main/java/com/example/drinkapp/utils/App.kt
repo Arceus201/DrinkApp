@@ -8,7 +8,9 @@ import com.paypal.checkout.config.SettingsConfig
 import com.paypal.checkout.createorder.CurrencyCode
 import com.paypal.checkout.createorder.UserAction
 import com.example.drinkapp.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
 
     var clientID = BuildConfig.API_KEY_ID_PAYPAL

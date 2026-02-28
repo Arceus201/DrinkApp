@@ -5,20 +5,29 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiCartItem
 
 class CartPresenter(
-    private val view: CartContract.View,
+    private var view: CartContract.View?,
     private val callApi: CallApiCartItem
 ) :
     CartContract.Presenter {
+    
+    override fun attachView(view: CartContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getAllCartItemByUserID(user_id: Long) {
         callApi.getAllCartItemByUserID(
             user_id,
             object : OnResultListener<List<CartItem>>{
                 override fun onSuccess(list: List<CartItem>) {
-                    view.onDisplayAllCartSuccess(list)
+                    view?.onDisplayAllCartSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onDisplayAllCartFail()
+                    view?.onDisplayAllCartFail()
                 }
 
             }
@@ -30,11 +39,11 @@ class CartPresenter(
             id,number,
             object : OnResultListener<CartItem>{
                 override fun onSuccess(list: CartItem) {
-                    view.onUpdateCartNumberSuccess(list)
+                    view?.onUpdateCartNumberSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_UPĐATE_CART_ITEM_NUMBER_ERRROR)
+                    view?.onFail(MESS_UPDATE_CART_ITEM_NUMBER_ERRROR)
                 }
 
             }
@@ -46,11 +55,11 @@ class CartPresenter(
             id,
             object: OnResultListener<String>{
                 override fun onSuccess(list: String) {
-                    view.onDeleteCartItemByIdSuccess(id)
+                    view?.onDeleteCartItemByIdSuccess(id)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_DELETE_FAIL)
+                    view?.onFail(MESSAGE_DELETE_FAIL)
                 }
 
             }
@@ -62,20 +71,27 @@ class CartPresenter(
             user_id,
             object :OnResultListener<String>{
                 override fun onSuccess(list: String) {
-                    view.onDeleteAllSuccess()
+                    view?.onDeleteAllSuccess()
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_DELETE_ALL_FAIL)
+                    view?.onFail(MESSAGE_DELETE_ALL_FAIL)
                 }
 
             }
         )
     }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
+    }
     companion object{
         const val MESSAGE_DELETE_ALL_FAIL = "xóa tất cả sản phẩm lỗi"
         const val MESSAGE_DELETE_FAIL = "xóa ản phẩm lỗi"
-        const val MESS_UPĐATE_CART_ITEM_NUMBER_ERRROR = "cập nhật số lượng sản phẩm lỗi"
+        const val MESS_UPDATE_CART_ITEM_NUMBER_ERRROR = "cập nhật số lượng sản phẩm lỗi"
     }
 
 }

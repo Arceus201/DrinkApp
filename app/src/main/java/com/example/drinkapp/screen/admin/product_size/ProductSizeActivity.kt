@@ -41,7 +41,8 @@ class ProductSizeActivity :
     override fun initData() {
         product = intent.getSerializableExtra(Constant.KEY_PRODUCT) as Product
         presenter =
-            ProductSizePresenter(this, CallApiSize.getInstance(), CallApiPriceSize.getInstance())
+            ProductSizePresenter(null, CallApiSize.getInstance(), CallApiPriceSize.getInstance())
+        presenter.attachView(this)
         presenter.getALLSize()
         presenter.getAllPriceSize(product.id)
     }
@@ -136,6 +137,11 @@ class ProductSizeActivity :
             dialog.dismiss()
         }
         alertDialog.show()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object {

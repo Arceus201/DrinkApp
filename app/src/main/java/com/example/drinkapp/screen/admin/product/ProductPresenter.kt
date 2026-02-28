@@ -4,17 +4,26 @@ import com.example.drinkapp.data.model.Product
 import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiDrink
 
-class ProductPresenter(private val view: ProductContract.View, private val callApi: CallApiDrink) :
+class ProductPresenter(private var view: ProductContract.View?, private val callApi: CallApiDrink) :
     ProductContract.Presenter {
+    
+    override fun attachView(view: ProductContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getAllDrink() {
         callApi.getAllDrink(
             object : OnResultListener<List<Product>>{
                 override fun onSuccess(list: List<Product>) {
-                    view.showAllDrinkSuccess(list)
+                    view?.showAllDrinkSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.showAllDrinkFail()
+                    view?.showAllDrinkFail()
                 }
 
             }
@@ -32,11 +41,11 @@ class ProductPresenter(private val view: ProductContract.View, private val callA
         callApi.updateProduct(id, name, imageUri, price, statusCode, cateId,
             object : OnResultListener<Product> {
                 override fun onSuccess(list: Product) {
-                    view.onUpdateSuccess(MESS_UPDATE_STATUS_SUCCESS)
+                    view?.onUpdateSuccess(MESS_UPDATE_STATUS_SUCCESS)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_UPDATE_STATUS_FAIL)
+                    view?.onFail(MESS_UPDATE_STATUS_FAIL)
                 }
             })
     }
@@ -46,26 +55,22 @@ class ProductPresenter(private val view: ProductContract.View, private val callA
             id,
             object : OnResultListener<String>{
                 override fun onSuccess(list: String) {
-                   view.onDeleteProductSuccess(MESS_DELETE_SUCCESS)
+                   view?.onDeleteProductSuccess(MESS_DELETE_SUCCESS)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_DELETE_FAIL)
+                    view?.onFail(MESS_DELETE_FAIL)
                 }
 
             }
         )
     }
 
-
-
-
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        //TODO("Not yet implemented")
+        detachView()
     }
 
     companion object{

@@ -6,20 +6,36 @@ import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.data.resource.dto.order.OrderStatusDTO
 
 class DeliveringPresenter(
-    private val view: DeliveringContract.View,
+    private var view: DeliveringContract.View?,
     private val callApi: CallApiOrder
 ) : DeliveringContract.Presenter {
+    
+    override fun attachView(view: DeliveringContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getListOrder(order_status: Long) {
         callApi.getAllOrderByStatus(order_status,
             object : OnResultListener<List<Order>> {
                 override fun onSuccess(list: List<Order>) {
-                    view.onGetListOrderSuccess(list)
+                    view?.onGetListOrderSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetListOrderFail()
+                    view?.onGetListOrderFail()
                 }
 
             })
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
 }

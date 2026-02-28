@@ -1,6 +1,7 @@
 package com.example.drinkapp.screen.admin.drinkorders
 
 import com.example.drinkapp.data.model.DrinkOrders
+import com.example.drinkapp.utils.base.BasePresenter
 
 interface DrinkOrderContract {
     interface View{
@@ -8,7 +9,7 @@ interface DrinkOrderContract {
         fun onGetDrinkOrdersFail()
         fun onFail(msg: String)
     }
-    interface Presenter{
+    interface Presenter : BasePresenter<View> {
         fun getDrinkOrders(name: String, startTime: String, endTime: String)
     }
 }

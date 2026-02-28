@@ -24,13 +24,15 @@ SearchContract.View, OnItemDrinkClientClickListener {
     }
 
     override fun initData() {
-        presenter = SearchPresenter(this, CallApiDrink.getInstance())
+        presenter = SearchPresenter(null, CallApiDrink.getInstance())
+        presenter.attachView(this)
         presenter?.getAllProduct()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter = SearchPresenter(this, CallApiDrink.getInstance())
+        presenter = SearchPresenter(null, CallApiDrink.getInstance())
+        presenter.attachView(this)
         presenter?.getAllProduct()
     }
 
@@ -80,5 +82,10 @@ SearchContract.View, OnItemDrinkClientClickListener {
         val intent = Intent(this, DrinkDetailActivity::class.java)
         intent.putExtra(Constant.KEY_PRODUCT_ID, id)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 }

@@ -4,8 +4,16 @@ import com.example.drinkapp.data.model.User
 import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiUser
 
-class ConfirmOTPPresenter (private val view: ConfirmOTPContract.View, private val callApi: CallApiUser) :
+class ConfirmOTPPresenter (private var view: ConfirmOTPContract.View?, private val callApi: CallApiUser) :
     ConfirmOTPContract.Presenter {
+
+    override fun attachView(view: ConfirmOTPContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
 
     override fun handlerSignUp(
         username: String,
@@ -18,11 +26,11 @@ class ConfirmOTPPresenter (private val view: ConfirmOTPContract.View, private va
             password,
             object : OnResultListener<User> {
                 override fun onSuccess(user: User) {
-                    view.onSignUpSuccess(MESSAGE_SIGN_UP_SUCCESS)
+                    view?.onSignUpSuccess(MESSAGE_SIGN_UP_SUCCESS)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESSAGE_SIGN_UP_FAIL)
+                    view?.onFail(MESSAGE_SIGN_UP_FAIL)
                 }
 
             }
@@ -31,11 +39,10 @@ class ConfirmOTPPresenter (private val view: ConfirmOTPContract.View, private va
 
 
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        //TODO("Not yet implemented")
+        detachView()
     }
     companion object{
         const val MESSAGE_SIGN_UP_SUCCESS = "đăng ký tài khoản thành công"

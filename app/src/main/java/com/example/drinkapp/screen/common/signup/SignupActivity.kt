@@ -33,7 +33,8 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
 
     override fun initData() {
         mAuth = FirebaseAuth.getInstance()
-        presenter = SignupPresenter(this)
+        presenter = SignupPresenter(null)
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -144,6 +145,11 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
     override fun isValidPassworFail() {
         checkPassword = false
         binding.textFormatPassword.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
     companion object {

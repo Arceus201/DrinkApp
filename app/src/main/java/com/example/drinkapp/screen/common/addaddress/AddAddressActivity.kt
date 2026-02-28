@@ -51,10 +51,11 @@ class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressB
         var userData = UserManager.getUserInfo(applicationContext)
         user_Id = userData.id
         presenter = AddAddressPresenter(
-            this,
+            null,
             CallApiAddress.getInstance(),
             CallApiAddressVN.getInstance()
         )
+        presenter.attachView(this)
         presenter.getAllAddressVN()
     }
 
@@ -212,6 +213,12 @@ class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressB
             binding.spinnerWard.adapter = adapter
         }
     }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
+
     companion object{
         const val KEY_MISSING_INFORMATION = "bạn cần nhập đầy đủ các trường thông tin"
     }

@@ -25,7 +25,8 @@ class DeliveringActivity :
     }
 
     override fun initData() {
-        presenter = DeliveringPresenter(this, CallApiOrder.getInstance())
+        presenter = DeliveringPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         presenter.getListOrder(3L)
 
     }
@@ -92,6 +93,11 @@ class DeliveringActivity :
     override fun onGetListOrderFail() {
         listOrder.clear()
         adapter.clearData()
+    }
+
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
     }
 
 }

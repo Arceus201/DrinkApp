@@ -2,6 +2,7 @@ package com.example.drinkapp.screen.client.order_detail
 
 import com.example.drinkapp.data.model.Address
 import com.example.drinkapp.data.model.Order
+import com.example.drinkapp.utils.base.BasePresenter
 
 interface OrderDetailContract {
     interface View {
@@ -13,7 +14,7 @@ interface OrderDetailContract {
         fun onFail(msg: String)
     }
 
-    interface Presenter {
+    interface Presenter : BasePresenter<View> {
         fun getOrder(id: Long)
         fun getAddressStore()
     }

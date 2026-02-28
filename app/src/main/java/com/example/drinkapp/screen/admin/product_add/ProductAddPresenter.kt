@@ -11,12 +11,20 @@ import com.example.drinkapp.data.resource.call.CallApiPriceSize
 
 
 class ProductAddPresenter(
-    private val view: ProductAddContract.View,
+    private var view: ProductAddContract.View?,
     private val callApiDrink: CallApiDrink,
     private val callApiCate: CallApiCategory,
     private val callApiPriceSize: CallApiPriceSize,
 ) :
     ProductAddContract.Presenter {
+
+    override fun attachView(view: ProductAddContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
 
     override fun getAllCategory() {
         callApiCate.getAllCategory(
@@ -26,7 +34,7 @@ class ProductAddPresenter(
                         val data: List<Pair<Long, String>> = list
                             .filter { it.id != null && it.name != null }
                             .map { it.id!! to it.name!! }
-                        view.displayAllCategory(data)
+                        view?.displayAllCategory(data)
                     }
                 }
 
@@ -48,11 +56,11 @@ class ProductAddPresenter(
         callApiDrink.addProduct(name, imageUri, price, statusCode, cateId,
             object : OnResultListener<Product> {
                 override fun onSuccess(product: Product) {
-                    view.onProductAdded( product)
+                    view?.onProductAdded( product)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ADD_PRODUCT_FAIL)
+                    view?.onFail(MESS_ADD_PRODUCT_FAIL)
                 }
             }
         )
@@ -64,9 +72,9 @@ class ProductAddPresenter(
         price: String
     ) {
         if(name.isNullOrEmpty() or (imageUri == null) or price.isNullOrEmpty()){
-            view.onFail(MESS_CEHCK_INPUT_ADD_FAIL)
+            view?.onFail(MESS_CEHCK_INPUT_ADD_FAIL)
         }else{
-            view.onCheckInputAddSuccess()
+            view?.onCheckInputAddSuccess()
         }
     }
 
@@ -74,11 +82,11 @@ class ProductAddPresenter(
         callApiPriceSize.addPriceSize(idProduct, idSize, price,
             object : OnResultListener<List<PriceSize>> {
                 override fun onSuccess(list: List<PriceSize>) {
-                    view.addPriceSize(MESS_ADD_PRODUCT_FAIL)
+                    view?.addPriceSize(MESS_ADD_PRODUCT_FAIL)
                 }
 
                 override fun onFail(message: String) {
-                    view.onFail(MESS_ADD_PRODUCT_SUCSESS)
+                    view?.onFail(MESS_ADD_PRODUCT_SUCSESS)
                 }
 
             })
@@ -86,11 +94,10 @@ class ProductAddPresenter(
 
 
     override fun onStart() {
-        //TODO("Not yet implemented")
     }
 
     override fun onStop() {
-        // TODO("Not yet implemented")
+        detachView()
     }
     companion object{
         const val MESS_ADD_PRODUCT_SUCSESS = "thêm sản phẩm thành công"

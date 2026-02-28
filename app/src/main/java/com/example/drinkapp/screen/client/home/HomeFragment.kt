@@ -27,13 +27,15 @@ class HomeFragment:BaseFragment<ClientFragmentHomeBinding>(ClientFragmentHomeBin
     }
 
     override fun initData() {
-        presenter = HomePresenter(this, CallApiDrink.getInstance())
+        presenter = HomePresenter(null, CallApiDrink.getInstance())
+        presenter.attachView(this)
         presenter?.getProductHot()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter = HomePresenter(this, CallApiDrink.getInstance())
+        presenter = HomePresenter(null, CallApiDrink.getInstance())
+        presenter.attachView(this)
         presenter?.getProductHot()
     }
 
@@ -60,5 +62,10 @@ class HomeFragment:BaseFragment<ClientFragmentHomeBinding>(ClientFragmentHomeBin
         val intent = Intent(context, DrinkDetailActivity::class.java)
         intent.putExtra(Constant.KEY_PRODUCT_ID, id)
         startActivity(intent)
+    }
+
+    override fun onDestroyView() {
+        presenter.onStop()
+        super.onDestroyView()
     }
 }

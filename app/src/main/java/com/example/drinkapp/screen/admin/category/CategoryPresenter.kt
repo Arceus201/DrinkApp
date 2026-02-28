@@ -1,70 +1,86 @@
 package com.example.drinkapp.screen.admin.category
 
-
 import com.example.drinkapp.data.model.Category
 import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiCategory
 
 class CategoryPresenter(
-    private val view: CategoryContract.View,
+    private var view: CategoryContract.View?,
     private val callApi: CallApiCategory
 ) : CategoryContract.Presenter {
 
+    override fun attachView(view: CategoryContract.View) {
+        this.view = view
+    }
+
+    override fun detachView() {
+        view = null
+    }
 
     override fun getAllCategory() {
+        view?.showLoading()
         callApi.getAllCategory(
             object : OnResultListener<List<Category>> {
                 override fun onSuccess(list: List<Category>) {
-                    view.displaySuccess(list)
+                    view?.hideLoading()
+                    view?.displaySuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.displayFail()
+                    view?.hideLoading()
+                    view?.displayFail()
                 }
             }
         )
     }
 
     override fun addCategory(name: String) {
-        callApi.addCategory(name,
+        view?.showLoading()
+        callApi.addCategory(
+            name,
             object : OnResultListener<List<Category>> {
                 override fun onSuccess(list: List<Category>) {
-                    view.displaySuccess(list)
+                    view?.hideLoading()
+                    view?.displaySuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.addUpDateFail(UPADTE_FAIL)
+                    view?.hideLoading()
+                    view?.addUpDateFail(UPDATE_FAIL)
                 }
             }
         )
     }
 
     override fun updateCategory(id: Long?, category: Category) {
-        callApi.updateCategory(id,
+        view?.showLoading()
+        callApi.updateCategory(
+            id,
             category,
             object : OnResultListener<List<Category>> {
                 override fun onSuccess(list: List<Category>) {
-                    view.displaySuccess(list)
+                    view?.hideLoading()
+                    view?.displaySuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.addUpDateFail(ADD_FAIL)
+                    view?.hideLoading()
+                    view?.addUpDateFail(ADD_FAIL)
                 }
             }
         )
     }
 
     override fun onStart() {
-        //TODO("Not yet implemented")
+        // Lifecycle method - can be used for subscriptions
     }
 
     override fun onStop() {
-        // TODO("Not yet implemented")
+        detachView()
     }
 
     companion object {
-        const val UPADTE_FAIL = "cập nhật tên loại sản phẩm không thành công"
+        const val UPDATE_FAIL = "cập nhật tên loại sản phẩm không thành công"
         const val ADD_FAIL = "thêm tên loại sản phẩm không thành công"
     }
-
 }

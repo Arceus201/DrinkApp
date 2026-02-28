@@ -2,26 +2,22 @@ package com.example.drinkapp.screen.admin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drinkapp.data.model.Category
 import com.example.drinkapp.databinding.ItemCategoryBinding
 import com.example.drinkapp.utils.listener.OnItemCategoryClickListener
 
 class RecyclerViewCategoryAdapter(private val listener: OnItemCategoryClickListener) :
-    RecyclerView.Adapter<RecyclerViewCategoryAdapter.ViewHolder?>() {
-    private val listCategory = mutableListOf<Category>()
+    ListAdapter<Category, RecyclerViewCategoryAdapter.ViewHolder>(CategoryDiffCallback()) {
 
-    fun setData(listCategory : List<Category>) {
-
-        this.listCategory.apply {
-            clear()
-            addAll(listCategory)
-        }
-        notifyDataSetChanged()
+    fun setData(listCategory: List<Category>) {
+        submitList(listCategory)
     }
+
     fun clearData() {
-        listCategory.clear()
-        notifyDataSetChanged()
+        submitList(emptyList())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,27 +26,28 @@ class RecyclerViewCategoryAdapter(private val listener: OnItemCategoryClickListe
         return ViewHolder(viewBinding, listener)
     }
 
-    override fun getItemCount(): Int {
-       return listCategory.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var category = listCategory.get(position)
+        val category = getItem(position)
         holder.viewBinding.apply {
             textCategoryName.text = category.name
-            buttonUpdate.setOnClickListener{
+            buttonUpdate.setOnClickListener {
                 listener.onItemCategoryClick(position, category)
             }
-
         }
     }
 
-    inner class ViewHolder(var viewBinding: ItemCategoryBinding, listener: OnItemCategoryClickListener) :
-        RecyclerView.ViewHolder(viewBinding.root) {
-//        init {
-//            itemView.setOnClickListener {
-//                listener.onItemCategoryClick(adapterPosition, listCategory)
-//            }
-//        }
+    inner class ViewHolder(
+        var viewBinding: ItemCategoryBinding,
+        listener: OnItemCategoryClickListener
+    ) : RecyclerView.ViewHolder(viewBinding.root)
+
+    private class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
+        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return oldItem == newItem
+        }
     }
 }

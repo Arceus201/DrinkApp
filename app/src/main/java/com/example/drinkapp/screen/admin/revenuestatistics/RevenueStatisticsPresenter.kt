@@ -6,19 +6,28 @@ import com.example.drinkapp.data.resource.call.CallApiRevenue
 import java.util.*
 
 class RevenueStatisticsPresenter(
-    private val view: RevenueStatisticsContract.View,
+    private var view: RevenueStatisticsContract.View?,
     private val callApi: CallApiRevenue
 ) : RevenueStatisticsContract.Presenter{
+    
+    override fun attachView(view: RevenueStatisticsContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getRevenueStatistics(startTime: String, endTime: String) {
         callApi.getRevenueStatistics(
             startTime,endTime,
             object : OnResultListener<List<RevenueStatistics>>{
                 override fun onSuccess(list: List<RevenueStatistics>) {
-                    view.onGetRevenueStatisticsSuccess(list)
+                    view?.onGetRevenueStatisticsSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetRevenueStatisticsFail()
+                    view?.onGetRevenueStatisticsFail()
                 }
 
             }
@@ -28,12 +37,19 @@ class RevenueStatisticsPresenter(
     override fun checkTimeRevenueStatistic(startTime: Date, endTime: Date) {
         val currentTime = Calendar.getInstance().time
         if (startTime!!.after(endTime)) {
-            view.onCheckTimeFail(MESS_TIME_FAIL)
+            view?.onCheckTimeFail(MESS_TIME_FAIL)
         } else if (startTime!!.after(currentTime)) {
-            view.onCheckTimeFail(MESS_TIME_START_FAIL)
+            view?.onCheckTimeFail(MESS_TIME_START_FAIL)
         } else {
-            view.onCheckTimeRevenueStatisticSuccess()
+            view?.onCheckTimeRevenueStatisticSuccess()
         }
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
 
     companion object{

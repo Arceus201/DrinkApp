@@ -37,16 +37,16 @@ class DrinkDetailActivity :
         var userData = UserManager.getUserInfo(applicationContext)
         user_Id = userData.id
         presenter = DrinkDetailPresenter(
-            this,
+            null,
             CallApiDrink.getInstance(),
             CallApiPriceSize.getInstance(),
             CallApiCartItem.getInstance()
         )
+        presenter.attachView(this)
         intent?.getLongExtra(Constant.KEY_PRODUCT_ID, 0)?.let { productId ->
-            presenter?.getProductById(productId)
+            presenter.getProductById(productId)
             presenter.getListPriceSize(productId)
         }
-
     }
 
     override fun handleEvent() {
@@ -176,4 +176,8 @@ class DrinkDetailActivity :
         }
     }
 
+    override fun onDestroy() {
+        presenter.onStop()
+        super.onDestroy()
+    }
 }

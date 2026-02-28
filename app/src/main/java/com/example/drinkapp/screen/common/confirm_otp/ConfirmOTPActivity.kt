@@ -45,7 +45,8 @@ class ConfirmOTPActivity :
     override fun initData() {
         getDataIntent()
         mAuth = FirebaseAuth.getInstance()
-        presenter = ConfirmOTPPresenter(this, CallApiUser.getInstance())
+        presenter = ConfirmOTPPresenter(null, CallApiUser.getInstance())
+        presenter.attachView(this)
     }
 
     override fun handleEvent() {
@@ -142,6 +143,7 @@ class ConfirmOTPActivity :
     }
 
     override fun onDestroy() {
+        presenter.onStop()
         super.onDestroy()
         countDownTimer.cancel()
     }

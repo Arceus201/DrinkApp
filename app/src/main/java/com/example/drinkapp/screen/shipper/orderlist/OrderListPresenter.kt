@@ -5,19 +5,28 @@ import com.example.drinkapp.data.resource.OnResultListener
 import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.data.resource.dto.order.OrderShipperConfirmDTO
 
-class OrderListPresenter(private val view: OrderListContract.View,
+class OrderListPresenter(private var view: OrderListContract.View?,
 private  val callApi: CallApiOrder):
 OrderListContract.Presenter{
+    
+    override fun attachView(view: OrderListContract.View) {
+        this.view = view
+    }
+    
+    override fun detachView() {
+        view = null
+    }
+    
     override fun getListOrder(status: Long) {
         callApi.getAllOrderByStatus(
             status,
             object : OnResultListener<List<Order>>{
                 override fun onSuccess(list: List<Order>) {
-                    view.onGetListOrderSuccess(list)
+                    view?.onGetListOrderSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetListOrderFail()
+                    view?.onGetListOrderFail()
                 }
 
             }
@@ -29,11 +38,11 @@ OrderListContract.Presenter{
             shipper_id,
             object :OnResultListener<Order>{
                 override fun onSuccess(list: Order) {
-                    view.onGetOrderByShipperIdSuccess(list)
+                    view?.onGetOrderByShipperIdSuccess(list)
                 }
 
                 override fun onFail(message: String) {
-                    view.onGetOrderByShipperIdFail()
+                    view?.onGetOrderByShipperIdFail()
                 }
 
             }
@@ -47,15 +56,22 @@ OrderListContract.Presenter{
             orderShipperConfirmDTO,
            object :OnResultListener<Order>{
                override fun onSuccess(list: Order) {
-                   view.updateShippingOrderSucess()
+                   view?.updateShippingOrderSucess()
                }
 
                override fun onFail(message: String) {
-                   view.onFail(MESSAGE_CONFIRM_FAIL)
+                   view?.onFail(MESSAGE_CONFIRM_FAIL)
                }
 
            }
        )
+    }
+    
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+        detachView()
     }
 
     companion object{

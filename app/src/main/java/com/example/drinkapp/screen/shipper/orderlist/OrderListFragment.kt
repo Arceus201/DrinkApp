@@ -28,7 +28,8 @@ class OrderListFragment :
 
     override fun initData() {
         val userGet = context?.let { UserManager.getUserInfo(it) }
-         presenter = OrderListPresenter(this, CallApiOrder.getInstance())
+         presenter = OrderListPresenter(null, CallApiOrder.getInstance())
+         presenter.attachView(this)
         if (userGet != null) {
             userGet.id?.let { presenter.getOrderByShipperId(it) }
         }
@@ -123,7 +124,8 @@ class OrderListFragment :
     override fun onResume() {
         super.onResume()
         val userGet = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderListPresenter(this, CallApiOrder.getInstance())
+        presenter = OrderListPresenter(null, CallApiOrder.getInstance())
+        presenter.attachView(this)
         if (userGet != null) {
             userGet.id?.let { presenter.getOrderByShipperId(it) }
         }
@@ -154,5 +156,9 @@ class OrderListFragment :
         }
     }
 
+    override fun onDestroyView() {
+        presenter.onStop()
+        super.onDestroyView()
+    }
 
 }
