@@ -66,4 +66,10 @@
     <style name="TextAppearance.DrinkApp.Label" parent="TextAppearance.Material3.LabelMedium">
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
+    
+    <!-- ShapeableImageView Styles -->
+    <style name="RoundedSquare">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

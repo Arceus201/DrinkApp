@@ -33,7 +33,7 @@ class CustomManagerOrderActivity :
 
     override fun handleEvent() {
         binding.apply {
-            buttonBack.setOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
         }

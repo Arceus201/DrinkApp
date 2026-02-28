@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:background="@drawable/custom_item"
-    android:layout_weight="4"
-    android:layout_marginTop="@dimen/dp_2"
-    android:layout_height="@dimen/dp_50">
-    <TextView
-        android:id="@+id/text_name"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_width="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/sp_16"/>
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_normal"
+    android:layout_marginTop="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:strokeWidth="0dp">
 
-    <TextView
-        android:id="@+id/text_phone"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/sp_16"/>
-    <ImageButton
-        android:id="@+id/button_status"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_current_show"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_touch_target"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_normal"
+        android:gravity="center_vertical">
 
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_16"
+            android:textColor="?attr/colorOnSurface" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_status"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/min_touch_target"
+            android:layout_height="@dimen/min_touch_target"
+            app:icon="@drawable/ic_current_show"
+            app:iconTint="?attr/colorPrimary" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

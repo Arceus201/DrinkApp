@@ -26,7 +26,7 @@ class RevenueStatisticsActivity :
     private var selectedStartTime: Date = Calendar.getInstance().time
     private var selectedEndTime: Date = Calendar.getInstance().time
     override fun initView() {
-        binding.recyclerView.adapter = adapter
+        binding.recyclerViewRevenue.adapter = adapter
         val curentTime = Date()
         binding.apply {
             buttonStartTime.setText(curentTime.formatTimeStatistic())
@@ -48,6 +48,11 @@ class RevenueStatisticsActivity :
 
     override fun handleEvent() {
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+            
             buttonStartTime.setOnClickListener {
                 showDatePickerDialog(0L)
             }
@@ -56,9 +61,6 @@ class RevenueStatisticsActivity :
             }
             buttonSee.setOnClickListener {
                 presenter.checkTimeRevenueStatistic(selectedStartTime,selectedEndTime)
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
         }
     }
@@ -96,14 +98,14 @@ class RevenueStatisticsActivity :
 
     override fun onGetRevenueStatisticsSuccess(list: List<RevenueStatistics>) {
         val totalPrice = list.map { it.revenue }.sum()
-        binding.textTotalPrice.setText(totalPrice.formatAsNumber())
+        // Note: Total price display removed from layout - could be added back if needed
         adapter.setData(list)
 
     }
 
     override fun onGetRevenueStatisticsFail() {
         adapter.clearData()
-        binding.textTotalPrice.setText(R.string.total_price_default)
+        // Note: Total price display removed from layout
     }
 
     override fun onCheckTimeRevenueStatisticSuccess() {
@@ -118,7 +120,7 @@ class RevenueStatisticsActivity :
     override fun onCheckTimeFail(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         adapter.clearData()
-        binding.textTotalPrice.setText(R.string.total_price_default)
+        // Note: Total price display removed from layout
     }
 
     override fun onFail(msg: String) {

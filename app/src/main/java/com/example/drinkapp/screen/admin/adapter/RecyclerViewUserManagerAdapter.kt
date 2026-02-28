@@ -33,9 +33,9 @@ class RecyclerViewUserManagerAdapter(private val itemClickListener: OnItemUserMa
             textName.text = client.username
             textPhone.text = client.phone
             if (client.role == 1L) {
-                buttonStatus.setImageResource(R.drawable.ic_current_show)
+                buttonStatus.setIconResource(R.drawable.ic_current_show)
             } else {
-                buttonStatus.setImageResource(R.drawable.ic_current_hide)
+                buttonStatus.setIconResource(R.drawable.ic_current_hide)
             }
             root.setOnClickListener {
                 itemClickListener.onItemClick(client.id)

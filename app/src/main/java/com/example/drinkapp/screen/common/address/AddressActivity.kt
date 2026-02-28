@@ -38,6 +38,25 @@ class AddressActivity :
             status = 1
             binding.textNamePage.text = TEXT_CHOSE_ADDRESS
         }
+        
+        // Setup toolbar
+        binding.apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            toolbar.setNavigationOnClickListener {
+                if(listChose.isEmpty() or totalPrice.equals("-1")){
+                    finish()
+                }else{
+                    val intent = Intent(this@AddressActivity,ConfirmOrderActivity::class.java)
+                    intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))
+                    intent.putExtra(Constant.TOTAL_PRICE,totalPrice)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        }
+        
         adapter = RecyclerViewAddressAdapter(this,status)
         binding.recyclerView.adapter = adapter
     }
@@ -53,17 +72,6 @@ class AddressActivity :
 
     override fun handleEvent() {
         binding.apply {
-            buttonBack.setOnClickListener {
-                if(listChose.isEmpty() or totalPrice.equals("-1")){
-                    finish()
-                }else{
-                    val intent = Intent(this@AddressActivity,ConfirmOrderActivity::class.java)
-                    intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))
-                    intent.putExtra(Constant.TOTAL_PRICE,totalPrice)
-                    startActivity(intent)
-                    finish()
-                }
-            }
             buttonAddAddress.setOnClickListener {
                 val intent = Intent(this@AddressActivity, AddAddressActivity::class.java)
                 if(listChose.isEmpty() or totalPrice.equals("-1")){

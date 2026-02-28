@@ -76,6 +76,11 @@ class ProductUpdateActivity :
 
     override fun handleEvent() {
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+            
             spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -115,9 +120,6 @@ class ProductUpdateActivity :
                     product.image,
                     binding.textPrice.text.toString().trim()
                 )
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
 
         }

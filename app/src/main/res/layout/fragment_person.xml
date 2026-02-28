@@ -1,115 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_normal">
+
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_marginLeft="@dimen/dp_15"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageButton
-            android:backgroundTint="@color/white"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/margin_large">
+
+        <ImageView
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
-            android:src="@drawable/ic_person"/>
+            android:src="@drawable/ic_person"
+            app:tint="?attr/colorPrimary" />
+
         <TextView
             android:id="@+id/text_username"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/sp_25"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:orientation="horizontal"
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_25"
-            android:textSize="@dimen/sp_20"
-            android:text="@string/person_profile"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="wrap_content"/>
-        <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
             android:id="@+id/button_profile"
-            android:backgroundTint="@color/white"
-            android:layout_gravity="center_vertical"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/ic_next"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_touch_target"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_normal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:orientation="horizontal"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/person_profile"
+                android:textSize="@dimen/sp_20"
+                android:textColor="?attr/colorOnSurface" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/ic_next"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_25"
-            android:textSize="@dimen/sp_20"
-            android:text="@string/person_resetpassword"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="wrap_content"/>
-        <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
             android:id="@+id/button_reset_password"
-            android:backgroundTint="@color/white"
-            android:layout_gravity="center_vertical"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/ic_next"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_touch_target"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_normal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:orientation="horizontal"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/person_resetpassword"
+                android:textSize="@dimen/sp_20"
+                android:textColor="?attr/colorOnSurface" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/ic_next"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/text_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/text_address"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_25"
-            android:textSize="@dimen/sp_20"
-            android:text="@string/person_address"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="wrap_content"/>
-        <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_large"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
             android:id="@+id/button_address"
-            android:backgroundTint="@color/white"
-            android:layout_gravity="center_vertical"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/ic_next"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_touch_target"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_normal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/person_address"
+                android:textSize="@dimen/sp_20"
+                android:textColor="?attr/colorOnSurface" />
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_270"
-        android:layout_marginLeft="@dimen/dp_15"
-        android:orientation="horizontal"
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/ic_next"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-        <ImageButton
-            android:backgroundTint="@color/white"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:strokeWidth="0dp"
+        app:strokeColor="?attr/colorError">
+
+        <LinearLayout
             android:id="@+id/button_log_out"
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_50"
-            android:src="@drawable/ic_logout" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_touch_target"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_normal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:layout_marginLeft="@dimen/dp_10"
-            android:textSize="@dimen/sp_20"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="@string/person_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/ic_logout"
+                app:tint="?attr/colorError" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:text="@string/person_logout"
+                android:textSize="@dimen/sp_20"
+                android:textColor="?attr/colorError" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

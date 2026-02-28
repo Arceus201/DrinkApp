@@ -35,9 +35,9 @@ class RecyclerViewPriceSizeAdapter(private val itemClickListener: OnItemPriceSiz
             textName.text = priceSize.size.name
             textPrice.text = priceSize.price.formatAsNumber()
             if (priceSize.status == 1L) {
-                buttonShowHide.setImageResource(R.drawable.ic_current_show)
+                buttonShowHide.setIconResource(R.drawable.ic_current_show)
             } else {
-                buttonShowHide.setImageResource(R.drawable.ic_current_hide)
+                buttonShowHide.setIconResource(R.drawable.ic_current_hide)
             }
 
             if (priceSize.size.name.equals("O")) {

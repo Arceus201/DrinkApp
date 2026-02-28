@@ -27,6 +27,7 @@
     <string name="button_save">SAVE</string>
     <string name="button_update">UPDATE</string>
     <string name="button_cancel">CANCEL</string>
+    <string name="edit">Sửa</string>
 
 <!--    xml-->
     <string name="address_order">Địa chỉ giao hàng</string>
@@ -48,6 +49,10 @@
     <string name="username">tên đăng nhập</string>
     <string name="phone">số điện thoại</string>
     <string name="page_reset_password">Thay đổi mật khẩu</string>
+    <string name="welcome_back">Chào mừng trở lại</string>
+    <string name="login_subtitle">Đăng nhập để tiếp tục</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="dont_have_account">Chưa có tài khoản?</string>
     <string name="current_password">mật khẩu hiện tại</string>
     <string name="new_password">mật khẩu mới</string>
     <string name="password">mật khẩu</string>
@@ -57,6 +62,7 @@
     <string name="format_password_reset">Mật khẩu ít nhất 8, phải chứa chữ thường, 1 số,\n 1 chữ hoa và 1 ký tự đặc biệt.</string>
     <string name="have_account">Bạn có tài khoản khác?</string>
     <string name="login_button">Đăng Nhập</string>
+    <string name="search_hint">Tìm kiếm đồ uống...</string>
 
 <!--    status-->
     <string name="cho_xac_nhan">chờ xác nhận</string>
@@ -92,6 +98,7 @@
     <string name="page_cart">Giỏ hàng</string>
     <string name="text_order">ĐẶT HÀNG + </string>
     <string name="text_delete_all">xóa tất cả</string>
+    <string name="delete_all">Xóa tất cả</string>
     
     <string name="page_confirm_order">Xác nhận đơn hàng</string>
     <string name="text_order_confirm">Danh sách sản phẩm</string>
@@ -152,5 +159,19 @@
     <string name="error_state_message">Không thể tải dữ liệu. Vui lòng thử lại.</string>
     <string name="retry">Thử lại</string>
     <string name="loading">Đang tải…</string>
+
+    <!-- New strings for modernized screens -->
+    <string name="add_category">Thêm loại đồ uống</string>
+    <string name="category_name">Tên loại đồ uống</string>
+    <string name="category_list">Danh sách loại đồ uống</string>
+    <string name="product_image">Hình ảnh sản phẩm</string>
+    <string name="price_size_list">Danh sách giá theo size</string>
+    <string name="select_date_range">Chọn khoảng thời gian</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="page_category_manager">Quản lý loại đồ uống</string>
+    <string name="store_info">Thông tin quán</string>
+    <string name="delivery_info">Thông tin giao hàng</string>
+    <string name="order_info">Thông tin đơn hàng</string>
+    <string name="order_items">Sản phẩm đã đặt</string>
 
 </resources>

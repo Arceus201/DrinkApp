@@ -34,6 +34,22 @@ class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressB
     private var wardName: String = ""
     override fun initView() {
         binding.apply {
+            // Setup toolbar
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            toolbar.setNavigationOnClickListener { 
+                val intent = Intent(this@AddAddressActivity, AddressActivity::class.java)
+                if (listChose.isEmpty() or totalPrice.equals("-1")) {
+                    finish()
+                } else {
+                    intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))
+                    intent.putExtra(Constant.TOTAL_PRICE, totalPrice)
+                }
+                startActivity(intent)
+                finish()
+            }
+            
             textUsername.setMaxLength(25)
             textPhone.setMaxLength(11)
             textAddress.setMaxLength(150)
@@ -139,17 +155,6 @@ class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressB
                 }else{
                     onFail(KEY_MISSING_INFORMATION)
                 }
-            }
-            buttonBack.setOnClickListener {
-                val intent = Intent(this@AddAddressActivity, AddressActivity::class.java)
-                if (listChose.isEmpty() or totalPrice.equals("-1")) {
-                    finish()
-                } else {
-                    intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))
-                    intent.putExtra(Constant.TOTAL_PRICE, totalPrice)
-                }
-                startActivity(intent)
-                finish()
             }
         }
     }

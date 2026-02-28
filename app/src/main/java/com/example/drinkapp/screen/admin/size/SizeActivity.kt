@@ -55,9 +55,10 @@ class SizeActivity :
                 binding.buttonCancel.visibility = View.GONE
                 binding.textName.setText("")
             }
-            binding.buttonBack.setOnClickListener {
-                finish()
-            }
+            // TODO: Update to toolbar navigation when layout is modernized
+            // binding.buttonBack.setOnClickListener {
+            //     finish()
+            // }
         }
     }
 

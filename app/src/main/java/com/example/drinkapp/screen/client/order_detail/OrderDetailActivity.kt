@@ -38,9 +38,11 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
 
     override fun handleEvent() {
         binding.apply {
-            buttonBack.setOnClickListener {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
+            
             buttonAddressStore.setOnClickListener {
                 val intent = Intent(applicationContext, GgMapActivity::class.java)
                 intent.putExtra(Constant.KEY_CONSTANT_KEY_ADDRESS_NAME, textAddressAdmin.text.toString().trim())

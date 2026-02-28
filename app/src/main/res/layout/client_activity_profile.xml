@@ -1,108 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="@string/profile"
+            app:titleTextAppearance="@style/TextAppearance.DrinkApp.TitleLarge" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ImageButton
-            android:id="@+id/button_back"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
-            android:backgroundTint="@color/white"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile"
-            android:textSize="@dimen/sp_30"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/dp_50"
-            android:textColor="@color/blue_link"
-            android:layout_gravity="center"/>
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_50"
-            android:orientation="horizontal">
+            android:padding="@dimen/spacing_lg">
+
+            <!-- Profile Avatar (Optional) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/spacing_md"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="@dimen/elevation_sm"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user_sign_up"
+                    android:contentDescription="@string/profile" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Username Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutUsername"
                 style="@style/Widget.DrinkApp.TextInputLayout"
-                android:layout_width="@dimen/dp_300"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_30">
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:hint="@string/username"
+                app:startIconDrawable="@drawable/ic_user_sign_up"
+                app:startIconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_avatar">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_UserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/custom_item"
-                    android:gravity="center"
-                    android:textColor="@color/black" />
+                    android:inputType="text"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+            <!-- Phone Display (Read-only) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPhone"
+                style="@style/Widget.DrinkApp.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:hint="@string/phone"
+                app:startIconDrawable="@drawable/ic_phone_sign_up"
+                app:startIconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutUsername">
 
-        <LinearLayout
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_50"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_Phone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:enabled="false"
+                    android:inputType="phone"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/text_Phone"
-                        android:layout_width="@dimen/dp_300"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_marginLeft="@dimen/dp_30"
-                        android:background="@drawable/custom_item"
-                        android:gravity="center"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_50"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/text_dob"
-                android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:gravity="center"
+            <!-- Date of Birth Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutDob"
+                style="@style/Widget.DrinkApp.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
                 android:hint="@string/dob"
-                android:textColorHint="@color/gray"
-                android:background="@drawable/custom_item"
-                android:textColor="@color/black"  />
-        </LinearLayout>
+                app:startIconDrawable="@drawable/ic_address"
+                app:startIconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutPhone">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_update"
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_50"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="@dimen/dp_70"
-            android:background="@drawable/custom_button"
-            android:gravity="center"
-            android:text="@string/update"
-            android:textColor="@color/white" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+            <!-- Update Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/update"
+                android:textAppearance="@style/TextAppearance.DrinkApp.LabelLarge"
+                app:cornerRadius="@dimen/corner_radius_md"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutDob" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Loading Indicator -->
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/button_update"
+                app:layout_constraintEnd_toEndOf="@id/button_update"
+                app:layout_constraintStart_toStartOf="@id/button_update"
+                app:layout_constraintTop_toTopOf="@id/button_update" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

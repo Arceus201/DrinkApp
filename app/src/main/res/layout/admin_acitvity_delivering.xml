@@ -1,67 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button_cho_xac_nhan"
+        <!-- Status Tabs -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_button"
-            android:text="@string/cho_xac_nhan"
-            android:textSize="@dimen/sp_10" />
+            android:background="?attr/colorSurface"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabTextAppearance="?attr/textAppearanceBodySmall">
 
-        <Button
-            android:id="@+id/button_cho_giao_hang"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_cho_xac_nhan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cho_xac_nhan" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_cho_giao_hang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cho_giao_hang" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_dang_giao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dang_giao" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <!-- Search Bar -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/button_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:background= "@drawable/custom_button"
-            android:text="@string/cho_giao_hang"
-            android:textSize="@dimen/sp_10" />
+            android:layout_margin="@dimen/spacing_md"
+            android:background="@drawable/custom_search"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/search_hint" />
 
-        <Button
-            android:id="@+id/button_dang_giao"
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:background= "@drawable/custom_button_choose"
-            android:text="@string/dang_giao"
-            android:textSize="@dimen/sp_10" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="@dimen/spacing_sm"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_order_shipper" />
+
     </LinearLayout>
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_marginTop="@dimen/dp_10"
-        android:id="@+id/button_search"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/custom_search"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_order_shipper"/>
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

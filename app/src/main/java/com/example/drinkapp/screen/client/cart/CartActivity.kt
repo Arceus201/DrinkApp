@@ -39,22 +39,32 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
 
     override fun handleEvent() {
         binding.apply {
-            buttonBack.setOnClickListener {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
-            buttonDeleteAll.setOnClickListener{
-                val alertDialog = AlertDialog.Builder(it.context)
-                alertDialog.setTitle(R.string.confirm_delete)
-                alertDialog.setMessage(R.string.how_to_confirm_delete)
-                alertDialog.setPositiveButton(R.string.ok) { dialog, which ->
-                    val userData = UserManager.getUserInfo(applicationContext)
-                    userData.id?.let { it1 -> presenter.deleteAll(it1) }
+            
+            // Setup toolbar menu (delete all action)
+            toolbar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_delete_all -> {
+                        val alertDialog = AlertDialog.Builder(this@CartActivity)
+                        alertDialog.setTitle(R.string.confirm_delete)
+                        alertDialog.setMessage(R.string.how_to_confirm_delete)
+                        alertDialog.setPositiveButton(R.string.ok) { dialog, which ->
+                            val userData = UserManager.getUserInfo(applicationContext)
+                            userData.id?.let { it1 -> presenter.deleteAll(it1) }
+                        }
+                        alertDialog.setNegativeButton(R.string.cancel) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        alertDialog.show()
+                        true
+                    }
+                    else -> false
                 }
-                alertDialog.setNegativeButton(R.string.cancel) { dialog, which ->
-                    dialog.dismiss()
-                }
-                alertDialog.show()
             }
+            
             buttonAddToCart.setOnClickListener {
                 if(listChoseCartItem.size != 0){
                     val intent = Intent(application, ConfirmOrderActivity::class.java)

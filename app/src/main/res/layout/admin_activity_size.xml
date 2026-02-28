@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- AppBar with Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -14,17 +15,16 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="@string/page_category_manager"
-            app:titleTextColor="?attr/colorOnSurface" />
+            app:title="@string/size"
+            app:navigationIcon="@drawable/ic_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -33,45 +33,45 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_md">
 
-            <!-- Add/Edit Category Card -->
+            <!-- Add Size Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_lg"
                 app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation"
-                app:contentPadding="@dimen/spacing_md">
+                app:cardElevation="@dimen/card_elevation">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
 
                     <TextView
-                        android:id="@+id/text_name_page"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_md"
-                        android:text="@string/add_category"
-                        android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface" />
+                        android:text="@string/add"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
 
+                    <!-- Size Name Input -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutName"
+                        android:id="@+id/textInputLayoutSizeName"
                         style="@style/Widget.DrinkApp.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_md"
-                        android:hint="@string/category_name">
+                        android:hint="@string/size">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/text_name"
+                            android:id="@+id/text_size_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- Action Buttons -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,8 +85,7 @@
                             android:layout_height="@dimen/button_height"
                             android:layout_marginEnd="@dimen/spacing_sm"
                             android:minWidth="@dimen/button_min_width"
-                            android:text="@string/cancel"
-                            android:visibility="gone" />
+                            android:text="@string/button_cancel" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_save"
@@ -94,43 +93,68 @@
                             android:layout_height="@dimen/button_height"
                             android:minWidth="@dimen/button_min_width"
                             android:text="@string/button_save" />
-
                     </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Category List Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_sm"
-                android:text="@string/category_list"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSurface" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
+            <!-- Size List Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/spacing_md"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_category" />
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- List Header -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_md"
+                        android:text="@string/size"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutlineVariant" />
+
+                    <!-- RecyclerView -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="200dp"
+                        android:clipToPadding="false"
+                        android:padding="@dimen/spacing_sm"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_category" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Empty State -->
             <include
+                android:id="@+id/emptyState"
                 layout="@layout/layout_empty_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
                 android:visibility="gone" />
 
             <!-- Error State -->
             <include
+                android:id="@+id/errorState"
                 layout="@layout/layout_error_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -139,6 +163,7 @@
 
     <!-- Loading State -->
     <include
+        android:id="@+id/loadingState"
         layout="@layout/layout_loading_state"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

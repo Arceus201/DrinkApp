@@ -21,15 +21,18 @@ class ResetPasswordActivity :
     BaseActivity<ClientActivityResetPasswordBinding>(ClientActivityResetPasswordBinding::inflate),
     ResetPasswordContract.View {
     private lateinit var presenter: ResetPasswordPresenter
-    private var isPasswordVisible1 = false
-    private var isPasswordVisible2 = false
-    private var isPasswordVisible3 = false
     private var checkPassword = false
     override fun initView() {
         binding.apply {
+            // Setup toolbar
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            toolbar.setNavigationOnClickListener { finish() }
+            
             textRecentPassword.setMaxLength(25)
             textNewPassword.setMaxLength(25)
-            textRecentPassword.setMaxLength(25)
+            textConfirmpassword.setMaxLength(25)
         }
     }
 
@@ -41,9 +44,6 @@ class ResetPasswordActivity :
     override fun handleEvent() {
 
         binding.apply {
-            buttonBack.setOnClickListener {
-                finish()
-            }
             buttonUpdate.setOnClickListener {
                 val user = UserManager.getUserInfo(this@ResetPasswordActivity)
                 val textRecentPassword = textRecentPassword.text.toString().trim()
@@ -74,43 +74,6 @@ class ResetPasswordActivity :
                 }
                 override fun afterTextChanged(editable: Editable?) {}
             })
-
-            buttonShowHide1.setOnClickListener {
-                isPasswordVisible1 = !isPasswordVisible1
-                if (isPasswordVisible1) {
-                    textRecentPassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textRecentPassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_hide)
-                }
-            }
-            buttonShowHide2.setOnClickListener {
-                isPasswordVisible2 = !isPasswordVisible2
-                if (isPasswordVisible2) {
-                    textNewPassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide2.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textNewPassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide2.setImageResource(R.drawable.ic_current_hide)
-                }
-            }
-            buttonShowHide3.setOnClickListener {
-                isPasswordVisible3 = !isPasswordVisible3
-                if (isPasswordVisible3) {
-                    textConfirmpassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide3.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textConfirmpassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide3.setImageResource(R.drawable.ic_current_hide)
-                }
-            }
         }
     }
 

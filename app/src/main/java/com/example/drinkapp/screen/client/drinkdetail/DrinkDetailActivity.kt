@@ -51,6 +51,11 @@ class DrinkDetailActivity :
 
     override fun handleEvent() {
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+            
             buttonSub.setOnClickListener {
                 presenter.changeQuantity(textQuantity.text.toString().toLong(), -1L)
             }
@@ -86,9 +91,6 @@ class DrinkDetailActivity :
                             "+" + (price!! - (binding.textPrice.text.toString().parseFromNumberFormat())).formatAsNumber() + " đ"
                     }
                 }
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
             buttonAddToCart.setOnClickListener {
                 buttonAddToCart.isEnabled = false

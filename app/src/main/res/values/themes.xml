@@ -57,12 +57,16 @@
         <item name="textAppearanceLabelSmall">@style/TextAppearance.DrinkApp.LabelSmall</item>
         
         <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         
         <!-- Navigation bar color -->
-        <item name="android:navigationBarColor">@color/md_theme_light_surface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        
+        <!-- Edge-to-Edge configuration for Android 10+ (API 29+) -->
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
 
     <!-- Typography Styles - Material 3 Type Scale -->

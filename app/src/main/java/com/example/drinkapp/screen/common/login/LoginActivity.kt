@@ -20,7 +20,6 @@ class LoginActivity :
     BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate),
     LoginContract.View {
     private lateinit var presenter: LoginPresenter
-    private var isPasswordVisible1 = false
 
     override fun initView() {
         binding.apply {
@@ -47,17 +46,9 @@ class LoginActivity :
                 val intent = Intent(applicationContext, SignupActivity::class.java)
                 startActivity(intent)
             }
-            buttonShowHide1.setOnClickListener {
-                isPasswordVisible1 = !isPasswordVisible1
-                if (isPasswordVisible1) {
-                    textPassword.inputType =
-                        android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_show)
-                } else {
-                    textPassword.inputType =
-                        android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    buttonShowHide1.setImageResource(R.drawable.ic_current_hide)
-                }
+            textForgotPassword.setOnClickListener {
+                // TODO: Navigate to forgot password screen
+                Toast.makeText(this@LoginActivity, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show()
             }
         }
     }

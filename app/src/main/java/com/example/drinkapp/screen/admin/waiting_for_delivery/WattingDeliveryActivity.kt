@@ -35,14 +35,26 @@ class WattingDeliveryActivity :
 
     override fun handleEvent() {
         binding.apply {
-            buttonChoXacNhan.setOnClickListener {
-                finish()
-            }
-            buttonDangGiao.setOnClickListener {
-                val intent = Intent(this@WattingDeliveryActivity, DeliveringActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+            tabLayout.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
+                    when (tab?.position) {
+                        0 -> finish() // cho xac nhan
+                        1 -> {} // cho giao hang (current screen)
+                        2 -> { // dang giao
+                            val intent = Intent(this@WattingDeliveryActivity, DeliveringActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
+                override fun onTabReselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
+            })
+            
+            // Set current tab to "cho giao hang" (position 1)
+            tabLayout.selectTab(tabLayout.getTabAt(1))
+            
             buttonSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return true

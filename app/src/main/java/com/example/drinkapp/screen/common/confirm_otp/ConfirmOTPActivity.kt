@@ -51,16 +51,16 @@ class ConfirmOTPActivity :
 
     override fun handleEvent() {
         binding.apply {
+            toolbar.setNavigationOnClickListener {
+                countDownTimer.cancel()
+                finish()
+            }
             buttonConfirmOtp.setOnClickListener {
                 onConfirmOTPCode(textOtpCode.text.toString().trim())
             }
 //            buttonSendOtpAgain.setOnClickListener {
 //                onClickSendOtpAgain()
 //            }
-            buttonBack.setOnClickListener {
-                countDownTimer.cancel()
-                finish()
-            }
         }
     }
 

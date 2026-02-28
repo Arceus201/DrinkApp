@@ -76,11 +76,13 @@ class ConfirmOrderActivity :
 
     override fun handleEvent() {
         binding.apply {
-            buttonBack.setOnClickListener {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
                 val intent = Intent(applicationContext, CartActivity::class.java)
                 startActivity(intent)
                 finish()
             }
+            
             buttonEditAddress.setOnClickListener {
                 val intent = Intent(applicationContext, AddressActivity::class.java)
                 intent.putExtra(Constant.CART_ITEM_LIST, ArrayList(listChose))
