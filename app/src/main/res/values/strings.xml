@@ -27,6 +27,7 @@
     <string name="button_save">SAVE</string>
     <string name="button_update">UPDATE</string>
     <string name="button_cancel">CANCEL</string>
+    <string name="edit">Sửa</string>
 
 <!--    xml-->
     <string name="address_order">Địa chỉ giao hàng</string>
