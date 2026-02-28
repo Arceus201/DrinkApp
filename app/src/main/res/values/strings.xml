@@ -96,6 +96,7 @@
     <string name="page_cart">Giỏ hàng</string>
     <string name="text_order">ĐẶT HÀNG + </string>
     <string name="text_delete_all">xóa tất cả</string>
+    <string name="delete_all">Xóa tất cả</string>
     
     <string name="page_confirm_order">Xác nhận đơn hàng</string>
     <string name="text_order_confirm">Danh sách sản phẩm</string>
