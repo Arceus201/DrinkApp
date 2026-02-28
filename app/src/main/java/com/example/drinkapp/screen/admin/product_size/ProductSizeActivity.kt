@@ -82,7 +82,8 @@ class ProductSizeActivity :
                     )
                 }
             }
-            buttonBack.setOnClickListener {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
         }

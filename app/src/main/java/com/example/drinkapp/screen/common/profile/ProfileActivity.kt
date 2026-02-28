@@ -32,11 +32,13 @@ ProfileContract.View{
     override fun handleEvent() {
         val user = UserManager.getUserInfo(this)
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+            
             textDob.setOnClickListener{
                 showDatePickerDialog()
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
             buttonUpdate.setOnClickListener {
                 user.id?.let { it1 ->

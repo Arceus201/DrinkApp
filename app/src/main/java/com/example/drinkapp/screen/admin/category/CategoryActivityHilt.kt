@@ -48,6 +48,11 @@ class CategoryActivityHilt :
 
     override fun handleEvent() {
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+            
             buttonSave.setOnClickListener {
                 buttonSave.isEnabled = false
                 if (!binding.textName.text.isNullOrEmpty()) {
@@ -65,9 +70,6 @@ class CategoryActivityHilt :
                 binding.buttonSave.text = TEXT_SAVE
                 binding.buttonCancel.visibility = GONE
                 binding.textName.setText("")
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
         }
     }

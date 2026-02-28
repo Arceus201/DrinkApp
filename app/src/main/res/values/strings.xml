@@ -160,4 +160,18 @@
     <string name="retry">Thử lại</string>
     <string name="loading">Đang tải…</string>
 
+    <!-- New strings for modernized screens -->
+    <string name="add_category">Thêm loại đồ uống</string>
+    <string name="category_name">Tên loại đồ uống</string>
+    <string name="category_list">Danh sách loại đồ uống</string>
+    <string name="product_image">Hình ảnh sản phẩm</string>
+    <string name="price_size_list">Danh sách giá theo size</string>
+    <string name="select_date_range">Chọn khoảng thời gian</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="page_category_manager">Quản lý loại đồ uống</string>
+    <string name="store_info">Thông tin quán</string>
+    <string name="delivery_info">Thông tin giao hàng</string>
+    <string name="order_info">Thông tin đơn hàng</string>
+    <string name="order_items">Sản phẩm đã đặt</string>
+
 </resources>

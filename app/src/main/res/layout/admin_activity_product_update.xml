@@ -1,180 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageButton
-        android:backgroundTint="@color/white"
-        android:id="@+id/button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_back" />
-    <TextView
-        android:layout_marginTop="@dimen/dp_20"
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/product_button_update"
-        android:gravity="center"
-        android:textSize="@dimen/sp_25"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="@string/product_button_update"
+            app:titleTextColor="?attr/colorOnSurface" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_30"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="@dimen/dp_98"
-            android:layout_height="@dimen/dp_117"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/dp_150"
-            android:adjustViewBounds="true"
-            android:backgroundTint="@color/white"
-            android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_menu_gallery" />
-
-        <ImageButton
-            android:id="@+id/chooseImageButton"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_add" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/product_choose_image" />
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="@dimen/dp_110"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/product_name"
-            />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutName"
-            style="@style/Widget.DrinkApp.TextInputLayout"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:background="@drawable/custom_item"
-                android:textSize="@dimen/sp_18"
-                android:id="@+id/text_name"
+            <!-- Product Image Section -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="@dimen/dp_110"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/gia"
-            />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPrice"
-            style="@style/Widget.DrinkApp.TextInputLayout"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                app:contentPadding="@dimen/spacing_md">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:background="@drawable/custom_item"
-                android:inputType="phone"
-                android:digits="0123456789"
-                android:textSize="@dimen/sp_20"
-                android:id="@+id/text_price"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="@dimen/image_product_large"
+                        android:layout_height="@dimen/image_product_large"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/product_image"
+                        android:scaleType="centerCrop"
+                        android:src="@android:drawable/ic_menu_gallery" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chooseImageButton"
+                        style="@style/Widget.Material3.Button.TextButton.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:text="@string/product_choose_image"
+                        app:icon="@drawable/ic_add" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Product Details Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <TextView
-            android:textSize="@dimen/sp_18"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/currency_symbol"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                app:contentPadding="@dimen/spacing_md">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Product Name -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutName"
+                        style="@style/Widget.DrinkApp.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/product_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="2" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Product Price -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutPrice"
+                        style="@style/Widget.DrinkApp.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/gia"
+                        app:prefixText="@string/currency_symbol"
+                        app:suffixText="@string/vnd">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:inputType="number"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Product Category -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_xs"
+                        android:text="@string/product_category"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <Spinner
+                        android:id="@+id/spinner_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spinner_height"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:minHeight="@dimen/touch_target_min" />
+
+                    <!-- Product Status -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_xs"
+                        android:text="@string/status"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <Spinner
+                        android:id="@+id/spinner_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spinner_height"
+                        android:minHeight="@dimen/touch_target_min" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Update Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_update_product"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:text="@string/update" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Loading State -->
+    <include
+        layout="@layout/layout_loading_state"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="@dimen/dp_110"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/product_category"
-            />
-        <Spinner
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_20"
-            android:id="@+id/spinner_categories"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_50"
-            android:layout_marginLeft="@dimen/dp_20"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="@dimen/dp_110"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/status"
-            />
-        <Spinner
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_20"
-            android:id="@+id/spinner_status"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_50"
-            android:layout_marginLeft="@dimen/dp_20"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <com.google.android.material.button.MaterialButton
-        android:backgroundTint="@color/red"
-        android:layout_marginTop="@dimen/dp_50"
-        android:layout_gravity="center"
-        android:id="@+id/button_update_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button_choose"
-        android:textColor="@color/white"
-        android:text="@string/update" />
-
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

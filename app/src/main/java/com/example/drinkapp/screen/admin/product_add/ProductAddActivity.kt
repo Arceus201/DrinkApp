@@ -69,6 +69,10 @@ class ProductAddActivity :
 
     override fun handleEvent() {
         binding.apply {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
 
             chooseImageButton.setOnClickListener {
                 selectImage()
@@ -108,9 +112,6 @@ class ProductAddActivity :
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     statusCode = 1L
                 }
-            }
-            buttonBack.setOnClickListener {
-                finish()
             }
 
         }

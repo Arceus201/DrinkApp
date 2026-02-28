@@ -54,7 +54,8 @@ class CategoryActivity :
                 binding.buttonCancel.visibility = GONE
                 binding.textName.setText("")
             }
-            buttonBack.setOnClickListener {
+            // Setup toolbar navigation
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
         }
