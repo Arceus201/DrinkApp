@@ -48,6 +48,10 @@
     <string name="username">tên đăng nhập</string>
     <string name="phone">số điện thoại</string>
     <string name="page_reset_password">Thay đổi mật khẩu</string>
+    <string name="welcome_back">Chào mừng trở lại</string>
+    <string name="login_subtitle">Đăng nhập để tiếp tục</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="dont_have_account">Chưa có tài khoản?</string>
     <string name="current_password">mật khẩu hiện tại</string>
     <string name="new_password">mật khẩu mới</string>
     <string name="password">mật khẩu</string>
