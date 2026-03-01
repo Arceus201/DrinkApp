@@ -2,7 +2,6 @@ package com.example.drinkapp.screen.common.launcher
 
 import android.content.Intent
 import android.util.Log
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.ActivityStartAppBinding
 import com.example.drinkapp.screen.admin.main.MainAdminActivity
 import com.example.drinkapp.screen.client.main.MainActivity
@@ -12,10 +11,14 @@ import com.example.drinkapp.utils.Constant.handler
 import com.example.drinkapp.utils.TimeConstant.TIME_DELAY_START_APP
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LauncherActivity: BaseActivity<ActivityStartAppBinding>(ActivityStartAppBinding::inflate),
 LauncherContract.View{
-    private lateinit var presenter: LauncherPresenter
+    @Inject
+    lateinit var presenter: LauncherPresenterCoroutine
     override fun initView() {
         val userData = UserManager.getUserInfo(applicationContext)
         val id = userData.id
@@ -43,7 +46,6 @@ LauncherContract.View{
     }
 
     override fun initData() {
-       presenter = LauncherPresenter(null, CallApiUser.getInstance())
        presenter.attachView(this)
     }
 

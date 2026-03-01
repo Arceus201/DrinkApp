@@ -1,7 +1,7 @@
 package com.example.drinkapp.screen.shipper.orderlist
 
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface OrderListContract {
     interface View{
@@ -12,7 +12,7 @@ interface OrderListContract {
         fun onGetListOrderFail()
         fun onGetOrderByShipperIdFail()
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun getListOrder(status: Long)
         fun getOrderByShipperId(shipper_id: Long)
         fun updateShippingOrder(order_id:Long,shipper_id: Long,status: Long)

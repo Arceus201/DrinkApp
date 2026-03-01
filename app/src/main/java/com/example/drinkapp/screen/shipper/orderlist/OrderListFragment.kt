@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.ShipperFragmentOrderlistBinding
 import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.screen.shipper.adapter.RecyclerViewOrderShipperAdapter
@@ -15,12 +14,16 @@ import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseFragment
 import com.example.drinkapp.utils.listener.OnItemOrderShipperClickListener
 import com.example.drinkapp.utils.toStatusString
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OrderListFragment :
     BaseFragment<ShipperFragmentOrderlistBinding>(ShipperFragmentOrderlistBinding::inflate),
     OrderListContract.View,
     OnItemOrderShipperClickListener {
-    private lateinit var presenter: OrderListPresenter
+    @Inject
+    lateinit var presenterCoroutine: OrderListPresenterCoroutine
     private val adapter = RecyclerViewOrderShipperAdapter(this)
     override fun initView() {
         binding.recyclerView.adapter = adapter
@@ -28,10 +31,9 @@ class OrderListFragment :
 
     override fun initData() {
         val userGet = context?.let { UserManager.getUserInfo(it) }
-         presenter = OrderListPresenter(null, CallApiOrder.getInstance())
-         presenter.attachView(this)
+         presenterCoroutine.attachView(this)
         if (userGet != null) {
-            userGet.id?.let { presenter.getOrderByShipperId(it) }
+            userGet.id?.let { presenterCoroutine.getOrderByShipperId(it) }
         }
     }
 
@@ -68,7 +70,7 @@ class OrderListFragment :
                         alertDialog.setTitle("Xác nhận hủy đơn")
                         alertDialog.setMessage("Bạn có chắc muốn hủy đơn?")
                         alertDialog.setPositiveButton("OK") { dialog, which ->
-                            userGet.id?.let { presenter.updateShippingOrder(order.id, it,0L) }
+                            userGet.id?.let { presenterCoroutine.updateShippingOrder(order.id, it,0L) }
                         }
                         alertDialog.setNegativeButton("Cancel") { dialog, which ->
                             dialog.dismiss()
@@ -81,7 +83,7 @@ class OrderListFragment :
                         alertDialog.setTitle("Xác nhận đã giao hàng")
                         alertDialog.setMessage("Bạn có chắc muốn xác nhận giao hàng?")
                         alertDialog.setPositiveButton("OK") { dialog, which ->
-                            userGet.id?.let { presenter.updateShippingOrder(order.id, it,4L) }
+                            userGet.id?.let { presenterCoroutine.updateShippingOrder(order.id, it,4L) }
                         }
                         alertDialog.setNegativeButton("Cancel") { dialog, which ->
                             dialog.dismiss()
@@ -117,17 +119,16 @@ class OrderListFragment :
             viewOrderShipper.visibility = View.INVISIBLE
             recyclerView.visibility = View.VISIBLE
         }
-        presenter.getListOrder(0L)
+        presenterCoroutine.getListOrder(0L)
     }
 
 
     override fun onResume() {
         super.onResume()
         val userGet = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderListPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
+        presenterCoroutine.attachView(this)
         if (userGet != null) {
-            userGet.id?.let { presenter.getOrderByShipperId(it) }
+            userGet.id?.let { presenterCoroutine.getOrderByShipperId(it) }
         }
     }
 
@@ -146,7 +147,7 @@ class OrderListFragment :
             alertDialog.setTitle("Xác nhận nhận đơn")
             alertDialog.setMessage("Bạn có chắc muốn nhận đơn?")
             alertDialog.setPositiveButton("OK") { dialog, which ->
-                userGet.id?.let { presenter.updateShippingOrder(id, it,1L) }
+                userGet.id?.let { presenterCoroutine.updateShippingOrder(id, it,1L) }
             }
             alertDialog.setNegativeButton("Cancel") { dialog, which ->
                 dialog.dismiss()
@@ -157,7 +158,7 @@ class OrderListFragment :
     }
 
     override fun onDestroyView() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroyView()
     }
 

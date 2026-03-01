@@ -2,7 +2,7 @@ package com.example.drinkapp.screen.admin.product_size
 
 import com.example.drinkapp.data.model.PriceSize
 import com.example.drinkapp.data.model.Size
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface ProductSizeContract {
     interface View{
@@ -13,7 +13,7 @@ interface ProductSizeContract {
         fun onFail(msg: String)
         fun onGetAllPriceSizeFail()
     }
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: IBasePresenter<View>{
         fun getALLSize()
         fun getAllPriceSize(idProduct: Long)
 

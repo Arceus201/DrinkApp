@@ -13,8 +13,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -59,14 +64,39 @@ object NetworkModule {
         authInterceptor: Interceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
-        return OkHttpClient.Builder()
+        val builder = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .retryOnConnectionFailure(true)
-            .build()
+
+        // Development: Accept self-signed certificates
+        if (BuildConfig.DEBUG) {
+            try {
+                // Create a trust manager that does not validate certificate chains
+                val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                    override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {}
+                    override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {}
+                    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+                })
+
+                // Install the all-trusting trust manager
+                val sslContext = SSLContext.getInstance("TLS")
+                sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
+                // Create an ssl socket factory with our all-trusting manager
+                val sslSocketFactory = sslContext.socketFactory
+
+                builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+                builder.hostnameVerifier(HostnameVerifier { _, _ -> true })
+            } catch (e: Exception) {
+                throw RuntimeException("Failed to configure SSL bypass for development", e)
+            }
+        }
+
+        return builder.build()
     }
 
     @Provides
@@ -134,5 +164,47 @@ object NetworkModule {
     @Singleton
     fun provideRevenueApiService(retrofit: Retrofit): RevenueApiService {
         return retrofit.create(RevenueApiService::class.java)
+    }
+
+    // Vietnamese Address API uses a different base URL
+    @Provides
+    @Singleton
+    @javax.inject.Named("addressVN")
+    fun provideAddressVNRetrofit(
+        okHttpClient: OkHttpClient,
+        gson: Gson
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.API_KEY_URL_ADDRESS_VN)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddressVNApiService(@javax.inject.Named("addressVN") retrofit: Retrofit): AddressVNpiService {
+        return retrofit.create(AddressVNpiService::class.java)
+    }
+
+    // Exchange Rate API uses a different base URL
+    @Provides
+    @Singleton
+    @javax.inject.Named("exchangeRate")
+    fun provideExchangeRateRetrofit(
+        okHttpClient: OkHttpClient,
+        gson: Gson
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.API_KEY_URL_RATE)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateApiService(@javax.inject.Named("exchangeRate") retrofit: Retrofit): ExChangeRateApiService {
+        return retrofit.create(ExChangeRateApiService::class.java)
     }
 }

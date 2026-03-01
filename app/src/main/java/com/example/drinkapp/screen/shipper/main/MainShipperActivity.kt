@@ -8,7 +8,9 @@ import com.example.drinkapp.screen.common.person.PersonFragment
 import com.example.drinkapp.screen.shipper.orderlist.OrderListFragment
 import com.example.drinkapp.utils.ViewPagerAdapter
 import com.example.drinkapp.utils.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainShipperActivity:BaseActivity<ShipperActivityMainBinding>(ShipperActivityMainBinding::inflate) {
     override fun initView() {
 

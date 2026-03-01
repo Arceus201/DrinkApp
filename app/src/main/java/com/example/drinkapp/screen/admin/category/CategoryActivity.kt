@@ -4,19 +4,23 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import com.example.drinkapp.data.model.Category
-import com.example.drinkapp.data.resource.call.CallApiCategory
 import com.example.drinkapp.databinding.AdminActivityCategoryBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewCategoryAdapter
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemCategoryClickListener
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CategoryActivity :
     BaseActivity<AdminActivityCategoryBinding>(AdminActivityCategoryBinding::inflate),
     CategoryContract.View,
     OnItemCategoryClickListener {
 
-    private lateinit var presenter: CategoryPresenter
+    @Inject
+    lateinit var presenter: CategoryPresenter
+    
     private val adapter = RecyclerViewCategoryAdapter(this)
     private lateinit var categoryUpdate: Category
 
@@ -36,7 +40,6 @@ class CategoryActivity :
     }
 
     override fun initData() {
-        presenter = CategoryPresenter(null, CallApiCategory.getInstance())
         presenter.attachView(this)
         presenter.getAllCategory()
     }

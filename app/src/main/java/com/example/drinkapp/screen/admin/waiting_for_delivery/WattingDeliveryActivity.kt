@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.AdminActivityWaitingForDeliveryBinding
 import com.example.drinkapp.screen.admin.adapter.RecylerViewOrderManagerAdapter
 import com.example.drinkapp.screen.admin.delivering.DeliveringActivity
@@ -14,22 +13,25 @@ import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemOrderShipperClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class WattingDeliveryActivity :
     BaseActivity<AdminActivityWaitingForDeliveryBinding>(AdminActivityWaitingForDeliveryBinding::inflate),
     WattingDeliveryContract.View,
     OnItemOrderShipperClickListener {
     private val adapter = RecylerViewOrderManagerAdapter(this)
-    private lateinit var presenter: WattingDeliveryPresenter
+    @Inject
+    lateinit var presenterCoroutine: WattingDeliveryPresenterCoroutine
     private var listOrder: MutableList<Order> = mutableListOf()
     override fun initView() {
         binding.recyclerView.adapter = adapter
     }
 
     override fun initData() {
-        presenter = WattingDeliveryPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
-        presenter.getListOrder(2L)
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getListOrder(2L)
 
     }
 
@@ -95,7 +97,7 @@ class WattingDeliveryActivity :
         alertDialog.setTitle(MESS_CONFIRM_WAITTING_FOR_DELIVERY_TILE)
         alertDialog.setMessage(MESS_CONFIRM_WAITTING_FOR_DELIVERY_MESSAGE)
         alertDialog.setPositiveButton(R.string.ok) { dialog, which ->
-            presenter.updateStatusOrder(id, 3L)
+            presenterCoroutine.updateStatusOrder(id, 3L)
         }
         alertDialog.setNegativeButton(R.string.cancel) { dialog, which ->
             dialog.dismiss()
@@ -109,7 +111,7 @@ class WattingDeliveryActivity :
     }
 
     override fun onUpadteStatusOrderSuccess() {
-        presenter.getListOrder(2L)
+        presenterCoroutine.getListOrder(2L)
     }
 
     override fun onFail(msg: String) {
@@ -122,7 +124,7 @@ class WattingDeliveryActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 

@@ -10,7 +10,9 @@ import com.example.drinkapp.screen.admin.product_information_manager.ProductInfo
 import com.example.drinkapp.screen.common.person.PersonFragment
 import com.example.drinkapp.utils.ViewPagerAdapter
 import com.example.drinkapp.utils.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainAdminActivity :
     BaseActivity<AdminActivityMainBinding>(AdminActivityMainBinding::inflate) {
     override fun initView() {

@@ -1,6 +1,6 @@
 package com.example.drinkapp.screen.common.signup
 
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface SignupContract {
     interface View{
@@ -9,7 +9,7 @@ interface SignupContract {
         fun isValidPassworFail()
 
     }
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: IBasePresenter<View> {
         fun checkValidPassword(password: String)
     }
 }

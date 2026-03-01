@@ -1,6 +1,6 @@
 package com.example.drinkapp.screen.common.resetpassword
 
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface ResetPasswordContract {
     interface View{
@@ -9,7 +9,7 @@ interface ResetPasswordContract {
         fun isValidPassworFail()
         fun onFail(msg: String)
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun updatePassword(user_id: Long, current_password: String, new_password: String)
         fun checkValidPassword(password: String)
     }

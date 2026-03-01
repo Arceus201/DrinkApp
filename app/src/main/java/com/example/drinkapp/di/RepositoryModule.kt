@@ -83,4 +83,20 @@ object RepositoryModule {
     ): RevenueRepository {
         return RevenueRepositoryImpl(apiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideAddressVNRepository(
+        apiService: AddressVNpiService
+    ): AddressVNRepository {
+        return AddressVNRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateRepository(
+        apiService: ExChangeRateApiService
+    ): ExchangeRateRepository {
+        return ExchangeRateRepositoryImpl(apiService)
+    }
 }

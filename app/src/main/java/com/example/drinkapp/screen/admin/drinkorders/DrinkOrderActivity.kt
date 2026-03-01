@@ -4,19 +4,22 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.DrinkOrders
-import com.example.drinkapp.data.resource.call.CallApiRevenue
 import com.example.drinkapp.databinding.AdminActivityDrinkOrdersBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewDrinkOrderAdapter
 import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemDrinkOrderClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DrinkOrderActivity:BaseActivity<AdminActivityDrinkOrdersBinding>(AdminActivityDrinkOrdersBinding::inflate),
 DrinkOrderContract.View,
 OnItemDrinkOrderClickListener{
     private val adapter =  RecyclerViewDrinkOrderAdapter(this)
-    private lateinit var presenter: DrinkOrderPresenter
+    @Inject
+    lateinit var presenterCoroutine: DrinkOrderPresenterCoroutine
     override fun initView() {
         binding.apply {
             // Configure CommonHeaderView
@@ -31,8 +34,7 @@ OnItemDrinkOrderClickListener{
     }
 
     override fun initData() {
-        presenter = DrinkOrderPresenter(null, CallApiRevenue.getInstance())
-        presenter.attachView(this)
+        presenterCoroutine.attachView(this)
         val intent = getIntent()
         val name = intent.getStringExtra(Constant.KEY_NAME)
         val startTime = intent.getStringExtra(Constant.KEY_START)
@@ -42,7 +44,7 @@ OnItemDrinkOrderClickListener{
                 textStart.text = startTime
                 textEnd.text = endTime
             }
-            presenter.getDrinkOrders(name,startTime + Constant.KEY_TIME_START,endTime + Constant.KEY_TIME_END)
+            presenterCoroutine.getDrinkOrders(name,startTime + Constant.KEY_TIME_START,endTime + Constant.KEY_TIME_END)
         }
 
     }
@@ -70,7 +72,7 @@ OnItemDrinkOrderClickListener{
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 }

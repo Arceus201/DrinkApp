@@ -1,63 +1,60 @@
 package com.example.drinkapp.screen.common.profile
 
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.OnResultListener
-import com.example.drinkapp.data.resource.call.CallApiUser
-import com.example.drinkapp.data.resource.dto.user.UserUpdateDTO
+import com.example.drinkapp.data.repository.UserRepository
+import com.example.drinkapp.data.resource.Result
+import com.example.drinkapp.utils.base.BasePresenter
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfilePresenter(
-    private var view: ProfileContract.View?,
-    private val callApi: CallApiUser
-) : ProfileContract.Presenter {
-    
-    override fun attachView(view: ProfileContract.View) {
-        this.view = view
-    }
-    
-    override fun detachView() {
-        view = null
-    }
+class ProfilePresenter @Inject constructor(
+    private val repository: UserRepository
+) : BasePresenter<ProfileContract.View>(), ProfileContract.Presenter {
     
     override fun getUser(user_id: Long) {
-        callApi.getUserById(
-            user_id,
-            object : OnResultListener<User>{
-                override fun onSuccess(list: User) {
-                    view?.onGetUserSuccess(list)
+        launch {
+            when (val result = repository.getUserById(user_id)) {
+                is Result.Success -> {
+                    view?.onGetUserSuccess(result.data)
                 }
-
-                override fun onFail(message: String) {
-
+                is Result.Error -> {
+                    // Silent fail as per original implementation
                 }
-
+                is Result.HttpError -> {
+                    // Silent fail as per original implementation
+                }
             }
-        )
+        }
     }
 
-    override fun updateUser(user_id:Long,username: String, dob: String) {
-        val userUpdateDTO = UserUpdateDTO(user_id,username,dob)
-        callApi.updateUser(
-            userUpdateDTO,
-            object : OnResultListener<User>{
-                override fun onSuccess(list: User) {
-                    view?.onUpdateUserSuccess(list)
+    override fun updateUser(user_id: Long, username: String, dob: String) {
+        launch {
+            // Create a User object with the updated fields
+            // Note: We need to provide all required fields, even if they won't be used in the update
+            val user = User(
+                id = user_id,
+                username = username,
+                dob = dob,
+                password = "", // Required field, but not used in update
+                phone = "", // Required field, but not used in update
+                role = 0L // Required field, but not used in update
+            )
+            
+            when (val result = repository.updateUser(user_id, user)) {
+                is Result.Success -> {
+                    view?.onUpdateUserSuccess(result.data)
                 }
-
-                override fun onFail(message: String) {
+                is Result.Error -> {
                     view?.onFail(MESS_UPDATE_ACCOUNT_FAIL)
                 }
-
+                is Result.HttpError -> {
+                    view?.onFail(MESS_UPDATE_ACCOUNT_FAIL)
+                }
             }
-        )
+        }
     }
     
-    override fun onStart() {
-    }
-
-    override fun onStop() {
-        detachView()
-    }
-    companion object{
+    companion object {
         const val MESS_UPDATE_ACCOUNT_FAIL = "cập nhật tài khoản không thành công"
     }
 }

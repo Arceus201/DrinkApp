@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.AdminFragmentOrderManagerBinding
 import com.example.drinkapp.screen.admin.adapter.RecylerViewOrderManagerAdapter
 import com.example.drinkapp.screen.admin.delivering.DeliveringActivity
@@ -17,13 +16,17 @@ import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseFragment
 import com.example.drinkapp.utils.listener.OnItemOrderShipperClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OrderManagerFragment :
     BaseFragment<AdminFragmentOrderManagerBinding>(AdminFragmentOrderManagerBinding::inflate),
     OrderManagerContract.View,
     OnItemOrderShipperClickListener {
     private val adapter = RecylerViewOrderManagerAdapter(this)
-    private lateinit var presenter: OrderManagerPresenter
+    @Inject
+    lateinit var presenterCoroutine: OrderManagerPresenterCoroutine
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshInterval = 5000L
     private var listOrder: MutableList<Order> = mutableListOf()
@@ -33,14 +36,13 @@ class OrderManagerFragment :
     }
 
     override fun initData() {
-        presenter = OrderManagerPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
-        presenter.getListOrder(1L)
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getListOrder(1L)
         scheduleRefresh()
     }
     private fun scheduleRefresh() {
         refreshHandler.postDelayed({
-            presenter.getListOrder(1L)
+            presenterCoroutine.getListOrder(1L)
             scheduleRefresh()
         }, refreshInterval)
     }
@@ -94,7 +96,7 @@ class OrderManagerFragment :
         alertDialog.setTitle(CONFIRM_ORDER_TILE)
         alertDialog.setMessage(CONFIRM_ORDER_MESSAGE)
         alertDialog.setPositiveButton(R.string.ok) { dialog, which ->
-            presenter.updateStatusOrder(id,2L)
+            presenterCoroutine.updateStatusOrder(id,2L)
         }
         alertDialog.setNegativeButton(R.string.cancel) { dialog, which ->
             dialog.dismiss()
@@ -108,7 +110,7 @@ class OrderManagerFragment :
     }
 
     override fun onUpadteStatusOrderSuccess() {
-        presenter.getListOrder(1L)
+        presenterCoroutine.getListOrder(1L)
     }
 
     override fun onFail(msg: String) {
@@ -121,7 +123,7 @@ class OrderManagerFragment :
     }
 
     override fun onDestroyView() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroyView()
         refreshHandler.removeCallbacksAndMessages(null)
     }

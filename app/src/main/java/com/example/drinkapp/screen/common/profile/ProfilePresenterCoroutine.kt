@@ -1,5 +1,6 @@
 package com.example.drinkapp.screen.common.profile
 
+import com.example.drinkapp.data.model.User
 import com.example.drinkapp.data.repository.UserRepository
 import com.example.drinkapp.data.resource.Result
 import com.example.drinkapp.data.resource.dto.user.UserUpdateDTO
@@ -47,9 +48,17 @@ class ProfilePresenterCoroutine @Inject constructor(
     }
 
     override fun updateUser(user_id: Long, username: String, dob: String) {
-        val userUpdateDTO = UserUpdateDTO(user_id, username, dob)
         launch {
-            when (val result = repository.updateUser(userUpdateDTO)) {
+            val user = User(
+                id = user_id,
+                username = username,
+                phone = "",  // Empty string as phone is required but not being updated
+                password = "",  // Empty string as password is required but not being updated
+                avatar = null,
+                dob = dob,
+                role = 0L
+            )
+            when (val result = repository.updateUser(user_id, user)) {
                 is Result.Success -> {
                     view?.onUpdateUserSuccess(result.data)
                 }

@@ -176,5 +176,8 @@
     
     <!-- Common Header -->
     <string name="navigate_back">Quay lại</string>
+    
+    <!-- Back Navigation -->
+    <string name="press_back_again_to_exit">Nhấn back lần nữa để thoát</string>
 
 </resources>

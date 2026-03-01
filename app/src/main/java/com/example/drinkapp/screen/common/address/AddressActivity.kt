@@ -5,8 +5,6 @@ import android.util.Log
 import android.widget.Toast
 import com.example.drinkapp.data.model.Address
 import com.example.drinkapp.data.model.CartItem
-import com.example.drinkapp.data.resource.call.CallApiAddress
-
 import com.example.drinkapp.databinding.ActivityChoseAddressBinding
 import com.example.drinkapp.screen.common.addaddress.AddAddressActivity
 import com.example.drinkapp.screen.client.adapter.RecyclerViewAddressAdapter
@@ -15,15 +13,22 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemAddressClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddressActivity :
     BaseActivity<ActivityChoseAddressBinding>(ActivityChoseAddressBinding::inflate),
     AddressContract.View,
     OnItemAddressClickListener {
-    private lateinit var presenter: AddressPresenter
+    
+    @Inject
+    lateinit var presenter: AddressPresenterCoroutine
+    
     private lateinit var adapter: RecyclerViewAddressAdapter
     private var listChose: MutableList<CartItem> = mutableListOf()
     private var totalPrice: String = "null"
+    
     override fun initView() {
         if(intent!=null) {
             listChose =
@@ -62,10 +67,7 @@ class AddressActivity :
     }
 
     override fun initData() {
-
-
         var userData = UserManager.getUserInfo(this)
-        presenter = AddressPresenter(null, CallApiAddress.getInstance())
         presenter.attachView(this)
         userData.id?.let { presenter.getAllAddress(it) }
     }

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.AdminAcitvityDeliveringBinding
 import com.example.drinkapp.screen.admin.adapter.RecylerViewOrderManagerAdapter
 import com.example.drinkapp.screen.admin.waiting_for_delivery.WattingDeliveryActivity
@@ -12,22 +11,25 @@ import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemOrderShipperClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeliveringActivity :
     BaseActivity<AdminAcitvityDeliveringBinding>(AdminAcitvityDeliveringBinding::inflate),
     DeliveringContract.View,
     OnItemOrderShipperClickListener {
     private val adapter = RecylerViewOrderManagerAdapter(this)
-    private lateinit var presenter: DeliveringPresenter
+    @Inject
+    lateinit var presenterCoroutine: DeliveringPresenterCoroutine
     private var listOrder: MutableList<Order> = mutableListOf()
     override fun initView() {
         binding.recyclerView.adapter = adapter
     }
 
     override fun initData() {
-        presenter = DeliveringPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
-        presenter.getListOrder(3L)
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getListOrder(3L)
 
     }
 
@@ -108,7 +110,7 @@ class DeliveringActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 

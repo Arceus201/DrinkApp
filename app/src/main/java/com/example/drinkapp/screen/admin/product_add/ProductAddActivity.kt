@@ -16,9 +16,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiCategory
-import com.example.drinkapp.data.resource.call.CallApiDrink
-import com.example.drinkapp.data.resource.call.CallApiPriceSize
 import com.example.drinkapp.databinding.AdminActivityProductAddBinding
 import com.example.drinkapp.screen.admin.product.ProductActivity
 import com.example.drinkapp.utils.base.BaseActivity
@@ -29,14 +26,18 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductAddActivity :
     BaseActivity<AdminActivityProductAddBinding>(AdminActivityProductAddBinding::inflate),
     ProductAddContract.View {
 
-    private lateinit var presenter: ProductAddPresenter
+    @Inject
+    lateinit var presenterCoroutine: ProductAddPresenterCoroutine
     private var imageUri: Uri? = null
     private lateinit var storageReference: StorageReference
     private lateinit var progressDialog: ProgressDialog
@@ -64,15 +65,8 @@ class ProductAddActivity :
     }
 
     override fun initData() {
-        presenter =
-            ProductAddPresenter(
-                null,
-                CallApiDrink.getInstance(),
-                CallApiCategory.getInstance(),
-                CallApiPriceSize.getInstance()
-            )
-        presenter.attachView(this)
-        presenter.getAllCategory()
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getAllCategory()
     }
 
     override fun handleEvent() {
@@ -82,7 +76,7 @@ class ProductAddActivity :
             }
             buttonAddProduct.setOnClickListener {
                 buttonAddProduct.isEnabled = false
-                presenter.checkInputAdd(binding.textName.text.toString(),
+                presenterCoroutine.checkInputAdd(binding.textName.text.toString(),
                     imageUri,
                     binding.textPrice.text.toString().trim())
             }
@@ -200,7 +194,7 @@ class ProductAddActivity :
     }
 
     fun addProduct(uri: String) {
-        presenter.addProduct(
+        presenterCoroutine.addProduct(
             binding.textName.text.toString(),
             uri,
             (binding.textPrice.text.toString().trim()).parseFromNumberFormat(),
@@ -222,7 +216,7 @@ class ProductAddActivity :
 
 
     override fun onProductAdded(product: Product) {
-        presenter.addPriceSize(product.id, 1, product.price)
+        presenterCoroutine.addPriceSize(product.id, 1, product.price)
     }
 
     override fun onFail(errorMessage: String) {
@@ -235,7 +229,7 @@ class ProductAddActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 

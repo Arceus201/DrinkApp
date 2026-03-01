@@ -12,18 +12,21 @@ import com.example.drinkapp.data.model.CartItem
 import com.example.drinkapp.data.model.addressVN.City
 import com.example.drinkapp.data.model.addressVN.District
 import com.example.drinkapp.data.model.addressVN.Ward
-import com.example.drinkapp.data.resource.call.CallApiAddress
-import com.example.drinkapp.data.resource.call.CallApiAddressVN
 import com.example.drinkapp.databinding.ActivityAddressBinding
 import com.example.drinkapp.screen.common.address.AddressActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressBinding::inflate),
     AddAddressContract.View {
-    private lateinit var presenter: AddAddressPresenter
+    
+    @Inject
+    lateinit var presenter: AddAddressPresenterCoroutine
     private var listChose: MutableList<CartItem> = mutableListOf()
     private var totalPrice: String = "-1"
     private var dataDistrict: List<List<District>>? = null
@@ -66,11 +69,6 @@ class AddAddressActivity : BaseActivity<ActivityAddressBinding>(ActivityAddressB
 
         var userData = UserManager.getUserInfo(applicationContext)
         user_Id = userData.id
-        presenter = AddAddressPresenter(
-            null,
-            CallApiAddress.getInstance(),
-            CallApiAddressVN.getInstance()
-        )
         presenter.attachView(this)
         presenter.getAllAddressVN()
     }

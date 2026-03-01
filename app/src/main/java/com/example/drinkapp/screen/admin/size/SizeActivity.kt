@@ -4,20 +4,24 @@ import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import com.example.drinkapp.data.model.Size
-import com.example.drinkapp.data.resource.call.CallApiSize
 import com.example.drinkapp.databinding.AdminActivityCategoryBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewSizeAdapter
 import com.example.drinkapp.screen.admin.main.MainAdminActivity
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemSizeClickListener
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SizeActivity :
     BaseActivity<AdminActivityCategoryBinding>(AdminActivityCategoryBinding::inflate),
     SizeContract.View,
     OnItemSizeClickListener {
 
-    private lateinit var presenter: SizePresenter
+    @Inject
+    lateinit var presenter: SizePresenter
+    
     private val adapter = RecyclerViewSizeAdapter(this)
     private lateinit var sizeUpdate : Size
 
@@ -37,21 +41,19 @@ class SizeActivity :
     }
 
     override fun initData() {
-        presenter = SizePresenter(null,CallApiSize.getInstance())
         presenter.attachView(this)
-        presenter?.getAllSize()
+        presenter.getAllSize()
     }
 
     override fun handleEvent() {
         binding.apply {
             buttonSave.setOnClickListener {
-                buttonSave.isEnabled = false
                 if(!binding.textName.text.isNullOrEmpty()) {
                     if (buttonSave.text.toString() == TEXT_SAVE) {
-                        presenter?.addSize(textName.text.toString().trim())
+                        presenter.addSize(textName.text.toString().trim())
                     } else {
                         sizeUpdate.name = binding.textName.text.toString()
-                        presenter?.updateSize(sizeUpdate.id, sizeUpdate)
+                        presenter.updateSize(sizeUpdate.id, sizeUpdate)
                     }
                 }else{
                     displayFail(MESS)
@@ -65,8 +67,15 @@ class SizeActivity :
         }
     }
 
-    override fun displaySuccess(list: List<Size>) {
+    override fun showLoading() {
+        binding.buttonSave.isEnabled = false
+    }
+
+    override fun hideLoading() {
         binding.buttonSave.isEnabled = true
+    }
+
+    override fun displaySuccess(list: List<Size>) {
         binding.buttonCancel.visibility = View.GONE
         adapter.setData(list)
         binding.textName.setText("")
@@ -77,7 +86,6 @@ class SizeActivity :
     }
 
     override fun displayFail(msg: String) {
-        binding.buttonSave.isEnabled = true
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 

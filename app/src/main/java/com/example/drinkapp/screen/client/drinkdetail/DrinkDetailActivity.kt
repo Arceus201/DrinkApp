@@ -9,19 +9,20 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.drinkapp.data.model.CartItem
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiCartItem
-import com.example.drinkapp.data.resource.call.CallApiDrink
-import com.example.drinkapp.data.resource.call.CallApiPriceSize
 import com.example.drinkapp.databinding.ClientActivityDrinkDetailBinding
 import com.example.drinkapp.screen.client.cart.CartActivity
 import com.example.drinkapp.screen.client.main.MainActivity
 import com.example.drinkapp.utils.*
 import com.example.drinkapp.utils.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DrinkDetailActivity :
     BaseActivity<ClientActivityDrinkDetailBinding>(ClientActivityDrinkDetailBinding::inflate),
     DrinkDetailContract.View {
-    private lateinit var presenter: DrinkDetailPresenter
+    @Inject
+    lateinit var presenter: DrinkDetailPresenterCoroutine
     private var price: Double? = 0.0
     private var pricesize_Id: Long = 1
     private var user_Id: Long? = null
@@ -43,12 +44,6 @@ class DrinkDetailActivity :
     override fun initData() {
         var userData = UserManager.getUserInfo(applicationContext)
         user_Id = userData.id
-        presenter = DrinkDetailPresenter(
-            null,
-            CallApiDrink.getInstance(),
-            CallApiPriceSize.getInstance(),
-            CallApiCartItem.getInstance()
-        )
         presenter.attachView(this)
         intent?.getLongExtra(Constant.KEY_PRODUCT_ID, 0)?.let { productId ->
             presenter.getProductById(productId)

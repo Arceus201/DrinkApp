@@ -61,7 +61,17 @@ class ProductAddPresenterCoroutine @Inject constructor(
         cateId: Long
     ) {
         launch {
-            when (val result = productRepository.addProduct(name, imageUri, price, statusCode, cateId)) {
+            val product = com.example.drinkapp.data.model.Product(
+                id = 0,
+                name = name,
+                image = imageUri,
+                price = price,
+                status = statusCode,
+                quantitysold = 0,
+                note = null,
+                category = com.example.drinkapp.data.model.Category(cateId, "")
+            )
+            when (val result = productRepository.addProduct(product)) {
                 is Result.Success -> {
                     view?.onProductAdded(result.data)
                 }

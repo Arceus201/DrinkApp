@@ -27,21 +27,68 @@ A modern Android application for drink ordering and delivery management, built w
 
 ## 🏗️ Architecture
 
-This project follows **MVP (Model-View-Presenter)** architecture pattern with modern Android development practices:
+This project follows **MVP (Model-View-Presenter)** architecture pattern with **Repository Pattern** and **Kotlin Coroutines**:
 
-- **Presentation Layer**: Activities/Fragments with MVP Contracts
-- **Domain Layer**: Repository pattern for business logic
-- **Data Layer**: Retrofit for API calls, Room for local storage (planned)
+### Architecture Layers
+
+- **Presentation Layer**: Activities/Fragments (View) + Presenters with coroutine-based async operations
+- **Data Layer**: Repository pattern with suspend functions returning `Result<T>` sealed class
+- **Network Layer**: Retrofit with suspend functions for API calls
 
 ### Key Technologies
 
 - **Language**: Kotlin 100%
-- **Architecture**: MVP + Repository Pattern
+- **Architecture**: MVP + Repository Pattern with Coroutines
 - **Dependency Injection**: Hilt
 - **Networking**: Retrofit + OkHttp
-- **Async**: Kotlin Coroutines + Flow
+- **Async**: Kotlin Coroutines (no callbacks!)
+- **Error Handling**: Result sealed class (Success, Error, HttpError)
 - **UI**: Material Design 3
 - **Image Loading**: Coil (planned)
+
+### Architecture Highlights
+
+✅ **No Callback Hell**: All async operations use coroutines with suspend functions  
+✅ **Type-Safe Results**: `Result<T>` sealed class for consistent error handling  
+✅ **Automatic Cancellation**: Coroutines cancelled when user navigates away  
+✅ **Centralized Error Handling**: `BaseRepository.safeApiCall()` handles all errors  
+✅ **Testable**: Repositories and Presenters easily mocked for testing  
+✅ **Memory Leak Prevention**: Lifecycle-aware coroutine management  
+
+For detailed architecture documentation, see:
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Complete architecture guide with code examples
+- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migration from callbacks to coroutines
+
+### Repository Pattern Example
+
+```kotlin
+// Repository with suspend functions
+interface CategoryRepository {
+    suspend fun getAllCategories(): Result<List<Category>>
+    suspend fun addCategory(name: String): Result<List<Category>>
+}
+
+// Presenter using coroutines
+class CategoryPresenter @Inject constructor(
+    private val repository: CategoryRepository
+) : BasePresenter<CategoryContract.View>() {
+    
+    override fun getAllCategories() {
+        launch {
+            view?.showLoading()
+            repository.getAllCategories()
+                .onSuccess { categories -> 
+                    view?.hideLoading()
+                    view?.displayCategories(categories) 
+                }
+                .onFailure { message -> 
+                    view?.hideLoading()
+                    view?.showError(message) 
+                }
+        }
+    }
+}
+```
 
 ## 📋 Requirements
 
@@ -170,6 +217,8 @@ This project follows [Kotlin Coding Conventions](https://kotlinlang.org/docs/cod
 
 For detailed documentation on specific topics, see:
 
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Complete architecture guide with Repository pattern and coroutines
+- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migration guide from callbacks to coroutines with before/after examples
 - [Refactor Plan](../DRINKAPP_REFACTOR_PLAN.md) - Complete refactoring roadmap
 - [Hilt DI Guide](../HILT_DI_GUIDE.md) - Dependency injection setup
 - [Coroutines Migration](../COROUTINES_MIGRATION_PATTERN.md) - Async programming patterns
@@ -177,16 +226,26 @@ For detailed documentation on specific topics, see:
 
 ## 🔄 Recent Updates
 
-### Phase 1: Critical Fixes ✅
+### Phase 1-4: Repository Pattern Migration ✅
+- Migrated all 10 CallApi classes to Repository pattern
+- Implemented BaseRepository with centralized error handling
+- Added Result sealed class for type-safe error handling
+- Migrated all Presenters to use Kotlin Coroutines
+- Integrated Hilt Dependency Injection for all repositories
+- Removed callback hell - all async operations now use coroutines
+- Added automatic coroutine cancellation for memory leak prevention
+
+### Phase 5: Cleanup and Documentation ✅
+- Removed all legacy CallApi classes and OnResultListener interface
+- Created comprehensive architecture documentation
+- Created migration guide with before/after examples
+- Updated README with architecture information
+
+### Previous Phases ✅
 - Fixed memory leaks in Presenters
 - Improved Retrofit configuration
 - Enhanced error handling
 - Added loading states
-
-### Phase 2: Architecture Improvements ✅
-- Migrated to Kotlin Coroutines
-- Implemented Repository Pattern
-- Integrated Hilt Dependency Injection
 - Modernized UI with Material Design 3
 - Optimized RecyclerViews with DiffUtil
 

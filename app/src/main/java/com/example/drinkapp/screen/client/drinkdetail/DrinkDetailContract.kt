@@ -2,7 +2,7 @@ package com.example.drinkapp.screen.client.drinkdetail
 
 import com.example.drinkapp.data.model.CartItem
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface DrinkDetailContract {
     interface View{
@@ -15,7 +15,7 @@ interface DrinkDetailContract {
         fun onFail(msg: String)
         fun onCheckFail()
     }
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: IBasePresenter<View>{
         fun getProductById(id: Long)
         fun changeQuantity(index : Long, action: Long)
         fun getListPriceSize(idProduct: Long)

@@ -2,7 +2,7 @@ package com.example.drinkapp.screen.client.confirm_order
 
 import com.example.drinkapp.data.model.Address
 import com.example.drinkapp.data.model.CartItem
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 import java.util.Date
 
 interface ConfirmOrderContract {
@@ -12,7 +12,7 @@ interface ConfirmOrderContract {
         fun onFail(msg: String)
 
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
 
         fun addOrder( list: List<CartItem>, address_id: Long, order_time: String, total_price: Double,
                       payment_type: Long, payment_status: Long)

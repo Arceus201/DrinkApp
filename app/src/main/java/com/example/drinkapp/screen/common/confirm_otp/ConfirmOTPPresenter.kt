@@ -1,50 +1,47 @@
 package com.example.drinkapp.screen.common.confirm_otp
 
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.OnResultListener
-import com.example.drinkapp.data.resource.call.CallApiUser
+import com.example.drinkapp.data.repository.UserRepository
+import com.example.drinkapp.data.resource.Result
+import com.example.drinkapp.utils.base.BasePresenter
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ConfirmOTPPresenter (private var view: ConfirmOTPContract.View?, private val callApi: CallApiUser) :
-    ConfirmOTPContract.Presenter {
-
-    override fun attachView(view: ConfirmOTPContract.View) {
-        this.view = view
-    }
-    
-    override fun detachView() {
-        view = null
-    }
+class ConfirmOTPPresenter @Inject constructor(
+    private val repository: UserRepository
+) : BasePresenter<ConfirmOTPContract.View>(), ConfirmOTPContract.Presenter {
 
     override fun handlerSignUp(
         username: String,
         phone: String,
         password: String
     ) {
-        callApi.signUp(
-            username,
-            phone,
-            password,
-            object : OnResultListener<User> {
-                override fun onSuccess(user: User) {
+        launch {
+            val user = User(
+                id = 0L,
+                username = username,
+                phone = phone,
+                password = password,
+                avatar = null,
+                dob = null,
+                role = 0L
+            )
+            
+            when (val result = repository.signUp(user)) {
+                is Result.Success -> {
                     view?.onSignUpSuccess(MESSAGE_SIGN_UP_SUCCESS)
                 }
-
-                override fun onFail(message: String) {
-                    view?.onFail(MESSAGE_SIGN_UP_FAIL)
+                is Result.Error -> {
+                    view?.onFail(result.message)
                 }
-
+                is Result.HttpError -> {
+                    view?.onFail(result.message)
+                }
             }
-        )
+        }
     }
 
-
-    override fun onStart() {
-    }
-
-    override fun onStop() {
-        detachView()
-    }
-    companion object{
+    companion object {
         const val MESSAGE_SIGN_UP_SUCCESS = "đăng ký tài khoản thành công"
         const val MESSAGE_SIGN_UP_FAIL = "đăng ký tài khoản không thành công"
     }

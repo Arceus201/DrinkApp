@@ -10,9 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiCategory
-import com.example.drinkapp.data.resource.call.CallApiDrink
-import com.example.drinkapp.data.resource.call.CallApiPriceSize
 import com.example.drinkapp.databinding.AdminActivityProductUpdateBinding
 import com.example.drinkapp.screen.admin.product_add.ProductAddActivity
 import com.example.drinkapp.utils.Constant
@@ -24,16 +21,20 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductUpdateActivity :
     BaseActivity<AdminActivityProductUpdateBinding>(AdminActivityProductUpdateBinding::inflate),
     ProductUpdateContract.View {
     private lateinit var storageReference: StorageReference
     private lateinit var progressDialog: ProgressDialog
     private lateinit var product: Product
-    private lateinit var presenter: ProductUpdatePresenter
+    @Inject
+    lateinit var presenterCoroutine: ProductUpdatePresenterCoroutine
     private var imageUri: Uri? = null
     private var data: List<Long>? = null
     private var cateId: Long = 0
@@ -61,14 +62,8 @@ class ProductUpdateActivity :
             spinnerStatus.adapter = adapter
         }
 
-        presenter = ProductUpdatePresenter(
-            null,
-            CallApiCategory.getInstance(),
-            CallApiDrink.getInstance(),
-            CallApiPriceSize.getInstance()
-        )
-        presenter.attachView(this)
-        presenter.getAllCategory()
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getAllCategory()
     }
 
     override fun initData() {
@@ -120,7 +115,7 @@ class ProductUpdateActivity :
 
             buttonUpdateProduct.setOnClickListener {
                 buttonUpdateProduct.isEnabled = false
-                presenter.checkInputUpdate(
+                presenterCoroutine.checkInputUpdate(
                     binding.textName.text.toString(),
                     product.image,
                     binding.textPrice.text.toString().trim()
@@ -176,7 +171,7 @@ class ProductUpdateActivity :
             .addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                 // Get the download URL
                 storageReference.downloadUrl.addOnSuccessListener { uri ->
-                    presenter.checkInputUpdate(
+                    presenterCoroutine.checkInputUpdate(
                         binding.textName.text.toString(),
                         uri.toString(),
                         binding.textPrice.text.toString().trim()
@@ -191,7 +186,7 @@ class ProductUpdateActivity :
     }
 
     fun updateProduct(uri: String) {
-        presenter.updateProduct(
+        presenterCoroutine.updateProduct(
             product.id,
             binding.textName.text.toString(),
             uri,
@@ -215,7 +210,7 @@ class ProductUpdateActivity :
     }
 
     override fun onUpdateSuccess() {
-        presenter.updatePriceSizeDefault(product.id, 1, pricetxt, 1)
+        presenterCoroutine.updatePriceSizeDefault(product.id, 1, pricetxt, 1)
     }
 
     override fun onUpdatePriiceSizeSuccess(msg: String) {
@@ -228,7 +223,7 @@ class ProductUpdateActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 

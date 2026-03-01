@@ -1,7 +1,7 @@
 package com.example.drinkapp.screen.client.cart
 
 import com.example.drinkapp.data.model.CartItem
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface CartContract {
     interface View{
@@ -13,7 +13,7 @@ interface CartContract {
         fun onFail(msg: String)
         fun onDisplayAllCartFail()
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun getAllCartItemByUserID(user_id: Long)
         fun updateCartItemNumber(id: Long, number: Long)
 

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiDrink
 import com.example.drinkapp.databinding.ClientActivitySearchBinding
 import com.example.drinkapp.databinding.ClientFragmentHomeBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewDrinkClientAdapter
@@ -16,27 +15,29 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.NextBackPage
 import com.example.drinkapp.utils.base.BaseFragment
 import com.example.drinkapp.utils.listener.OnItemDrinkClientClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment:BaseFragment<ClientFragmentHomeBinding>(ClientFragmentHomeBinding::inflate),
     HomeContract.View,
     OnItemDrinkClientClickListener{
-    private lateinit var presenter: HomePresenter
+    @Inject
+    lateinit var presenterCoroutine: HomePresenterCoroutine
     private val adapter = RecyclerViewDrinkClientAdapter(this)
     override fun initView() {
         binding.recyclerView.adapter = adapter
     }
 
     override fun initData() {
-        presenter = HomePresenter(null, CallApiDrink.getInstance())
-        presenter.attachView(this)
-        presenter?.getProductHot()
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getProductHot()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter = HomePresenter(null, CallApiDrink.getInstance())
-        presenter.attachView(this)
-        presenter?.getProductHot()
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getProductHot()
     }
 
     override fun handleEvent() {
@@ -65,7 +66,7 @@ class HomeFragment:BaseFragment<ClientFragmentHomeBinding>(ClientFragmentHomeBin
     }
 
     override fun onDestroyView() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroyView()
     }
 }

@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.CartItem
-import com.example.drinkapp.data.resource.call.CallApiCartItem
 import com.example.drinkapp.databinding.ClientActivityCartBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewCartAdapter
 import com.example.drinkapp.screen.client.confirm_order.ConfirmOrderActivity
@@ -15,11 +14,17 @@ import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.formatAsNumber
 import com.example.drinkapp.utils.listener.OnItemCartClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartBinding::inflate),
     CartContract.View ,
     OnItemCartClickListener{
-    private lateinit var presenter: CartPresenter
+    
+    @Inject
+    lateinit var presenter: CartPresenterCoroutine
+    
     private val adapter: RecyclerViewCartAdapter = RecyclerViewCartAdapter(this)
     private lateinit var listC: MutableList<CartItem>
     private var listChoseCartItem: MutableList<CartItem> = mutableListOf()
@@ -59,7 +64,6 @@ class CartActivity : BaseActivity<ClientActivityCartBinding>(ClientActivityCartB
 
     override fun initData() {
         val userData = UserManager.getUserInfo(this)
-        presenter = CartPresenter(null, CallApiCartItem.getInstance())
         presenter.attachView(this)
         userData.id?.let { presenter.getAllCartItemByUserID(it) }
     }

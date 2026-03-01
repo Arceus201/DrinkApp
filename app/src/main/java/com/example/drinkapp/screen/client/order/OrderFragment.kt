@@ -3,7 +3,6 @@ package com.example.drinkapp.screen.client.order
 import android.content.Intent
 import android.widget.Toast
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.ClientFragmentOrderBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewOrderAdapter
 import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
@@ -11,11 +10,15 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseFragment
 import com.example.drinkapp.utils.listener.OnItemOrderClientClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OrderFragment:BaseFragment<ClientFragmentOrderBinding>(ClientFragmentOrderBinding::inflate),
     OrderContract.View,
     OnItemOrderClientClickListener{
-    private lateinit var presenter: OrderPresenter
+    @Inject
+    lateinit var presenterCoroutine: OrderPresenterCoroutine
     private val adapter = RecyclerViewOrderAdapter(this)
     override fun initView() {
         binding.recyclerView.adapter = adapter
@@ -23,10 +26,9 @@ class OrderFragment:BaseFragment<ClientFragmentOrderBinding>(ClientFragmentOrder
 
     override fun initData() {
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
+        presenterCoroutine.attachView(this)
         if (user != null) {
-            user.id?.let { presenter.getOrder(it) }
+            user.id?.let { presenterCoroutine.getOrder(it) }
         }
     }
 
@@ -56,15 +58,14 @@ class OrderFragment:BaseFragment<ClientFragmentOrderBinding>(ClientFragmentOrder
     override fun onResume() {
         super.onResume()
         val user = context?.let { UserManager.getUserInfo(it) }
-        presenter = OrderPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
+        presenterCoroutine.attachView(this)
         if (user != null) {
-            user.id?.let { presenter.getOrder(it) }
+            user.id?.let { presenterCoroutine.getOrder(it) }
         }
     }
 
     override fun onDestroyView() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroyView()
     }
 }
