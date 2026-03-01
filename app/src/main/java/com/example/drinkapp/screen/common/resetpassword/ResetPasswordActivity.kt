@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.ClientActivityResetPasswordBinding
 import com.example.drinkapp.screen.common.login.LoginActivity
 import com.example.drinkapp.screen.common.signup.SignupActivity
@@ -16,11 +15,15 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ResetPasswordActivity :
     BaseActivity<ClientActivityResetPasswordBinding>(ClientActivityResetPasswordBinding::inflate),
     ResetPasswordContract.View {
-    private lateinit var presenter: ResetPasswordPresenter
+    @Inject
+    lateinit var presenter: ResetPasswordPresenterCoroutine
     private var checkPassword = false
     override fun initView() {
         binding.apply {
@@ -38,7 +41,6 @@ class ResetPasswordActivity :
     }
 
     override fun initData() {
-        presenter = ResetPasswordPresenter(null, CallApiUser.getInstance())
         presenter.attachView(this)
     }
 

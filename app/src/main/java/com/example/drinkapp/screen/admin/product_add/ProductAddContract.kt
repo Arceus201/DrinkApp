@@ -3,7 +3,7 @@ package com.example.drinkapp.screen.admin.product_add
 import android.net.Uri
 import com.example.drinkapp.data.model.PriceSize
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface ProductAddContract {
     interface View {
@@ -16,7 +16,7 @@ interface ProductAddContract {
         fun addPriceSize(msg: String)
     }
 
-    interface Presenter:BasePresenter<View> {
+    interface Presenter:IBasePresenter<View> {
 
         fun getAllCategory()
 

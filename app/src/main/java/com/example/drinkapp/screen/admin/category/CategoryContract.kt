@@ -1,7 +1,7 @@
 package com.example.drinkapp.screen.admin.category
 
 import com.example.drinkapp.data.model.Category
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface CategoryContract {
     interface View {
@@ -12,7 +12,7 @@ interface CategoryContract {
         fun addUpDateFail(msg: String)
     }
 
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun getAllCategory()
         fun addCategory(name: String)
         fun updateCategory(id: Long?, category: Category)

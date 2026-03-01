@@ -1,7 +1,7 @@
 package com.example.drinkapp.screen.admin.custom_manager_order
 
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface CustomManagerOrderContract {
     interface View{
@@ -9,7 +9,7 @@ interface CustomManagerOrderContract {
         fun onGetAllOrderByUserInUserManagerFail()
         fun onFail(msg: String)
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun getAllOrderByUserInUserManager(user_id: Long)
     }
 

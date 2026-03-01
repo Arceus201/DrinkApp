@@ -9,22 +9,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.drinkapp.data.model.PriceSize
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiPriceSize
-import com.example.drinkapp.data.resource.call.CallApiSize
 import com.example.drinkapp.databinding.AdminActivityProductSizeBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewPriceSizeAdapter
-import com.example.drinkapp.screen.admin.product.ProductActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemPriceSizeClickListener
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductSizeActivity :
     BaseActivity<AdminActivityProductSizeBinding>(AdminActivityProductSizeBinding::inflate),
     ProductSizeContract.View,
     OnItemPriceSizeClickListener {
 
-    private lateinit var presenter: ProductSizePresenter
+    @Inject
+    lateinit var presenter: ProductSizePresenterCoroutine
+    
     private var data: List<Long>? = null
     private lateinit var listPriceSize: List<PriceSize>
     private var adapterPS = RecyclerViewPriceSizeAdapter(this)
@@ -47,8 +49,6 @@ class ProductSizeActivity :
 
     override fun initData() {
         product = intent.getSerializableExtra(Constant.KEY_PRODUCT) as Product
-        presenter =
-            ProductSizePresenter(null, CallApiSize.getInstance(), CallApiPriceSize.getInstance())
         presenter.attachView(this)
         presenter.getALLSize()
         presenter.getAllPriceSize(product.id)

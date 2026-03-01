@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiDrink
 import com.example.drinkapp.databinding.AdminActivityProductBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewDrinkAdapter
 import com.example.drinkapp.screen.admin.main.MainAdminActivity
@@ -19,13 +18,17 @@ import com.example.drinkapp.screen.admin.waiting_for_delivery.WattingDeliveryAct
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemEditDrinkClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductActivity :
     BaseActivity<AdminActivityProductBinding>(AdminActivityProductBinding::inflate),
     ProductContract.View,
     OnItemEditDrinkClickListener {
 
-    private lateinit var presenter: ProductPresenter
+    @Inject
+    lateinit var presenterCoroutine: ProductPresenterCoroutine
     private val adapter: RecyclerViewDrinkAdapter = RecyclerViewDrinkAdapter(this)
     private lateinit var listP: MutableList<Product>
 
@@ -43,14 +46,13 @@ class ProductActivity :
     }
 
     override fun initData() {
-        presenter = ProductPresenter(null,CallApiDrink.getInstance())
-        presenter.attachView(this)
-        presenter?.getAllDrink()
+        presenterCoroutine.attachView(this)
+        presenterCoroutine.getAllDrink()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter?.getAllDrink()
+        presenterCoroutine.getAllDrink()
     }
 
     override fun handleEvent() {
@@ -92,7 +94,7 @@ class ProductActivity :
     }
 
     override fun onUpdateSuccess(msg: String) {
-        presenter.getAllDrink()
+        presenterCoroutine.getAllDrink()
     }
 
     override fun onDeleteProductSuccess(msg: String) {
@@ -113,7 +115,7 @@ class ProductActivity :
         alertDialog.setTitle(MESS_CONFIRM_DELETE_TITLE)
         alertDialog.setMessage(MESS_CONFIRM_DELETE_MESSAGE)
         alertDialog.setPositiveButton(R.string.ok) { dialog, which ->
-            presenter.deleteProduct(id)
+            presenterCoroutine.deleteProduct(id)
         }
         alertDialog.setNegativeButton(R.string.cancel) { dialog, which ->
             dialog.dismiss()
@@ -138,7 +140,7 @@ class ProductActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 

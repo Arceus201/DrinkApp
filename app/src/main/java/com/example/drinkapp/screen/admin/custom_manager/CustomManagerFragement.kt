@@ -6,19 +6,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.AdminFragmentCustomManagerBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewUserManagerAdapter
 import com.example.drinkapp.screen.admin.custom_manager_order.CustomManagerOrderActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseFragment
 import com.example.drinkapp.utils.listener.OnItemUserManagerClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CustomManagerFragement :
     BaseFragment<AdminFragmentCustomManagerBinding>(AdminFragmentCustomManagerBinding::inflate),
     CustomManagerContract.View,
     OnItemUserManagerClickListener {
-    private lateinit var presenter: CustomManagerPresenter
+    @Inject
+    lateinit var presenter: CustomManagerPresenterCoroutine
     private val adapter = RecyclerViewUserManagerAdapter(this)
     private var listCustomManager: MutableList<User> = mutableListOf()
     override fun initView() {
@@ -26,7 +29,6 @@ class CustomManagerFragement :
     }
 
     override fun initData() {
-        presenter = CustomManagerPresenter(null, CallApiUser.getInstance())
         presenter.attachView(this)
         presenter.getAllClient()
     }

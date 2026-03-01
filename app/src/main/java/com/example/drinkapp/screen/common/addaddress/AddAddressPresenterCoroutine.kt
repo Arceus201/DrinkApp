@@ -1,34 +1,20 @@
 package com.example.drinkapp.screen.common.addaddress
 
 import com.example.drinkapp.data.repository.AddressRepository
+import com.example.drinkapp.data.repository.AddressVNRepository
 import com.example.drinkapp.data.resource.Result
 import com.example.drinkapp.data.resource.dto.address.AddressDTO
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.drinkapp.utils.base.BasePresenter
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.SupervisorJob
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Coroutine-based AddAddressPresenter with Hilt DI
  */
 class AddAddressPresenterCoroutine @Inject constructor(
-    private val repository: AddressRepository
-) : AddAddressContract.Presenter, CoroutineScope {
-
-    private var view: AddAddressContract.View? = null
-    private val job = SupervisorJob()
-    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
-
-    override fun attachView(view: AddAddressContract.View) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        view = null
-    }
+    private val repository: AddressRepository,
+    private val addressVNRepository: AddressVNRepository
+) : BasePresenter<AddAddressContract.View>(), AddAddressContract.Presenter {
 
     override fun addAddress(user_id: Long, name: String, phone: String, address: String) {
         val addressDTO = AddressDTO(user_id, name, phone, address)
@@ -48,19 +34,19 @@ class AddAddressPresenterCoroutine @Inject constructor(
     }
 
     override fun getAllAddressVN() {
-        // Note: This method requires a separate AddressVN API/Repository
-        // The original implementation uses CallApiAddressVN which is a separate dependency
-        // This should be refactored to inject the appropriate repository
-        // For now, leaving this as a placeholder to maintain interface compatibility
-    }
-
-    override fun onStart() {
-        // Lifecycle method - can be used for subscriptions
-    }
-
-    override fun onStop() {
-        job.cancel() // Cancel all coroutines
-        detachView()
+        launch {
+            when (val result = addressVNRepository.getProvinces()) {
+                is Result.Success -> {
+                    view?.onGetAllAddressVnSuccess(result.data)
+                }
+                is Result.Error -> {
+                    view?.onGetAllAddressVnFail()
+                }
+                is Result.HttpError -> {
+                    view?.onGetAllAddressVnFail()
+                }
+            }
+        }
     }
 
     companion object {

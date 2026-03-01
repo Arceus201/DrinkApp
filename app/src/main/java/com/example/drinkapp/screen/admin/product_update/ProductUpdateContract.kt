@@ -1,6 +1,6 @@
 package com.example.drinkapp.screen.admin.product_update
 
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface ProductUpdateContract {
     interface View{
@@ -11,7 +11,7 @@ interface ProductUpdateContract {
         fun  onUpdatePriiceSizeSuccess(msg: String)
         fun onFail(msg: String)
     }
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: IBasePresenter<View>{
         fun getAllCategory()
         fun updateProduct(id: Long,name: String,imageUri: String, price: Double, statusCode: Long,cateId: Long)
 

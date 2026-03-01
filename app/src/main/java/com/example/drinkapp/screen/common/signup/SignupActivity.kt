@@ -17,11 +17,17 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),
     SignupContract.View {
-    private lateinit var presenter: SignupPresenter
+    
+    @Inject
+    lateinit var presenter: SignupPresenter
+    
     private lateinit var mAuth: FirebaseAuth
     private var checkPassword = false
 
@@ -31,7 +37,6 @@ class SignupActivity : BaseActivity<ActivitySignupBinding>(ActivitySignupBinding
 
     override fun initData() {
         mAuth = FirebaseAuth.getInstance()
-        presenter = SignupPresenter(null)
         presenter.attachView(this)
     }
 

@@ -5,21 +5,24 @@ import android.util.Log
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.AdminActivityCustomManagerOrderBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewOrderAdapter
 import com.example.drinkapp.screen.client.order_detail.OrderDetailActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemOrderClientClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CustomManagerOrderActivity :
     BaseActivity<AdminActivityCustomManagerOrderBinding>(AdminActivityCustomManagerOrderBinding::inflate)
     ,
     CustomManagerOrderContract.View,
     OnItemOrderClientClickListener
 {
-    private lateinit var presenter: CustomManagerOrderPresenter
+    @Inject
+    lateinit var presenterCoroutine: CustomManagerOrderPresenterCoroutine
     private val adapter: RecyclerViewOrderAdapter = RecyclerViewOrderAdapter(this)
     override fun initView() {
         binding.commonHeader.configure {
@@ -32,9 +35,8 @@ class CustomManagerOrderActivity :
 
     override fun initData() {
         var user_id = intent.getLongExtra(Constant.KEY_ORDER_MANAGER,-1L)
-        presenter = CustomManagerOrderPresenter(null, CallApiOrder.getInstance())
-        presenter.attachView(this)
-        if(user_id != -1L) presenter.getAllOrderByUserInUserManager(user_id)
+        presenterCoroutine.attachView(this)
+        if(user_id != -1L) presenterCoroutine.getAllOrderByUserInUserManager(user_id)
     }
 
     override fun handleEvent() {
@@ -60,7 +62,7 @@ class CustomManagerOrderActivity :
     }
 
     override fun onDestroy() {
-        presenter.onStop()
+        presenterCoroutine.onStop()
         super.onDestroy()
     }
 }

@@ -5,7 +5,6 @@ import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Product
-import com.example.drinkapp.data.resource.call.CallApiDrink
 import com.example.drinkapp.databinding.ClientActivitySearchBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewDrinkClientAdapter
 import com.example.drinkapp.screen.client.drinkdetail.DrinkDetailActivity
@@ -14,10 +13,14 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.NextBackPage
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.listener.OnItemDrinkClientClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchActivity : BaseActivity<ClientActivitySearchBinding>(ClientActivitySearchBinding::inflate),
 SearchContract.View, OnItemDrinkClientClickListener {
-    private lateinit var presenter: SearchPresenter
+    @Inject
+    lateinit var presenter: SearchPresenterCoroutine
     private val adapter = RecyclerViewDrinkClientAdapter(this)
     private lateinit var listP : List<Product>
     override fun initView() {
@@ -34,14 +37,12 @@ SearchContract.View, OnItemDrinkClientClickListener {
     }
 
     override fun initData() {
-        presenter = SearchPresenter(null, CallApiDrink.getInstance())
         presenter.attachView(this)
         presenter?.getAllProduct()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter = SearchPresenter(null, CallApiDrink.getInstance())
         presenter.attachView(this)
         presenter?.getAllProduct()
     }

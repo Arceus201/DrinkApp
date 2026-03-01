@@ -7,18 +7,20 @@ import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Address
 import com.example.drinkapp.data.model.Order
-import com.example.drinkapp.data.resource.call.CallApiAddress
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.ClientActivityOrderDetailBinding
 import com.example.drinkapp.screen.client.adapter.RecyclerViewOrderDetailAdapter
 import com.example.drinkapp.screen.client.ggmap.GgMapActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.formatAsNumber
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(ClientActivityOrderDetailBinding::inflate),
     OrderDetailContract.View{
-    private lateinit var presenter: OrderDetailPresenter
+    @Inject
+    lateinit var presenter: OrderDetailPresenterCoroutine
     private val adapter: RecyclerViewOrderDetailAdapter = RecyclerViewOrderDetailAdapter()
     override fun initView() {
         // Configure CommonHeaderView
@@ -33,11 +35,6 @@ class OrderDetailActivity: BaseActivity<ClientActivityOrderDetailBinding>(Client
 
     override fun initData() {
         val order_information = intent.getSerializableExtra(Constant.KEY_ORDER) as Long
-        presenter = OrderDetailPresenter(
-            null,
-            CallApiOrder.getInstance(),
-            CallApiAddress.getInstance()
-        )
         presenter.attachView(this)
         presenter.getOrder(order_information)
         presenter.getAddressStore()

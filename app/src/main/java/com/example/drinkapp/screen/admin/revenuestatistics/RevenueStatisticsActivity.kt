@@ -5,26 +5,31 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.RevenueStatistics
-import com.example.drinkapp.data.resource.call.CallApiRevenue
 import com.example.drinkapp.databinding.AdminActivityRevenueStatisticsBinding
 import com.example.drinkapp.screen.admin.adapter.RecyclerViewRevenueStatisticAdapter
 import com.example.drinkapp.screen.admin.drinkorders.DrinkOrderActivity
 import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.base.BaseActivity
-import com.example.drinkapp.utils.formatAsNumber
 import com.example.drinkapp.utils.formatTimeStatistic
 import com.example.drinkapp.utils.listener.OnItemStatisticClickListener
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RevenueStatisticsActivity :
     BaseActivity<AdminActivityRevenueStatisticsBinding>(AdminActivityRevenueStatisticsBinding::inflate),
     RevenueStatisticsContract.View,
     OnItemStatisticClickListener {
-    private lateinit var presenter: RevenueStatisticsPresenter
+    
+    @Inject
+    lateinit var presenter: RevenueStatisticsPresenterCoroutine
+    
     private val adapter = RecyclerViewRevenueStatisticAdapter(this)
     private var selectedDate: Date = Calendar.getInstance().time
     private var selectedStartTime: Date = Calendar.getInstance().time
     private var selectedEndTime: Date = Calendar.getInstance().time
+    
     override fun initView() {
         binding.apply {
             // Configure CommonHeaderView
@@ -45,7 +50,6 @@ class RevenueStatisticsActivity :
     }
 
     override fun initData() {
-        presenter = RevenueStatisticsPresenter(null, CallApiRevenue.getInstance())
         presenter.attachView(this)
         val curentTime = Date()
 

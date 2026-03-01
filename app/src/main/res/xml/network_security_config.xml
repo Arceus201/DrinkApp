@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!-- Allow cleartext traffic for development -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.1.10</domain>
+        <domain includeSubdomains="true">192.168.1.11</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
+    
+    <!-- Trust user-installed certificates for HTTPS with self-signed cert -->
+    <base-config>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>
-<!--    192.168.1.8-->
-<!--     192.168.16.102-->
-<!--    192.168.1.10-->
-<!--    192.168.0.101-->

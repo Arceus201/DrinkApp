@@ -3,17 +3,20 @@ package com.example.drinkapp.screen.common.profile
 import android.app.DatePickerDialog
 import android.widget.Toast
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.ClientActivityProfileBinding
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.formatTimeStatistic
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileActivity:BaseActivity<ClientActivityProfileBinding>(ClientActivityProfileBinding::inflate) ,
 ProfileContract.View{
-    private lateinit var presenter: ProfilePresenter
+    @Inject
+    lateinit var presenter: ProfilePresenter
     private var selectedDate: Date? = null
     override fun initView() {
         binding.apply {
@@ -29,7 +32,6 @@ ProfileContract.View{
 
     override fun initData() {
         val user = UserManager.getUserInfo(this)
-        presenter = ProfilePresenter(null, CallApiUser.getInstance())
         presenter.attachView(this)
         user.id?.let { presenter.getUser(it) }
     }

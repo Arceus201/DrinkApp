@@ -4,7 +4,6 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.ActivityLoginBinding
 import com.example.drinkapp.screen.admin.main.MainAdminActivity
 import com.example.drinkapp.screen.client.main.MainActivity
@@ -14,12 +13,16 @@ import com.example.drinkapp.utils.Constant
 import com.example.drinkapp.utils.UserManager
 import com.example.drinkapp.utils.base.BaseActivity
 import com.example.drinkapp.utils.setMaxLength
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class LoginActivity :
     BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate),
     LoginContract.View {
-    private lateinit var presenter: LoginPresenter
+    
+    @Inject
+    lateinit var presenter: LoginPresenter
 
     override fun initView() {
         binding.apply {
@@ -29,7 +32,6 @@ class LoginActivity :
     }
 
     override fun initData() {
-        presenter = LoginPresenter(null, CallApiUser.getInstance())
         presenter.attachView(this)
     }
 

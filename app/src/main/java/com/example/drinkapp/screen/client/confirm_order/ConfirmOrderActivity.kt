@@ -5,7 +5,6 @@ import android.view.View
 import com.example.drinkapp.R
 import com.example.drinkapp.data.model.Address
 import com.example.drinkapp.data.model.CartItem
-import com.example.drinkapp.data.resource.call.CallApiOrder
 import com.example.drinkapp.databinding.ClientActivityConfirmOrderBinding
 import com.example.drinkapp.screen.common.address.AddressActivity
 import com.example.drinkapp.screen.client.adapter.RecyclerViewConfirmOderAdapter
@@ -13,7 +12,6 @@ import com.example.drinkapp.screen.client.cart.CartActivity
 import com.example.drinkapp.screen.client.order_success.OrderSuccessActivity
 import com.example.drinkapp.utils.base.BaseActivity
 import android.widget.Toast
-import com.example.drinkapp.data.resource.call.ExchangeRateAPI
 import com.example.drinkapp.utils.*
 import com.paypal.checkout.approve.OnApprove
 import com.paypal.checkout.cancel.OnCancel
@@ -29,12 +27,16 @@ import com.paypal.checkout.order.PurchaseUnit
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ConfirmOrderActivity :
     BaseActivity<ClientActivityConfirmOrderBinding>(ClientActivityConfirmOrderBinding::inflate),
 
     ConfirmOrderContract.View {
-    private lateinit var presenter: ConfirmOrderPresenter
+    @Inject
+    lateinit var presenter: ConfirmOrderPresenterCoroutine
     private val adapter: RecyclerViewConfirmOderAdapter = RecyclerViewConfirmOderAdapter()
     private lateinit var listChose: MutableList<CartItem>
     private lateinit var totalPrice: String
@@ -79,11 +81,6 @@ class ConfirmOrderActivity :
             }
         }
 
-        presenter = ConfirmOrderPresenter(
-            null,
-            ExchangeRateAPI.getInstance(),
-            CallApiOrder.getInstance()
-        )
         presenter.attachView(this)
     }
 

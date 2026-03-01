@@ -1,20 +1,11 @@
 package com.example.drinkapp.screen.common.signup
 
-import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.OnResultListener
-import com.example.drinkapp.data.resource.call.CallApiUser
-import com.example.drinkapp.utils.base.BaseActivity
+import com.example.drinkapp.utils.base.BasePresenter
+import javax.inject.Inject
 
-
-class SignupPresenter(private var view: SignupContract.View?): SignupContract.Presenter{
-    
-    override fun attachView(view: SignupContract.View) {
-        this.view = view
-    }
-    
-    override fun detachView() {
-        view = null
-    }
+class SignupPresenter @Inject constructor() : 
+    BasePresenter<SignupContract.View>(), 
+    SignupContract.Presenter {
     
     override fun checkValidPassword(password: String) {
         if(password.length >= 8 && containsLowerCase(password) && containsUpperCase(password)
@@ -24,6 +15,7 @@ class SignupPresenter(private var view: SignupContract.View?): SignupContract.Pr
             view?.isValidPassworFail()
         }
     }
+    
     private fun containsNumber(s: String): Boolean {
         return s.any { it.isDigit() }
     }
@@ -38,12 +30,5 @@ class SignupPresenter(private var view: SignupContract.View?): SignupContract.Pr
 
     private fun containsSpecialCharacter(s: String): Boolean {
         return s.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\",.<>?].*".toRegex())
-    }
-
-    override fun onStart() {
-    }
-
-    override fun onStop() {
-        detachView()
     }
 }

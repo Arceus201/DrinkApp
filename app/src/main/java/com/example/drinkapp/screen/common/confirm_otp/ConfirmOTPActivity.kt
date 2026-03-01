@@ -3,7 +3,6 @@ package com.example.drinkapp.screen.common.confirm_otp
 import android.content.Intent
 import android.os.CountDownTimer
 import android.widget.Toast
-import com.example.drinkapp.data.resource.call.CallApiUser
 import com.example.drinkapp.databinding.ActivityConfirmOtpCodeBinding
 import com.example.drinkapp.screen.common.login.LoginActivity
 import com.example.drinkapp.utils.Constant
@@ -12,12 +11,18 @@ import com.example.drinkapp.utils.convertToInternationalPhoneNumber
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ConfirmOTPActivity :
     BaseActivity<ActivityConfirmOtpCodeBinding>(ActivityConfirmOtpCodeBinding::inflate),
     ConfirmOTPContract.View {
-    private lateinit var presenter: ConfirmOTPPresenter
+    
+    @Inject
+    lateinit var presenter: ConfirmOTPPresenter
+    
     private lateinit var mAuth: FirebaseAuth
     private var username: String? = null
     private var phone: String? = null
@@ -57,7 +62,6 @@ class ConfirmOTPActivity :
     override fun initData() {
         getDataIntent()
         mAuth = FirebaseAuth.getInstance()
-        presenter = ConfirmOTPPresenter(null, CallApiUser.getInstance())
         presenter.attachView(this)
     }
 

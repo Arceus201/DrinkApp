@@ -47,9 +47,8 @@ class CustomManagerPresenterCoroutine @Inject constructor(
     }
 
     override fun updateClientStatus(id: Long, role: Long) {
-        val userManagerDTO = UserManagerDTO(id, role)
         launch {
-            when (val result = repository.updateStatusClient(userManagerDTO)) {
+            when (val result = repository.updateStatusClient(id, role.toInt())) {
                 is Result.Success -> {
                     view?.onUpdateClientStatusSuccess(result.data)
                 }

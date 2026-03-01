@@ -1,7 +1,7 @@
 package com.example.drinkapp.screen.admin.custom_manager
 
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.utils.base.BasePresenter
+import com.example.drinkapp.utils.base.IBasePresenter
 
 interface CustomManagerContract {
     interface View{
@@ -12,7 +12,7 @@ interface CustomManagerContract {
         fun onFail(msg: String)
 
     }
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
         fun getAllClient()
         fun updateClientStatus(id: Long, role: Long)
     }

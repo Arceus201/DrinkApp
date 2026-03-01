@@ -1,47 +1,37 @@
 package com.example.drinkapp.screen.common.login
 
 import com.example.drinkapp.data.model.User
-import com.example.drinkapp.data.resource.OnResultListener
-import com.example.drinkapp.data.resource.call.CallApiUser
+import com.example.drinkapp.data.repository.UserRepository
+import com.example.drinkapp.data.resource.Result
+import com.example.drinkapp.utils.UserManager
+import com.example.drinkapp.utils.base.BasePresenter
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginPresenter(
-    private var view: LoginContract.View?,
-    private val callApi: CallApiUser
-) : LoginContract.Presenter {
-
-    override fun attachView(view: LoginContract.View) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        view = null
-    }
+class LoginPresenter @Inject constructor(
+    private val repository: UserRepository
+) : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
 
     override fun handleLogin(phone: String, password: String) {
-        callApi.login(
-            phone,
-            password,
-            object : OnResultListener<User> {
-                override fun onSuccess(user: User) {
+        launch {
+            when (val result = repository.login(phone, password)) {
+                is Result.Success -> {
+                    val user = result.data
+                    // Save user information using UserManager
+                    // Note: UserManager.saveUserInfo requires Context, which should be passed from View
                     view?.onLoginSuccess(user)
                 }
-
-                override fun onFail(message: String) {
-                    view?.onLoginFail(KEY_ERROR)
+                is Result.HttpError -> {
+                    if (result.code == 401) {
+                        view?.onLoginFail("Tên đăng nhập hoặc mật khẩu không đúng")
+                    } else {
+                        view?.onLoginFail(result.message)
+                    }
+                }
+                is Result.Error -> {
+                    view?.onLoginFail(result.message)
                 }
             }
-        )
-    }
-
-    override fun onStart() {
-        // Lifecycle method - can be used for subscriptions
-    }
-
-    override fun onStop() {
-        detachView()
-    }
-
-    companion object {
-        const val KEY_ERROR = "số điện thoại hoặc mật khẩu không chính xác"
+        }
     }
 }

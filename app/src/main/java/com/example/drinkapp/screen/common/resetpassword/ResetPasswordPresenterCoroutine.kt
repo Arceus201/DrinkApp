@@ -31,9 +31,8 @@ class ResetPasswordPresenterCoroutine @Inject constructor(
     }
 
     override fun updatePassword(user_id: Long, current_password: String, new_password: String) {
-        val userUpdatePasswordDTO = UserUpdatePasswordDTO(user_id, current_password, new_password)
         launch {
-            when (val result = repository.updatePassword(userUpdatePasswordDTO)) {
+            when (val result = repository.updatePassword(user_id, current_password, new_password)) {
                 is Result.Success -> {
                     view?.onUpdatePasswordSuccess()
                 }
